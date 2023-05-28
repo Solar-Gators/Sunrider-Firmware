@@ -20,7 +20,7 @@ jobs:
       - name: Build Docker Container
         uses: docker/build-push-action@v2
         with:
-          context: ./telemetry-collector
+          context: .
           file: ./telemetry-collector/Dockerfile
           tags: name/app:latest
           outputs: type=oci,dest=/tmp/image.tar

@@ -59,7 +59,7 @@ local.properties
 *.pydevproject
 
 # CDT-specific (C/C++ Development Tooling)
-.cproject
+# .cproject
 
 # CDT- autotools
 .autotools
@@ -96,7 +96,6 @@ local.properties
 
 # Debug compiled stuff
 Debug/*
-Release/*
 
 # Uncomment this line if you wish to ignore the project description file.
 # Typically, this file would be tracked if it contains build/dependency configurations:

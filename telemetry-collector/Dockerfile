@@ -10,17 +10,20 @@ RUN apt-get update && \
     apt-get -y install build-essential
 
 # Only copy the requirements so it gets cached
-COPY ./requirements.txt /collector
+COPY ./telemetry-collector/requirements.txt /collector
 RUN pip install -r requirements.txt
 
 
-COPY ./tests/test-requirements.txt /collector
+COPY ./telemetry-collector/tests/test-requirements.txt /collector
 RUN pip install -r ./test-requirements.txt
 
 RUN apt-get -y install lcov
 
 # Copy over rest of the app and build
-COPY . /collector
+COPY ./telemetry-collector /collector
+
+COPY ./car-bsp /car-bsp
+
 RUN make
 
 ENTRYPOINT ["./collector"]

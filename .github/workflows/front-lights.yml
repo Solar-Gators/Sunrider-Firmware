@@ -1,4 +1,4 @@
-name: Steering Firmware
+name: Front Lights Firmware
 on: [push]
 
 jobs:
@@ -11,11 +11,11 @@ jobs:
 
       - uses: xanderhendriks/action-build-stm32cubeide@v7.2
         with:
-          project-path: 'steering-firmware'
-          project-target: 'SteeringFirmware'
+          project-path: 'front-lights-firmware'
+          project-target: 'FrontLightsFirmware'
 
       - uses: actions/upload-artifact@v3
         with:
-          name: 'Steering Release Binary'
-          path: ./steering-firmware/Debug/*.elf
+          name: 'Front Lights Release Binary'
+          path: ./front-lights-firmware/Debug/*.elf
           if-no-files-found: error

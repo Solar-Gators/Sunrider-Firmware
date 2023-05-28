@@ -14,15 +14,16 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - uses: Solar-Gators/STM32-Infrastructure@main
+      - uses: xanderhendriks/action-build-stm32cubeide@v7.2
         with:
-          project-path: '/github/workspace'
+          project-path: 'telemetry-firmware'
           project-target: 'OpenTelemetry'
 
       - uses: actions/upload-artifact@v3
         with:
-          name: 'Release Binary'
-          path: ./Debug/*.elf
+          name: 'Telemetry Release Binary'
+          path: ./telemetry-firmware/Debug/*.elf
+          if-no-files-found: error
 
   test:
     runs-on: ubuntu-latest
@@ -37,9 +38,9 @@ jobs:
           sed -i 's/MX_CAN_Init();/\/\/MX_CAN_Init();/' Core/Src/main.c
 
       # Need to rebuild with modified code
-      - uses: Solar-Gators/STM32-Infrastructure@main
+      - uses: xanderhendriks/action-build-stm32cubeide@v7.2
         with:
-          project-path: '/github/workspace/'
+          project-path: 'telemetry-firmware'
           project-target: 'OpenTelemetry'
 
       - name: Install testing python packages
@@ -54,11 +55,11 @@ jobs:
           sudo apt install ./renode_1.13.2_amd64.deb && \
           pip install -r /opt/renode/tests/requirements.txt
 
-      - run: renode-test ${{ github.workspace }}/tests/*.robot
+      - run: renode-test tests/*.robot
 
       - uses: actions/upload-artifact@v3
         with:
           name: 'Reports'
           path: |
-            ./*.html
-            ./*.xml
+            ./telemetry-firmware/*.html
+            ./telemetry-firmware/*.xml
