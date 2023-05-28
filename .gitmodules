@@ -1,0 +1,3 @@
+[submodule "car-bsp/etl"]
+	path = car-bsp/etl
+	url = https://github.com/ETLCPP/etl.git
