@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/pi/telemetry-collector'
+ 
+g++ -I/usr/include/python2.7 -I/usr/include/arm-linux-gnueabihf/python2.7  -fno-strict-aliasing -Wdate-time -D_FORTIFY_SOURCE=2 -g -fdebug-prefix-map=/build/python2.7-InigCj/python2.7-2.7.16=. -fstack-protector-strong -Wformat -Werror=format-security  -DNDEBUG -g -fwrapv -O2 -Wall -Wstrict-prototypes -L/usr/lib/python2.7/config-arm-linux-gnueabihf -L/usr/lib -lpython2.7 -lpthread -ldl  -lutil -lm  -Xlinker -export-dynamic -Wl,-O1 -Wl,-Bsymbolic-functions -o test -I ./CAN-Decoder/src/DataModules/inc src/lib/*.cpp CAN-Decoder/src/DataModules/src/*.cpp src/main.cpp
+make: Leaving directory '/home/pi/telemetry-collector'
+ 

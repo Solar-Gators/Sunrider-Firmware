@@ -1,0 +1,7 @@
+version: '3'
+services:
+  collector:
+    build:
+      dockerfile: Dockerfile
+    volumes:
+    - ./:/collector

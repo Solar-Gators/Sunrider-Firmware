@@ -1,0 +1,130 @@
+Configuration	SteeringFirmware
+STM32CubeMX 	6.4.0
+Date	01/15/2022
+MCU	STM32F072RBTx
+
+
+
+PERIPHERALS	MODES	FUNCTIONS	PINS
+CAN	Activated	CAN_RX	PB8
+CAN	Activated	CAN_TX	PB9
+SPI1	Full-Duplex Master	SPI1_MISO	PA6
+SPI1	Full-Duplex Master	SPI1_MOSI	PA7
+SPI1	Full-Duplex Master	SPI1_SCK	PA5
+SYS	Serial_Wire	SYS_SWCLK	PA14
+SYS	Serial_Wire	SYS_SWDIO	PA13
+SYS	TIM1	SYS_VS_tim1	VP_SYS_VS_tim1
+TIM3	PWM Generation CH2	TIM3_CH2	PB5
+USB	Device (FS)	USB_DM	PA11
+USB	Device (FS)	USB_DP	PA12
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+2	PC13	GPIO_EXTI13	RT_Button
+3	PC14-OSC32_IN	GPIO_Output	RT_Led
+4	PC15-OSC32_OUT	GPIO_EXTI15	Cruise_P
+8	PC0	GPIO_EXTI0	Horn_Button
+9	PC1	GPIO_EXTI1	Cruise_Button
+10	PC2	GPIO_Output	Cruise_Led
+11	PC3	GPIO_EXTI3	Reverse_Button
+14	PA0	GPIO_Output	Reverse_Led
+21	PA5	SPI1_SCK	
+22	PA6	SPI1_MISO	
+23	PA7	SPI1_MOSI	
+25	PC5	GPIO_Output	User_LED
+26	PB0	GPIO_Output	ERROR_LED
+33	PB12	GPIO_EXTI12	Haz_Button
+35	PB14	GPIO_Output	LCD_RST
+37	PC6	GPIO_Output	HL_Led
+38	PC7	GPIO_EXTI7	HL_Button
+39	PC8	GPIO_Output	Eco_Led
+40	PC9	GPIO_EXTI9	Eco_Button
+41	PA8	GPIO_EXTI8	Cruise_M
+42	PA9	GPIO_Output	LT_Led
+44	PA11	USB_DM	
+45	PA12	USB_DP	
+46	PA13	SYS_SWDIO	
+49	PA14	SYS_SWCLK	
+51	PC10	GPIO_EXTI10	LT_Button
+54	PD2	GPIO_Output	LCD_CS
+56	PB4	GPIO_EXTI4	TP_IRQ
+57	PB5	TIM3_CH2	
+58	PB6	GPIO_Output	TP_CS
+61	PB8	CAN_RX	
+62	PB9	CAN_TX	
+PERIPHERALS	MODES	FUNCTIONS	PINS
+CAN	Activated	CAN_RX	PB8
+CAN	Activated	CAN_TX	PB9
+SPI1	Full-Duplex Master	SPI1_MISO	PA6
+SPI1	Full-Duplex Master	SPI1_MOSI	PA7
+SPI1	Full-Duplex Master	SPI1_SCK	PA5
+SYS	Serial_Wire	SYS_SWCLK	PA14
+SYS	Serial_Wire	SYS_SWDIO	PA13
+SYS	TIM1	SYS_VS_tim1	VP_SYS_VS_tim1
+TIM3	PWM Generation CH2	TIM3_CH2	PB5
+USB	Device (FS)	USB_DM	PA11
+USB	Device (FS)	USB_DP	PA12
+
+
+
+Pin Nb	PINs	FUNCTIONs	LABELs
+2	PC13	GPIO_EXTI13	RT_Button
+3	PC14-OSC32_IN	GPIO_Output	RT_Led
+4	PC15-OSC32_OUT	GPIO_EXTI15	Cruise_P
+8	PC0	GPIO_EXTI0	Horn_Button
+9	PC1	GPIO_EXTI1	Cruise_Button
+10	PC2	GPIO_Output	Cruise_Led
+11	PC3	GPIO_EXTI3	Reverse_Button
+14	PA0	GPIO_Output	Reverse_Led
+21	PA5	SPI1_SCK	
+22	PA6	SPI1_MISO	
+23	PA7	SPI1_MOSI	
+25	PC5	GPIO_Output	User_LED
+26	PB0	GPIO_Output	ERROR_LED
+33	PB12	GPIO_EXTI12	Haz_Button
+35	PB14	GPIO_Output	LCD_RST
+37	PC6	GPIO_Output	HL_Led
+38	PC7	GPIO_EXTI7	HL_Button
+39	PC8	GPIO_Output	Eco_Led
+40	PC9	GPIO_EXTI9	Eco_Button
+41	PA8	GPIO_EXTI8	Cruise_M
+42	PA9	GPIO_Output	LT_Led
+44	PA11	USB_DM	
+45	PA12	USB_DP	
+46	PA13	SYS_SWDIO	
+49	PA14	SYS_SWCLK	
+51	PC10	GPIO_EXTI10	LT_Button
+54	PD2	GPIO_Output	LCD_CS
+56	PB4	GPIO_EXTI4	TP_IRQ
+57	PB5	TIM3_CH2	
+58	PB6	GPIO_Output	TP_CS
+61	PB8	CAN_RX	
+62	PB9	CAN_TX	
+
+
+
+SOFTWARE PROJECT
+
+Project Settings : 
+Project Name : SteeringFirmware
+Project Folder : C:\Users\georg\STM32CubeIDE\SolarGators\OpenTelem_Aux
+Toolchain / IDE : STM32CubeIDE
+Firmware Package Name and Version : STM32Cube FW_F0 V1.11.3
+
+
+Code Generation Settings : 
+STM32Cube MCU packages and embedded software packs : Copy only the necessary library files
+Generate peripheral initialization as a pair of '.c/.h' files per peripheral : No
+Backup previously generated files when re-generating : No
+Delete previously generated files when not re-generated : Yes
+Set all free pins as analog (to optimize the power consumption) : No
+
+
+Toolchains Settings : 
+Compiler Optimizations : 
+
+
+
+
+

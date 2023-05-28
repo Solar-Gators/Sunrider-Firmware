@@ -1,0 +1,10 @@
+collector
+collector.dSYM
+*.gcno
+*.gcda
+*.gcov
+coverage
+coverage.info
+*.DS_STORE
+*.pyc
+conf.cfg

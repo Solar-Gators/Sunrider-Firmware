@@ -1,0 +1,64 @@
+name: Telemetry Firmware
+on: [push]
+
+
+defaults:
+  run:
+    working-directory: telemetry-firmware
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+
+      - uses: Solar-Gators/STM32-Infrastructure@main
+        with:
+          project-path: '/github/workspace'
+          project-target: 'OpenTelemetry'
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: 'Release Binary'
+          path: ./Debug/*.elf
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'recursive'
+
+      - name: Comment out files that renode doesn't mock properly
+        run: |
+          sed -i 's/SystemClock_Config();/\/\/SystemClock_Config();/' Core/Src/main.c && \
+          sed -i 's/MX_CAN_Init();/\/\/MX_CAN_Init();/' Core/Src/main.c
+
+      # Need to rebuild with modified code
+      - uses: Solar-Gators/STM32-Infrastructure@main
+        with:
+          project-path: '/github/workspace/'
+          project-target: 'OpenTelemetry'
+
+      - name: Install testing python packages
+        run: pip3 install -r tests/requirements.txt
+
+      - run: sudo chmod 777 ${{ github.workspace }}/Debug/OpenTelemetry.elf
+
+      - name: Install Renode
+        run: |
+          curl -L https://github.com/renode/renode/releases/download/v1.13.2/renode_1.13.2_amd64.deb --output renode_1.13.2_amd64.deb && \
+          sudo apt-get install policykit-1 libgtk2.0-0 screen uml-utilities gtk-sharp2 libc6-dev gcc python3 python3-pip && \
+          sudo apt install ./renode_1.13.2_amd64.deb && \
+          pip install -r /opt/renode/tests/requirements.txt
+
+      - run: renode-test ${{ github.workspace }}/tests/*.robot
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: 'Reports'
+          path: |
+            ./*.html
+            ./*.xml
