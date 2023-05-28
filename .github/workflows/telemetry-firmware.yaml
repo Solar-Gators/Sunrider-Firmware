@@ -45,7 +45,7 @@ jobs:
       - name: Install testing python packages
         run: pip3 install -r tests/requirements.txt
 
-      - run: sudo chmod 777 ${{ github.workspace }}/Debug/OpenTelemetry.elf
+      - run: sudo chmod 777 ./Debug/OpenTelemetry.elf
 
       - name: Install Renode
         run: |
