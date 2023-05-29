@@ -90,17 +90,6 @@ jobs:
         env:
           DATABASE_PASSWORD: 'password'
           DATABASE_HOST: 'mysql'
-      collector:
-        image: ghcr.io/solar-gators/telemetry-collector:latest
-        env:
-          INTERNAL_UDP_HOST: "localhost"
-          INTERNAL_UDP_PORT: "8000"
-          EXTERNAL_UDP_HOST: "ufsolargators.com" # dont care where we send it
-          EXTERNAL_UDP_PORT: "8000"
-          UART_BAUD_RATE: "57600"
-          UART_PORT: "/tmp/uart"
-        volumes:
-          - /tmp:/tmp
 
     runs-on: ubuntu-latest
     defaults:
@@ -110,6 +99,19 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: 'recursive'
+
+      # build and start collector
+      - run: pip install -r ../telemetry-collector/requirements.txt
+      - run: pip install -r ../telemetry-collector/tests/test-requirements.txt
+      - run: cd ../telemetry-collector && make
+      - run: |
+          INTERNAL_UDP_HOST=localhost
+          INTERNAL_UDP_PORT=8000
+          EXTERNAL_UDP_HOST=ufsolargators.com
+          EXTERNAL_UDP_PORT=8000
+          UART_BAUD_RATE=57600
+          UART_PORT=/tmp/uart
+          ../telemetry-collector/collector &
 
       - name: Comment out files that renode doesn't mock properly
         run: |
