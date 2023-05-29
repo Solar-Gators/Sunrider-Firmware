@@ -103,13 +103,14 @@ jobs:
       - run: pip install -r ../telemetry-collector/tests/test-requirements.txt
       - run: cd ../telemetry-collector && make
       - run: |
+          cd ../telemetry-collector &&
           INTERNAL_UDP_HOST=localhost
           INTERNAL_UDP_PORT=8000
           EXTERNAL_UDP_HOST=ufsolargators.com
           EXTERNAL_UDP_PORT=8000
           UART_BAUD_RATE=57600
           UART_PORT=/tmp/uart
-          ../telemetry-collector/collector &
+          ./collector &
 
       - name: Comment out files that renode doesn't mock properly
         run: |
