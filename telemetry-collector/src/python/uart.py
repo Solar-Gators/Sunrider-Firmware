@@ -6,7 +6,10 @@ sock = socket.socket(socket.AF_INET, # Internet
 
 while ser is None:
     try:
-        ser = serial.Serial(os.environ.get("UART_PORT"))
+        ser = serial.Serial(
+            os.environ.get("UART_PORT"),
+            os.environ.get("UART_BAUD_RATE"),
+        )
         print("Connected to serial")
     except:
         print("Cannot connect to serial port, trying again in 250ms")
