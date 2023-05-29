@@ -140,3 +140,9 @@ jobs:
           path: |
             ./telemetry-firmware/*.html
             ./telemetry-firmware/*.xml
+
+      - run: docker logs "${{ job.services.api.id }}"
+        if: always()
+
+      - run: docker logs "${{ job.services.collector.id }}"
+        if: always()
