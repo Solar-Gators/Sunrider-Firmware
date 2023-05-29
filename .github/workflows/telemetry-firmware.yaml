@@ -118,7 +118,7 @@ jobs:
           sed -i 's/MX_CAN_Init();/\/\/MX_CAN_Init();/' Core/Src/main.c
 
       # Need to rebuild with modified code
-      - uses: xanderhendriks/action-build-stm32cubeide@v7.2
+      - uses: Solar-Gators/STM32-Infrastructure@main
         with:
           project-path: 'telemetry-firmware'
           project-target: 'OpenTelemetry'
