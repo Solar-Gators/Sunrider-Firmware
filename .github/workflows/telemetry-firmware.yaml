@@ -93,12 +93,12 @@ jobs:
       collector:
         image: ghcr.io/solar-gators/telemetry-collector:latest
         env:
-          INTERNAL_UDP_HOST: localhost
-          INTERNAL_UDP_PORT: 8000
+          INTERNAL_UDP_HOST: "localhost"
+          INTERNAL_UDP_PORT: "8000"
           EXTERNAL_UDP_HOST: "ufsolargators.com" # dont care where we send it
-          EXTERNAL_UDP_PORT: 8000
-          UART_BAUD_RATE: 57600
-          UART_PORT: /tmp/uart
+          EXTERNAL_UDP_PORT: "8000"
+          UART_BAUD_RATE: "57600"
+          UART_PORT: "/tmp/uart"
 
     runs-on: ubuntu-latest
     defaults:
