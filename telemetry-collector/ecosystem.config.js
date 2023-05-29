@@ -10,7 +10,7 @@ module.exports = {
             "EXTERNAL_UDP_PORT": "8000",
 
             "UART_BAUD_RATE": "57600",
-            "UART_PORT": "loop://",
+            "UART_PORT": "/tmp/uart",
           }
         }
     ]
