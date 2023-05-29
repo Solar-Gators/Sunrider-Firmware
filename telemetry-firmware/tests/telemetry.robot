@@ -22,7 +22,7 @@ Check For Telemetry Messages
 
     Start Emulation
 
-    ${result}=  Run Process  python3  ${CURDIR}/telemetry_check.py  timeout=2min
+    ${result}=  Run Process  python3  ${CURDIR}/telemetry_check.py  timeout=20s
     Should Contain   ${result.stderr}    ${EMPTY}
     Should Contain   ${result.stdout}    All can messages received
 
@@ -33,6 +33,6 @@ Check That Service Receives Data
 
     Start Emulation
 
-    ${result}=  Run Process  python3  ${CURDIR}/telemetry_integration.py  timeout=2min
+    ${result}=  Run Process  python3  ${CURDIR}/telemetry_integration.py  timeout=20s
     Should Contain   ${result.stderr}    ${EMPTY}
     Should Contain   ${result.stdout}    All can messages received
