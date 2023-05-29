@@ -4,7 +4,7 @@ ser = None
 sock = socket.socket(socket.AF_INET, # Internet
                         socket.SOCK_DGRAM) # UDP
 
-while not ser:
+while ser is None:
     try:
         ser = serial.Serial(os.environ.get("UART_PORT"))
         print("Connected to serial")
@@ -32,5 +32,10 @@ def runs(path, body):
 
 def wait_for_transmission():
     global ser
-    d = ser.read(1)
+    d = None
+    while d is None:
+        try:
+            d = ser.read(1)
+        except:
+            ...
     return int.from_bytes(d, "little")
