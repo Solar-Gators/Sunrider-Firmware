@@ -109,7 +109,7 @@ jobs:
       - run: cd ../telemetry-collector && make
       - run: |
           cd ../telemetry-collector &&
-          pm2 start ecosystem.config.js
+          pm2 start ecosystem.config.js --env ci
 
       - name: Comment out files that renode doesn't mock properly
         run: |
@@ -146,4 +146,4 @@ jobs:
       - run: docker logs "${{ job.services.api.id }}"
         if: always()
 
-      - run: pm2 log --lines 500
+      - run: pm2 log --lines 500 --nostream
