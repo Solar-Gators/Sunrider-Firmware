@@ -70,6 +70,8 @@ jobs:
           path: coverage
 
   integration-tests:
+    needs:
+      - telemetry-collector-build
     services:
       mysql:
         image: mysql:5.7

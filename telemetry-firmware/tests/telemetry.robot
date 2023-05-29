@@ -1,6 +1,8 @@
 *** Settings ***
-Test Teardown         Test Teardown
-Test Setup            Test Setup
+Suite Setup     Setup
+Suite Teardown  Teardown
+Test Teardown   Test Teardown
+Test Setup      Test Setup
 Resource        ${RENODEKEYWORDS}
 Library         OperatingSystem
 
@@ -10,10 +12,6 @@ Test Setup
     Execute Command     mach add "telemetry"
     Execute Command     machine LoadPlatformDescription @platforms/cpus/stm32f072.repl
     Execute Command     sysbus LoadELF @${CURDIR}/../Debug/OpenTelemetry.elf
-
-Test Teardown
-    Reset Emulation
-
 
 *** Test Cases ***
 Check For Telemetry Messages
