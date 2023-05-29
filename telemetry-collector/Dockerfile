@@ -19,8 +19,9 @@ RUN pip install -r ./test-requirements.txt
 
 RUN apt-get -y install lcov
 
-# Copy over rest of the app and build
-COPY ./telemetry-collector /collector
+# Copy over relevant code
+COPY ./telemetry-collector/src /collector/src
+COPY ./telemetry-collector/Makefile /collector/Makefile
 
 COPY ./car-bsp /car-bsp
 

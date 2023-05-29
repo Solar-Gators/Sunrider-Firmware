@@ -28,7 +28,7 @@ public:
   bool RemoveRxModule(uint32_t module_id);
   static constexpr uint8_t MAX_DATA_SIZE = 8;     // Maximum data size in bytes
 private:
-  ::etl::map<uint32_t, SolarGators::DataModules::DataModule*, 15> modules_;
+  ::etl::map<uint32_t, SolarGators::DataModules::DataModule*, 30> modules_;
   CAN_HandleTypeDef* hcan_;                        // CAN handle
   uint32_t rx_fifo_num_;                           // CAN hardware fifo number
   osEventFlagsId_t can_rx_event_;                  // Rx CAN Interrupt Event

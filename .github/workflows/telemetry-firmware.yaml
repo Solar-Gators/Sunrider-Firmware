@@ -1,11 +1,6 @@
 name: Telemetry Firmware
 on: [push]
 
-
-defaults:
-  run:
-    working-directory: telemetry-firmware
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +9,7 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - uses: xanderhendriks/action-build-stm32cubeide@v7.2
+      - uses: Solar-Gators/STM32-Infrastructure@main
         with:
           project-path: 'telemetry-firmware'
           project-target: 'OpenTelemetry'
@@ -25,12 +20,96 @@ jobs:
           path: ./telemetry-firmware/Debug/*.elf
           if-no-files-found: error
 
-  test:
+  telemetry-collector-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
+          submodules: 'true'
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Docker Container
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./telemetry-collector/Dockerfile
+          push: true
+          tags: ghcr.io/solar-gators/telemetry-collector:latest
+          cache-from: |
+            ghcr.io/solar-gators/telemetry-collector:latest
+          build-args: BUILDKIT_INLINE_CACHE=1
+
+
+  telemetry-collector-test:
+    defaults:
+      run:
+        working-directory: telemetry-collector
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: 'true'
+      - run: sudo apt-get -y install lcov
+      - run: make coverage
+      - run: pip install -r requirements.txt
+      - run: pip install -r ./tests/test-requirements.txt
+      - run: pytest ./tests/integration.py
+      - run: make coverage-html
+      - uses: actions/upload-artifact@v3
+        with:
+          name: coverage
+          path: coverage
+
+  integration-tests:
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_DATABASE: 'SolarGators_Telemetry_Dev'
+          MYSQL_USER: 'solargators'
+          MYSQL_PASSWORD: 'password'
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+        ports:
+          - 3306:3306
+      api:
+        image: ghcr.io/solar-gators/pit-gui-service:latest
+        ports:
+          - 9000:9000
+          - 8000:8000/udp
+        env:
+          DATABASE_PASSWORD: 'password'
+          DATABASE_HOST: 'mysql'
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: telemetry-firmware
+    steps:
+      - uses: actions/checkout@v3
+        with:
           submodules: 'recursive'
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: npm i pm2 -g
+
+      # build and start collector
+      - run: pip install -r ../telemetry-collector/requirements.txt
+      - run: pip install -r ../telemetry-collector/tests/test-requirements.txt
+      - run: cd ../telemetry-collector && make
+      - run: |
+          cd ../telemetry-collector &&
+          pm2 start ecosystem.config.js --env ci
 
       - name: Comment out files that renode doesn't mock properly
         run: |
@@ -38,7 +117,7 @@ jobs:
           sed -i 's/MX_CAN_Init();/\/\/MX_CAN_Init();/' Core/Src/main.c
 
       # Need to rebuild with modified code
-      - uses: xanderhendriks/action-build-stm32cubeide@v7.2
+      - uses: Solar-Gators/STM32-Infrastructure@main
         with:
           project-path: 'telemetry-firmware'
           project-target: 'OpenTelemetry'
@@ -63,3 +142,8 @@ jobs:
           path: |
             ./telemetry-firmware/*.html
             ./telemetry-firmware/*.xml
+
+      - run: docker logs "${{ job.services.api.id }}"
+        if: always()
+
+      - run: pm2 log --lines 500 --nostream

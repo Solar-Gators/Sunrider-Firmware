@@ -91,6 +91,18 @@ void CPP_UserSetup(void)
   CANController.AddRxModule(&BMS_Rx_3);
   CANController.AddRxModule(&BMS_Rx_4);
   CANController.AddRxModule(&BMS_Rx_5);
+
+  // MPPTs
+  CANController.AddRxModule(&MPPT0_Rx_0);
+  CANController.AddRxModule(&MPPT0_Rx_1);
+  CANController.AddRxModule(&MPPT0_Rx_5);
+  CANController.AddRxModule(&MPPT1_Rx_0);
+  CANController.AddRxModule(&MPPT1_Rx_1);
+  CANController.AddRxModule(&MPPT1_Rx_5);
+  CANController.AddRxModule(&MPPT2_Rx_0);
+  CANController.AddRxModule(&MPPT2_Rx_1);
+  CANController.AddRxModule(&MPPT2_Rx_5);
+
   // Ready CAN
   CANController.Init();
   // Start Timers
@@ -126,6 +138,16 @@ void SendTelemetryData()
   pit.SendDataModule(BMS_Rx_3);
   pit.SendDataModule(BMS_Rx_4);
   pit.SendDataModule(BMS_Rx_5);
+
+  pit.SendDataModule(MPPT0_Rx_0);
+  pit.SendDataModule(MPPT0_Rx_1);
+  pit.SendDataModule(MPPT0_Rx_5);
+  pit.SendDataModule(MPPT1_Rx_0);
+  pit.SendDataModule(MPPT1_Rx_1);
+  pit.SendDataModule(MPPT1_Rx_5);
+  pit.SendDataModule(MPPT2_Rx_0);
+  pit.SendDataModule(MPPT2_Rx_1);
+  pit.SendDataModule(MPPT2_Rx_5);
 
   pit.SendDataModule(FLights);
   pit.SendDataModule(RLights);
@@ -169,4 +191,3 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   CANController.SetRxFlag();
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
-

@@ -9,7 +9,7 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - uses: xanderhendriks/action-build-stm32cubeide@v7.2
+      - uses: Solar-Gators/STM32-Infrastructure@main
         with:
           project-path: 'front-lights-firmware'
           project-target: 'FrontLightsFirmware'
