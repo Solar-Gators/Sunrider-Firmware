@@ -99,6 +99,8 @@ jobs:
           EXTERNAL_UDP_PORT: "8000"
           UART_BAUD_RATE: "57600"
           UART_PORT: "/tmp/uart"
+        volumes:
+          - /tmp:/tmp
 
     runs-on: ubuntu-latest
     defaults:
