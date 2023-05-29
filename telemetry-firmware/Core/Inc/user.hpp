@@ -26,6 +26,7 @@
 #include "Proton1.hpp"
 #include "Mitsuba.hpp"
 #include "PowerBoard.hpp"
+#include "Mppt.hpp"
 
 extern CAN_HandleTypeDef hcan;
 extern UART_HandleTypeDef huart2;
@@ -74,9 +75,20 @@ SolarGators::DataModules::OrionBMSRx5 BMS_Rx_5(SolarGators::DataModuleInfo::BMS_
 SolarGators::DataModules::MitsubaRx0 Motor_Rx_0(SolarGators::DataModuleInfo::MOTORRX0_RL_MSG_ID, 0x04);
 SolarGators::DataModules::MitsubaRx1 Motor_Rx_1(SolarGators::DataModuleInfo::MOTORRX1_RL_MSG_ID, 0x04);
 SolarGators::DataModules::MitsubaRx2 Motor_Rx_2(SolarGators::DataModuleInfo::MOTORRX2_RL_MSG_ID, 0x04);
-// TODO: Mppt1
-// TODO: Mppt2
-// TODO: Mppt3
+
+//registering mppt data modules
+//there are several more modules than this, but i only want to register essential info from each
+SolarGators::DataModules::Mpptx0 MPPT0_Rx_0(SolarGators::DataModuleInfo::MPPT0_RX0_MSG_ID);
+SolarGators::DataModules::Mpptx0 MPPT1_Rx_0(SolarGators::DataModuleInfo::MPPT1_RX0_MSG_ID);
+SolarGators::DataModules::Mpptx0 MPPT2_Rx_0(SolarGators::DataModuleInfo::MPPT2_RX0_MSG_ID);
+
+SolarGators::DataModules::Mpptx1 MPPT0_Rx_1(SolarGators::DataModuleInfo::MPPT0_RX1_MSG_ID);
+SolarGators::DataModules::Mpptx1 MPPT1_Rx_1(SolarGators::DataModuleInfo::MPPT1_RX1_MSG_ID);
+SolarGators::DataModules::Mpptx1 MPPT2_Rx_1(SolarGators::DataModuleInfo::MPPT2_RX1_MSG_ID);
+
+SolarGators::DataModules::Mpptx5 MPPT0_Rx_5(SolarGators::DataModuleInfo::MPPT0_RX5_MSG_ID);
+SolarGators::DataModules::Mpptx5 MPPT1_Rx_5(SolarGators::DataModuleInfo::MPPT1_RX5_MSG_ID);
+SolarGators::DataModules::Mpptx5 MPPT2_Rx_5(SolarGators::DataModuleInfo::MPPT2_RX5_MSG_ID);
 
 //bool CANStatusFlag = false;
 

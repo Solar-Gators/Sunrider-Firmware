@@ -1,8 +1,16 @@
-import serial, os, socket, json
+import serial, os, socket, json, time
 
-ser = serial.Serial(os.environ.get("UART_PORT"), os.environ.get("UART_BAUD_RATE"))
+ser = None
 sock = socket.socket(socket.AF_INET, # Internet
-                     socket.SOCK_DGRAM) # UDP
+                        socket.SOCK_DGRAM) # UDP
+
+while not ser:
+    try:
+        ser = serial.Serial(os.environ.get("UART_PORT"))
+    except:
+        print("Cannot connect to serial port, trying again in 250ms")
+        time.sleep(.25)
+
 
 INTERNAL_UDP_PORT = os.environ.get("INTERNAL_UDP_PORT")
 INTERNAL_UDP_HOST = os.environ.get("INTERNAL_UDP_HOST")

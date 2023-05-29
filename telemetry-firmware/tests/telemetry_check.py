@@ -4,7 +4,7 @@
 ###
 import serial, sys
 
-ser = serial.Serial("/tmp/uart")
+ser = serial.Serial("/tmp/unit-uart")
 
 START_BYTE = b'\xFF'
 END_BYTE = b'\x3F'
