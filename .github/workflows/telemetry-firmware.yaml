@@ -86,7 +86,7 @@ jobs:
         image: ghcr.io/solar-gators/pit-gui-service:latest
         ports:
           - 9000:9000
-          - 8000:8000
+          - 8000:8000/udp
         env:
           DATABASE_PASSWORD: 'password'
           DATABASE_HOST: 'mysql'
