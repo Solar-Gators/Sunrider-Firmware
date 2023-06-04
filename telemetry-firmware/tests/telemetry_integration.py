@@ -10,6 +10,7 @@ to_check = {
     "bms": ["rx1", "rx2", "rx3", "rx4", "rx5"],
     "mitsuba": ["rx1", "rx2"],
     "mppt": ["rx1", "rx5"],
+    "gps": ["rx0"]
 }
 
 initial_state = {}

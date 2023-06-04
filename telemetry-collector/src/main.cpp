@@ -12,6 +12,9 @@
 #include "PowerBoard.hpp"
 #include "DataModuleInfo.hpp"
 #include "Mppt.hpp"
+#include "GPS.hpp"
+
+SolarGators::DataModules::GPS GPS_Rx_0;
 
 SolarGators::DataModules::MitsubaRx0 MitsubaRx0(SolarGators::DataModuleInfo::MOTORRX0_RL_MSG_ID, 0);
 SolarGators::DataModules::MitsubaRx1 MitsubaRx1(SolarGators::DataModuleInfo::MOTORRX1_RL_MSG_ID, 0);
@@ -57,10 +60,12 @@ int main(int argc, char *argv[]) {
     std::map<int, SolarGators::DataModules::DataModule*> modules;
 
 
-    // //Data module registration
+    // Motor Drivers
     modules.insert(std::make_pair(MitsubaRx0.can_id_, &MitsubaRx0));
     modules.insert(std::make_pair(MitsubaRx1.can_id_, &MitsubaRx1));
     modules.insert(std::make_pair(MitsubaRx2.can_id_, &MitsubaRx2));
+
+    // BMS
     modules.insert(std::make_pair(OrionBMSRx0.can_id_, &OrionBMSRx0));
     modules.insert(std::make_pair(OrionBMSRx1.can_id_, &OrionBMSRx1));
     modules.insert(std::make_pair(OrionBMSRx2.can_id_, &OrionBMSRx2));
@@ -68,10 +73,11 @@ int main(int argc, char *argv[]) {
     modules.insert(std::make_pair(OrionBMSRx4.can_id_, &OrionBMSRx4));
     modules.insert(std::make_pair(OrionBMSRx5.can_id_, &OrionBMSRx5));
 
+    // MPPTs
     modules.insert(std::make_pair(MPPT0_Rx_0.can_id_, &MPPT0_Rx_0));
     modules.insert(std::make_pair(MPPT1_Rx_0.can_id_, &MPPT1_Rx_0));
     modules.insert(std::make_pair(MPPT2_Rx_0.can_id_, &MPPT2_Rx_0));
-    
+
     modules.insert(std::make_pair(MPPT0_Rx_1.can_id_, &MPPT0_Rx_1));
     modules.insert(std::make_pair(MPPT1_Rx_1.can_id_, &MPPT1_Rx_1));
     modules.insert(std::make_pair(MPPT2_Rx_1.can_id_, &MPPT2_Rx_1));
@@ -79,6 +85,10 @@ int main(int argc, char *argv[]) {
     modules.insert(std::make_pair(MPPT0_Rx_5.can_id_, &MPPT0_Rx_5));
     modules.insert(std::make_pair(MPPT1_Rx_5.can_id_, &MPPT1_Rx_5));
     modules.insert(std::make_pair(MPPT2_Rx_5.can_id_, &MPPT2_Rx_5));
+
+    // GPS
+    modules.insert(std::make_pair(GPS_Rx_0.can_id_, &GPS_Rx_0));
+
     //need review here?
     //modules.insert(std::make_pair(PBoard.can_id_, &PBoard));
 

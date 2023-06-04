@@ -94,7 +94,7 @@ void GPS::PostTelemetry(PythonScripts* scripts) {
     http.addData("latitude", getLatitude());
     http.addData("longitude", getLongitude());
     http.addData("speed", getSpeed());
-    scripts->send("gps", http.getParameters());
+    scripts->send("gps/rx0", http.getParameters());
     http.flush();
 }
 #endif
