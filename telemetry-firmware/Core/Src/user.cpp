@@ -105,6 +105,10 @@ void CPP_UserSetup(void)
 
   // Ready CAN
   CANController.Init();
+
+  // Ready GPS
+  GPS_init(huart4.Instance);
+  GPS_startReception();
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
   osTimerStart(can_tx_timer_id, 2000);    // CAN Tx Transmission
@@ -151,6 +155,7 @@ void SendTelemetryData()
 
   pit.SendDataModule(FLights);
   pit.SendDataModule(RLights);
+  pit.SendDataModule(Gps);
 }
 
 void UpdateThrottle()
@@ -190,4 +195,14 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
   CANController.SetRxFlag();
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
+}
+
+
+void UART4_RX_Handler()
+{
+  bool finishedProcessing;
+  char* data = GPS_RxCpltCallback(&finishedProcessing);
+  if (finishedProcessing) {
+    Gps.FromByteArray((uint8_t*)data);
+  }
 }

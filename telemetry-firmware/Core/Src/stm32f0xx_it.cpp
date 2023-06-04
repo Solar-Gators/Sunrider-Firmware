@@ -32,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+extern void UART4_RX_Handler(void);
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -57,6 +57,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern CAN_HandleTypeDef hcan;
+extern UART_HandleTypeDef huart4;
 extern TIM_HandleTypeDef htim6;
 
 /* USER CODE BEGIN EV */
@@ -118,12 +119,31 @@ void TIM6_DAC_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles USART3 and USART4 global interrupts.
+  */
+void USART3_4_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART3_4_IRQn 0 */
+
+  /* USER CODE END USART3_4_IRQn 0 */
+  HAL_UART_IRQHandler(&huart4);
+  /* USER CODE BEGIN USART3_4_IRQn 1 */
+
+  /* USER CODE END USART3_4_IRQn 1 */
+}
+
+/**
   * @brief This function handles HDMI-CEC and CAN interrupts / HDMI-CEC wake-up interrupt through EXTI line 27.
   */
 void CEC_CAN_IRQHandler(void)
 {
   /* USER CODE BEGIN CEC_CAN_IRQn 0 */
-
+    if(huart4.Instance->ISR & USART_ISR_RXNE)
+    {
+      UART4_RX_Handler();
+    }else{
+      huart4.Instance->ICR |= USART_ICR_ORECF;
+    }
   /* USER CODE END CEC_CAN_IRQn 0 */
   HAL_CAN_IRQHandler(&hcan);
   /* USER CODE BEGIN CEC_CAN_IRQn 1 */
