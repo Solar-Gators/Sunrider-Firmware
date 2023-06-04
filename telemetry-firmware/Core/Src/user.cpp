@@ -132,7 +132,7 @@ void SendCanMsgs()
 
 void SendTelemetryData()
 {
-  // pit.SendDataModule(Gps);
+  pit.SendDataModule(Gps);
   pit.SendDataModule(Motor_Rx_0);
   pit.SendDataModule(Motor_Rx_1);
   pit.SendDataModule(Motor_Rx_2);
