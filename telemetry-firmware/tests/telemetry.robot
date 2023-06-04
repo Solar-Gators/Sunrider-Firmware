@@ -49,5 +49,6 @@ Verify GPS Telemetry
     Start Emulation
 
     ${result}=  Run Process  python3  ${CURDIR}/telemetry_gps.py  timeout=20s
+    Log To Console   ${result.stdout}
     Should Be Equal  ${result.stderr}    ${EMPTY}
     Should Contain   ${result.stdout}    Passed
