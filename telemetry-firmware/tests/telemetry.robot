@@ -14,8 +14,8 @@ Test Setup
     Execute Command     sysbus LoadELF @${CURDIR}/../Debug/OpenTelemetry.elf
 
 *** Test Cases ***
-Check For Telemetry Messages
-    [Documentation]             Checks to see that telemetry messages are being sent
+Verify For Telemetry Messages
+    [Documentation]     Verifies that telemetry messages are being sent
 
     Execute Command     emulation CreateUartPtyTerminal "term" "/tmp/unit-uart" true
     Execute Command     connector Connect sysbus.usart2 term
@@ -23,10 +23,11 @@ Check For Telemetry Messages
     Start Emulation
 
     ${result}=  Run Process  python3  ${CURDIR}/telemetry_check.py  timeout=20s
-    Should Contain   ${result.stderr}    ${EMPTY}
+    Should Be Equal   ${result.stderr}    ${EMPTY}
     Should Contain   ${result.stdout}    All can messages received
 
-Check That Service Receives Data
+Verify That Service Receives Data
+    [Documentation]     Verifies that the pit-gui service recieved the telemetry
 
     Execute Command     emulation CreateUartPtyTerminal "term" "/tmp/uart" true
     Execute Command     connector Connect sysbus.usart2 term
@@ -34,5 +35,19 @@ Check That Service Receives Data
     Start Emulation
 
     ${result}=  Run Process  python3  ${CURDIR}/telemetry_integration.py  timeout=20s
-    Should Contain   ${result.stderr}    ${EMPTY}
+    Should Be Equal   ${result.stderr}    ${EMPTY}
     Should Contain   ${result.stdout}    All can messages received
+
+Verify GPS Telemetry
+    [Documentation]     Verifies GPS telemetry
+
+    Execute Command     emulation CreateUartPtyTerminal "gps_term" "/tmp/uart-gps" true
+    Execute Command     emulation CreateUartPtyTerminal "rf_term" "/tmp/uart" true
+    Execute Command     connector Connect sysbus.usart2 rf_term
+    Execute Command     connector Connect sysbus.usart4 gps_term
+
+    Start Emulation
+
+    ${result}=  Run Process  python3  ${CURDIR}/telemetry_gps.py  timeout=20s
+    Should Be Equal  ${result.stderr}    ${EMPTY}
+    Should Contain   ${result.stdout}    Passed
