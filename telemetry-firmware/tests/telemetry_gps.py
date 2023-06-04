@@ -5,7 +5,7 @@
 import serial, sys, requests, time
 gps_ser = serial.Serial("/tmp/uart-gps")
 
-gps_ser.write(b"$GPGGA, 130113.00, 37XX.XXXX,N, 07XXX.XXXX, E,1,04,3.97,404.9,M,45.7,M,,*79")
+# gps_ser.write(b"$GPGGA, 130113.00, 37XX.XXXX,N, 07XXX.XXXX, E,1,04,3.97,404.9,M,45.7,M,,*79")
 
 
 while 1:
