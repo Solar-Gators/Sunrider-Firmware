@@ -1,5 +1,7 @@
 collector
 collector.dSYM
+test
+test.dSYM
 *.gcno
 *.gcda
 *.gcov

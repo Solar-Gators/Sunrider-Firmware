@@ -15,6 +15,7 @@
 #define GPS_SPEED_BYTES 10
 #define GPS_TRUECOURSE_BYTES 10
 #define GPS_MSG_MAX_BYTES (GPS_LATITUDE_BYTES + GPS_LONGITUDE_BYTES + GPS_SPEED_BYTES + GPS_TRUECOURSE_BYTES)
+#define GPS_TRANSMISSION_SIZE 75
 
 namespace SolarGators {
 namespace DataModules {
@@ -37,6 +38,7 @@ public:
   void ToByteArray(uint8_t* buff) const;
   void FromByteArray(uint8_t* buff);
 protected:
+  uint8_t lastTransmission[GPS_TRANSMISSION_SIZE];
   char latitude[GPS_LATITUDE_BYTES]; //Format for lat lon is: lat: DDMM.MMMM(N/S) lon: DDDMM.MMMM(E/W)
   char longitude[GPS_LONGITUDE_BYTES]; //4042.6142,N 07400.4168,W. = +40  42.6142', -74  00.4168' in google maps
   char speed[GPS_SPEED_BYTES]; //This is in knots
