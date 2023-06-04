@@ -6,7 +6,7 @@
 
 int main(int argc, char **argv) {
     SolarGators::DataModules::GPS GPS_Rx_0;
-    uint8_t* testCoord = (uint8_t*)"$GPRMC,123519,A,4807.0380,N,01131.0000,E,022.4,084.4,230394,003.1,W*6A\0";
+    uint8_t* testCoord = (uint8_t*)"$GPRMC,123519,A,4807.0380,N,01131.0000,E,022.4,084.4,230394,003.1,W*6A";
 
     GPS_Rx_0.FromByteArray(testCoord);
     uint8_t buff2[100];

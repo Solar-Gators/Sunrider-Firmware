@@ -5,7 +5,7 @@
 import serial, sys, requests, time
 gps_ser = serial.Serial("/tmp/uart-gps")
 
-gps_ser.write(b"$GPGGA, 130113.00, 37XX.XXXX,N, 07XXX.XXXX, E,1,04,3.97,404.9,M,45.7,M,,*79")
+gps_ser.write(b"$GPRMC,123519,A,4807.0380,N,01131.0000,E,022.4,084.4,230394,003.1,W*6A")
 
 
 while 1:
@@ -17,7 +17,7 @@ while 1:
     if data["gps"] is None:
         continue
     print(data["gps"]["latitude"])
-    if data["gps"]["latitude"] == "37XX.XXXX":
+    if data["gps"]["latitude"] == "48.117300":
         break
 
 
