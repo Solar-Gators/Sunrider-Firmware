@@ -33,7 +33,7 @@ void PitComms::SendDataModule(SolarGators::DataModules::DataModule& data_module)
   radio_->SendByte(data_module.instance_id_);
   radio_->SendByte(data_module.size_);
   // Temporary buffer
-  uint8_t buff[16];
+  uint8_t buff[100];
   data_module.ToByteArray(buff);
   // Send Buffer
   for (uint16_t i = 0; i < data_module.size_; ++i) {

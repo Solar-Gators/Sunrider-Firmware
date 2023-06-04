@@ -2,6 +2,8 @@
 # Name: Telemetry GPS
 # Description: This test verifies that GPS telemetry gets correctly parsed
 ###
+# TODO: get this working
+
 import serial, sys, requests, time
 gps_ser = serial.Serial("/tmp/uart-gps")
 
