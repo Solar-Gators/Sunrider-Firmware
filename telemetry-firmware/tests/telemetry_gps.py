@@ -9,7 +9,7 @@ gps_ser.write(b"$GPGGA, 130113.00, 37XX.XXXX,N, 07XXX.XXXX, E,1,04,3.97,404.9,M,
 
 
 while 1:
-    response = requests.get("http://localhost:3000/api/live/data")
+    response = requests.get("http://localhost:9000/api/live/data")
     response.raise_for_status()
 
     data = response.json()
