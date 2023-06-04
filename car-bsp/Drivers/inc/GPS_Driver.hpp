@@ -1,5 +1,5 @@
-//File Name: gps-driver.h
-//Description: This contains the implementation of the gps driver for receiving gps data through uart and parsing it
+//File Name: GPS_Driver.h
+//Description: This contains the implementation of the gps driver for receiving gps data through uart
 
 //Header Guards
 #ifndef GPS_DRIVER_H_
