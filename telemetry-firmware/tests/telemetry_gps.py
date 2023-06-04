@@ -14,7 +14,10 @@ while 1:
 
     data = response.json()
 
-    if data["gps"] is not None:
+    if data["gps"] is None:
+        continue
+
+    if data["gps"]["latitude"] == "130113.00":
         break
 
 
