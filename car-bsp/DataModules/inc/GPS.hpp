@@ -28,6 +28,11 @@ public:
   const char* getSpeed();
   const char* getTrueCourse();
 
+  #ifdef IS_TELEMETRY
+    	void PostTelemetry(PythonScripts* scripts);
+		uint8_t getMpptNo();
+  #endif
+
   // CAN Functions
   void ToByteArray(uint8_t* buff) const;
   void FromByteArray(uint8_t* buff);
