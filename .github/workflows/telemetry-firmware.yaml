@@ -148,3 +148,4 @@ jobs:
         if: always()
 
       - run: pm2 log --lines 500 --nostream
+        if: always()
