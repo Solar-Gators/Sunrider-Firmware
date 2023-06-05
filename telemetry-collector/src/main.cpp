@@ -100,8 +100,8 @@ int main(int argc, char *argv[]) {
         }
         network.fromByteArray(dataLink.buffer);
         //Get module
-        SolarGators::DataModules::DataModule* rx_module = (*modules.find(network.can_id)).second;
         if (modules.count(network.can_id) > 0) {
+            SolarGators::DataModules::DataModule* rx_module = (*modules.find(network.can_id)).second;
             rx_module->FromByteArray(network.data);
             rx_module->PostTelemetry(&scripts);
         }

@@ -65,9 +65,11 @@ double ddmToDd(double degrees, double minutes) {
 
 void GPS::FromByteArray(uint8_t* buff)
 {
-  const char* start = strchr((char*)buff, ',') + 1; // skip protocol
+  const char* start = (char*)buff; // protocol
+  if(!strstr(start, "$GPRMC")) return;
   const char* end;
 
+  start = strchr((char*)start, ',') + 1;
   start = strchr(start, ',') + 1; // skip timestamp
   start = strchr(start, ',') + 1; // status
   //V == invalid
