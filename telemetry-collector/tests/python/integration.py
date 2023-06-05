@@ -1,5 +1,5 @@
 import os, pytest
-from tests import lib
+from . import lib
 
 
 @pytest.mark.timeout(4)

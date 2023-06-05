@@ -14,7 +14,7 @@ COPY ./telemetry-collector/requirements.txt /collector
 RUN pip install -r requirements.txt
 
 
-COPY ./telemetry-collector/tests/test-requirements.txt /collector
+COPY ./telemetry-collector/tests/python/test-requirements.txt /collector
 RUN pip install -r ./test-requirements.txt
 
 RUN apt-get -y install lcov

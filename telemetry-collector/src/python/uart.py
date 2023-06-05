@@ -35,10 +35,5 @@ def runs(path, body):
 
 def wait_for_transmission():
     global ser
-    d = None
-    while d is None:
-        try:
-            d = ser.read(1)
-        except:
-            ...
+    d = ser.read(1)
     return int.from_bytes(d, "little")

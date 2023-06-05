@@ -61,8 +61,9 @@ jobs:
       - run: sudo apt-get -y install lcov
       - run: make coverage
       - run: pip install -r requirements.txt
-      - run: pip install -r ./tests/test-requirements.txt
-      - run: pytest ./tests/integration.py
+      - run: pip install -r ./tests/python/test-requirements.txt
+      - run: pytest ./tests/python/integration.py # python tests
+      - run: make test && ./test # cpp tests
       - run: make coverage-html
       - uses: actions/upload-artifact@v3
         with:
@@ -105,7 +106,7 @@ jobs:
 
       # build and start collector
       - run: pip install -r ../telemetry-collector/requirements.txt
-      - run: pip install -r ../telemetry-collector/tests/test-requirements.txt
+      - run: pip install -r ../telemetry-collector/tests/python/test-requirements.txt
       - run: cd ../telemetry-collector && make
       - run: |
           cd ../telemetry-collector &&
@@ -147,3 +148,4 @@ jobs:
         if: always()
 
       - run: pm2 log --lines 500 --nostream
+        if: always()

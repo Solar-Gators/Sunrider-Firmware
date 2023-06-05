@@ -27,9 +27,12 @@
 #include "Mitsuba.hpp"
 #include "PowerBoard.hpp"
 #include "Mppt.hpp"
+#include "GPS.hpp"
+#include "GPS_Driver.hpp"
 
 extern CAN_HandleTypeDef hcan;
 extern UART_HandleTypeDef huart2;
+extern UART_HandleTypeDef huart4;
 extern SPI_HandleTypeDef hspi2;
 
 SolarGators::Drivers::CANDriver CANController(&hcan, 0);
@@ -61,6 +64,7 @@ LSM6DSR_Object_t imu;
 SolarGators::DataModules::FrontLights FLights;
 SolarGators::DataModules::RearLights RLights;
 SolarGators::DataModules::Steering Steering;
+SolarGators::DataModules::GPS Gps;
 SolarGators::DataModules::PowerBoard Pboard(SolarGators::DataModuleInfo::POWER_BOARD_ID, 0);
 SolarGators::DataModules::MitsubaRequest Motor_Tx(SolarGators::DataModuleInfo::MOTORTX_RL_MSG_ID);
 
@@ -89,6 +93,9 @@ SolarGators::DataModules::Mpptx1 MPPT2_Rx_1(SolarGators::DataModuleInfo::MPPT2_R
 SolarGators::DataModules::Mpptx5 MPPT0_Rx_5(SolarGators::DataModuleInfo::MPPT0_RX5_MSG_ID);
 SolarGators::DataModules::Mpptx5 MPPT1_Rx_5(SolarGators::DataModuleInfo::MPPT1_RX5_MSG_ID);
 SolarGators::DataModules::Mpptx5 MPPT2_Rx_5(SolarGators::DataModuleInfo::MPPT2_RX5_MSG_ID);
+
+
+void UART3_RX_Handler();
 
 //bool CANStatusFlag = false;
 
