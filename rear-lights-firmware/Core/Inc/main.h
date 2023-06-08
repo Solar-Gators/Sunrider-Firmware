@@ -75,10 +75,12 @@ void Error_Handler(void);
 #define Error_GPIO_Port GPIOB
 #define INT_IMU_Pin GPIO_PIN_2
 #define INT_IMU_GPIO_Port GPIOB
-#define LED6_EN_Pin GPIO_PIN_12
-#define LED6_EN_GPIO_Port GPIOB
+#define HORN_EN_Pin GPIO_PIN_12
+#define HORN_EN_GPIO_Port GPIOB
 #define LED5_EN_Pin GPIO_PIN_13
 #define LED5_EN_GPIO_Port GPIOB
+#define LED6_EN_Pin GPIO_PIN_14
+#define LED6_EN_GPIO_Port GPIOB
 #define LED4_EN_Pin GPIO_PIN_9
 #define LED4_EN_GPIO_Port GPIOC
 #define Aux_C1_Pin GPIO_PIN_3
@@ -91,6 +93,7 @@ void Error_Handler(void);
 #define Aux_C4_GPIO_Port GPIOB
 #define Aux_C5_Pin GPIO_PIN_7
 #define Aux_C5_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 #define LT_GPIO_Pin LED1_EN_Pin
 #define LT_GPIO_Port LED1_EN_GPIO_Port

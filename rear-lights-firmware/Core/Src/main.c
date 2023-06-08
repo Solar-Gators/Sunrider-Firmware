@@ -161,7 +161,6 @@ int main(void)
 
   /* Start scheduler */
   osKernelStart();
-
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -194,6 +193,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -300,6 +300,8 @@ static void MX_SPI1_Init(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+/* USER CODE BEGIN MX_GPIO_Init_1 */
+/* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -314,7 +316,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, Throttle_CS_Pin|Board_Ok_Pin|LED4_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, Error_Pin|LED6_EN_Pin|LED5_EN_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, Error_Pin|HORN_EN_Pin|LED5_EN_Pin|LED6_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : LED1_EN_Pin LED2_EN_Pin LED3_EN_Pin Break_CS_Pin
                            ADC_SDI_Pin */
@@ -332,8 +334,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : Error_Pin LED6_EN_Pin LED5_EN_Pin */
-  GPIO_InitStruct.Pin = Error_Pin|LED6_EN_Pin|LED5_EN_Pin;
+  /*Configure GPIO pins : Error_Pin HORN_EN_Pin LED5_EN_Pin LED6_EN_Pin */
+  GPIO_InitStruct.Pin = Error_Pin|HORN_EN_Pin|LED5_EN_Pin|LED6_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -347,6 +349,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+/* USER CODE BEGIN MX_GPIO_Init_2 */
+/* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -446,4 +450,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
