@@ -12,7 +12,6 @@ extern "C" void CPP_UserSetup(void);
 void UpdateSignals(void);
 void SendCanMsgs();
 //void ReadIMU();
-void CheckBreaks(void);
 void KillConditions();
 
 // OS Configs
@@ -150,11 +149,6 @@ void ReadIMU()
   LSM6DSR_ACC_GetAxes(&imu, &accel_info);
 }
 */
-void CheckBreaks()
-{
-  // TODO check if breaks are pressed
-  //RLights.SetBreakReleased();
-}
 
 void KillConditions(){
 	//Check position of the kill switch, add it to data module, cut contactor if necessary
