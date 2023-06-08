@@ -2,7 +2,7 @@
  * user.cpp
  *
  *  Created on: Jun 17, 2022
- *      Author: John Carr
+ *      Author: John Carr, Yash Bhat
  */
 
 #include "user.hpp"
@@ -11,7 +11,7 @@ extern "C" void CPP_UserSetup(void);
 
 void UpdateSignals(void);
 void SendCanMsgs();
-void ReadIMU();
+//void ReadIMU();
 void CheckBreaks(void);
 void KillConditions();
 
@@ -143,13 +143,13 @@ void SendCanMsgs()
 	CANController.Send(&RLights);
 
 }
-
+/*
 void ReadIMU()
 {
   LSM6DSR_Axes_t accel_info;
   LSM6DSR_ACC_GetAxes(&imu, &accel_info);
 }
-
+*/
 void CheckBreaks()
 {
   // TODO check if breaks are pressed
@@ -159,4 +159,15 @@ void CheckBreaks()
 void KillConditions(){
 	//Check position of the kill switch, add it to data module, cut contactor if necessary
 	//Check for BMS condition, cut off contactor if necessary
+	if(HAL_GPIO_ReadPin(KILL_SW_GPIO_Port, KILL_SW_Pin)){
+		RLights.setKillSwStatus(false);
+	} else{
+		RLights.setKillSwStatus(true);
+		RLights.setContactorStatus(false);
+		RLights.doATrip();
+	}
+	//This contains the regulation critical full car trip if pack is charging and charge temp limit is exceeded
+	if((bmsCurrent.getPackCurrent() > 0) && bmsCodes.isChargeenableRelayFault()){
+		RLights.doATrip();
+	}
 }

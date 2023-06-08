@@ -101,8 +101,8 @@ void Error_Handler(void);
 #define LT_GPIO_Port LED5_EN_GPIO_Port
 #define RT_GPIO_Pin LED6_EN_Pin
 #define RT_GPIO_Port LED6_EN_GPIO_Port
-#define HORN_GPIO_Pin HORN_EN_Pin
-#define HORN_GPIO_Port HORN_EN_GPIO_Port
+#define RELAY_GPIO_Pin HORN_EN_Pin
+#define RELAY_GPIO_Port HORN_EN_GPIO_Port
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
