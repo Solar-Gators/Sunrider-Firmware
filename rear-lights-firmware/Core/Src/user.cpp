@@ -61,6 +61,8 @@ void CPP_UserSetup(void)
 	  Error_Handler();
   }
   osTimerStart(kill_sw_timer_id, 250);
+
+  CANController.Init();
   /*
   // Start Thread that Handles Reads the IMU
   imu_timer_id = osTimerNew((osThreadFunc_t)ReadIMU, osTimerPeriodic, NULL, &imu_timer_attr);
@@ -85,12 +87,14 @@ void CPP_UserSetup(void)
 	*/
   // Start Thread that Handles Reads the Breaks
   // do we need to check breaks constantly? we will need to read can, and that should update internal datamodule
+  /*
   break_timer_id = osTimerNew((osThreadFunc_t)CheckBreaks, osTimerPeriodic, NULL, &break_timer_attr);
   if (break_timer_id == NULL)
   {
       Error_Handler();
   }
-  CANController.Init();
+  */
+
   //osTimerStart(break_timer_id, 500);
 
 }
@@ -158,10 +162,10 @@ void KillConditions(){
 	} else{
 		RLights.setKillSwStatus(true);
 		RLights.setContactorStatus(false);
-		RLights.doATrip();
+		HAL_GPIO_WritePin(HORN_EN_GPIO_Port, HORN_EN_Pin, GPIO_PIN_RESET);
 	}
 	//This contains the regulation critical full car trip if pack is charging and charge temp limit is exceeded
 	if((bmsCurrent.getPackCurrent() > 0) && bmsCodes.isChargeenableRelayFault()){
-		RLights.doATrip();
+		HAL_GPIO_WritePin(HORN_EN_GPIO_Port, HORN_EN_Pin, GPIO_PIN_RESET);
 	}
 }

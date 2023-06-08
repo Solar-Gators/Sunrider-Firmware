@@ -6,7 +6,7 @@
  */
 
 #include <RearLights.hpp>
-#include "main.h"
+//#include "main.h"
 namespace SolarGators {
 namespace DataModules {
 
@@ -51,7 +51,7 @@ void RearLights::setContactorStatus(bool status){
 }
 //
 void RearLights::doATrip(){
-	HAL_GPIO_WritePin(HORN_EN_GPIO_Port, HORN_EN_Pin, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(HORN_EN_GPIO_Port, HORN_EN_Pin, GPIO_PIN_RESET);
 }
 
 void RearLights::ToByteArray(uint8_t* buff) const
