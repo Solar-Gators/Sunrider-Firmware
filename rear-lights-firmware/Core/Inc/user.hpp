@@ -13,12 +13,15 @@
 #include "custom_bus.h"
 #include "Steering.hpp"
 #include "RearLightsController.hpp"
+#include "FrontLights.hpp"
 #include "CAN.hpp"
 #include "LED.hpp"
 
 // DataModules
 SolarGators::DataModules::Steering LightsState;
-SolarGators::DataModules::RearLightsController RLights;
+//SolarGators::DataModules::RearLightsController RLights;
+SolarGators::DataModules::FrontLights FLights;
+SolarGators::DataModules::RearLights RLights;
 
 // CAN Bus Stuff
 extern CAN_HandleTypeDef hcan;

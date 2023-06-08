@@ -81,6 +81,8 @@ void Error_Handler(void);
 #define LED5_EN_GPIO_Port GPIOB
 #define LED6_EN_Pin GPIO_PIN_14
 #define LED6_EN_GPIO_Port GPIOB
+#define KILL_SW_Pin GPIO_PIN_7
+#define KILL_SW_GPIO_Port GPIOC
 #define LED4_EN_Pin GPIO_PIN_9
 #define LED4_EN_GPIO_Port GPIOC
 #define Aux_C1_Pin GPIO_PIN_3
@@ -95,10 +97,12 @@ void Error_Handler(void);
 #define Aux_C5_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-#define LT_GPIO_Pin LED1_EN_Pin
-#define LT_GPIO_Port LED1_EN_GPIO_Port
-#define RT_GPIO_Pin LED4_EN_Pin
-#define RT_GPIO_Port LED4_EN_GPIO_Port
+#define LT_GPIO_Pin LED5_EN_Pin
+#define LT_GPIO_Port LED5_EN_GPIO_Port
+#define RT_GPIO_Pin LED6_EN_Pin
+#define RT_GPIO_Port LED6_EN_GPIO_Port
+#define HORN_GPIO_Pin HORN_EN_Pin
+#define HORN_GPIO_Port HORN_EN_GPIO_Port
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

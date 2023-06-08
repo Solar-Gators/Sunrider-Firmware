@@ -35,6 +35,7 @@ bool RearLights::isBreakPressed() const
 void RearLights::ToByteArray(uint8_t* buff) const
 {
   buff[0] = static_cast<uint8_t>(break_);
+
 }
 void RearLights::FromByteArray(uint8_t* buff)
 {
