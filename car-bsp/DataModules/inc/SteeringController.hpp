@@ -8,16 +8,10 @@
 #ifndef SOLARGATORSBSP_DATAMODULES_INC_STEERINGCONTROLLER_HPP_
 #define SOLARGATORSBSP_DATAMODULES_INC_STEERINGCONTROLLER_HPP_
 
-// Telemetry doesn't support this module yet
-#ifndef IS_TELEMETRY
-
 #include <functional>
-
-
 #include "cmsis_os2.h"
+
 #include "etl/map.h"
-
-
 
 #include "Steering.hpp"
 #include "Button.hpp"
@@ -64,6 +58,11 @@ public:
   void IncreaseCruiseSpeed();
   void DecreaseCruiseSpeed();
   void SetCruiseSpeed(uint16_t speed);
+  // Regen
+  void IncreaseRegen();
+  void DecreaseRegen();
+  void EnableRegen();
+  void DisableRegen();
   // Reverse
   void EnableReverse();
   void DisableReverse();
@@ -113,5 +112,3 @@ private:
 } /* namespace SolarGators */
 
 #endif /* SOLARGATORSBSP_DATAMODULES_INC_STEERINGCONTROLLER_HPP_ */
-
-#endif

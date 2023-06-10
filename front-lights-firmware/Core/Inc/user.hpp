@@ -36,15 +36,22 @@ LSM6DSR_Object_t imu;
 SolarGators::Drivers::fpoint_3d_t ACCEL;
 extern SPI_HandleTypeDef hspi1;
 
-// Throttle (Note: I messed up soldering and the throttle is soldered where I intended the break to go)
-SolarGators::Drivers::MCP33151 throttle(Break_CS_GPIO_Port, Break_CS_Pin, &hspi1);
+// Throttle
+SolarGators::Drivers::MCP33151 throttle(Throttle_CS_GPIO_Port, Throttle_CS_Pin, &hspi1);
 uint16_t THROTTLE_VAL = 0;
+
+// Brakes
+SolarGators::Drivers::MCP33151 breaks(Break_CS_GPIO_Port, Break_CS_Pin, &hspi1);
+uint16_t BREAKS_VAL = 0;
 
 // Leds
 SolarGators::Drivers::LED lt_indicator    ("LT Indicator", LT_GPIO_Port, LT_GPIO_Pin);
 SolarGators::Drivers::LED rt_indicator    ("RT Indicator", RT_GPIO_Port, RT_GPIO_Pin);
-SolarGators::Drivers::LED hlr_indicator    ("HLR Indicator", HLR_GPIO_Port, HLR_GPIO_Pin);
+SolarGators::Drivers::LED hlr_indicator   ("HLR Indicator", HLR_GPIO_Port, HLR_GPIO_Pin);
+SolarGators::Drivers::LED hll_indicator   ("HLL Indicator", HLL_GPIO_Port, HLL_GPIO_Pin);
 SolarGators::Drivers::LED fault_indicator ("Fault Indicator", FI_GPIO_Port, FI_GPIO_Pin);
 SolarGators::Drivers::LED horn            ("Horn", HRN_GPIO_Port, HRN_GPIO_Pin);
+SolarGators::Drivers::LED headlightR      ("R Headlight", RHeadlight_GPIO_Port, RHeadlight_Pin);
+SolarGators::Drivers::LED headlightL      ("L Headlight", LHeadlight_GPIO_Port, LHeadlight_Pin);
 
 #endif
