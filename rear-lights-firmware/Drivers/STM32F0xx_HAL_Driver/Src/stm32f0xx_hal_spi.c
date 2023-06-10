@@ -9,17 +9,7 @@
   *           + IO operation functions
   *           + Peripheral Control functions
   *           + Peripheral State functions
-  ******************************************************************************
-  * @attention
   *
-  * Copyright (c) 2016 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
   @verbatim
   ==============================================================================
                         ##### How to use this driver #####
@@ -194,6 +184,18 @@
             (#) RX processes are HAL_SPI_Receive(), HAL_SPI_Receive_IT() and HAL_SPI_Receive_DMA()
             (#) TX processes are HAL_SPI_Transmit(), HAL_SPI_Transmit_IT() and HAL_SPI_Transmit_DMA()
 
+  ******************************************************************************
+  * @attention
+  *
+  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
+  * All rights reserved.</center></h2>
+  *
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
+  *
+  ******************************************************************************
   */
 
 /* Includes ------------------------------------------------------------------*/
@@ -908,7 +910,6 @@ HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint
         if ((((HAL_GetTick() - tickstart) >=  Timeout) && (Timeout != HAL_MAX_DELAY)) || (Timeout == 0U))
         {
           errorcode = HAL_TIMEOUT;
-          hspi->State = HAL_SPI_STATE_READY;
           goto error;
         }
       }
@@ -938,7 +939,6 @@ HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint
         if ((((HAL_GetTick() - tickstart) >=  Timeout) && (Timeout != HAL_MAX_DELAY)) || (Timeout == 0U))
         {
           errorcode = HAL_TIMEOUT;
-          hspi->State = HAL_SPI_STATE_READY;
           goto error;
         }
       }
@@ -968,12 +968,9 @@ HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi, uint8_t *pData, uint
   {
     errorcode = HAL_ERROR;
   }
-  else
-  {
-    hspi->State = HAL_SPI_STATE_READY;
-  }
 
 error:
+  hspi->State = HAL_SPI_STATE_READY;
   /* Process Unlocked */
   __HAL_UNLOCK(hspi);
   return errorcode;
@@ -992,17 +989,11 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
 {
 #if (USE_SPI_CRC != 0U)
   __IO uint32_t tmpreg = 0U;
-  __IO uint8_t  *ptmpreg8;
+  __IO uint8_t  * ptmpreg8;
   __IO uint8_t  tmpreg8 = 0;
 #endif /* USE_SPI_CRC */
   uint32_t tickstart;
   HAL_StatusTypeDef errorcode = HAL_OK;
-
-  if (hspi->State != HAL_SPI_STATE_READY)
-  {
-    errorcode = HAL_BUSY;
-    goto error;
-  }
 
   if ((hspi->Init.Mode == SPI_MODE_MASTER) && (hspi->Init.Direction == SPI_DIRECTION_2LINES))
   {
@@ -1016,6 +1007,12 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
 
   /* Init tickstart for timeout management*/
   tickstart = HAL_GetTick();
+
+  if (hspi->State != HAL_SPI_STATE_READY)
+  {
+    errorcode = HAL_BUSY;
+    goto error;
+  }
 
   if ((pData == NULL) || (Size == 0U))
   {
@@ -1094,7 +1091,6 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
         if ((((HAL_GetTick() - tickstart) >=  Timeout) && (Timeout != HAL_MAX_DELAY)) || (Timeout == 0U))
         {
           errorcode = HAL_TIMEOUT;
-          hspi->State = HAL_SPI_STATE_READY;
           goto error;
         }
       }
@@ -1118,7 +1114,6 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
         if ((((HAL_GetTick() - tickstart) >=  Timeout) && (Timeout != HAL_MAX_DELAY)) || (Timeout == 0U))
         {
           errorcode = HAL_TIMEOUT;
-          hspi->State = HAL_SPI_STATE_READY;
           goto error;
         }
       }
@@ -1213,12 +1208,9 @@ HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi, uint8_t *pData, uint1
   {
     errorcode = HAL_ERROR;
   }
-  else
-  {
-    hspi->State = HAL_SPI_STATE_READY;
-  }
 
 error :
+  hspi->State = HAL_SPI_STATE_READY;
   __HAL_UNLOCK(hspi);
   return errorcode;
 }
@@ -1244,7 +1236,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
   __IO uint32_t tmpreg = 0U;
   uint32_t             spi_cr1;
   uint32_t             spi_cr2;
-  __IO uint8_t  *ptmpreg8;
+  __IO uint8_t  * ptmpreg8;
   __IO uint8_t  tmpreg8 = 0;
 #endif /* USE_SPI_CRC */
 
@@ -1375,7 +1367,6 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
       if (((HAL_GetTick() - tickstart) >=  Timeout) && (Timeout != HAL_MAX_DELAY))
       {
         errorcode = HAL_TIMEOUT;
-        hspi->State = HAL_SPI_STATE_READY;
         goto error;
       }
     }
@@ -1426,7 +1417,6 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
       if ((((HAL_GetTick() - tickstart) >=  Timeout) && ((Timeout != HAL_MAX_DELAY))) || (Timeout == 0U))
       {
         errorcode = HAL_TIMEOUT;
-        hspi->State = HAL_SPI_STATE_READY;
         goto error;
       }
     }
@@ -1496,16 +1486,8 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi, uint8_t *pTxD
     hspi->ErrorCode = HAL_SPI_ERROR_FLAG;
   }
 
-  if (hspi->ErrorCode != HAL_SPI_ERROR_NONE)
-  {
-    errorcode = HAL_ERROR;
-  }
-  else
-  {
-    hspi->State = HAL_SPI_STATE_READY;
-  }
-  
 error :
+  hspi->State = HAL_SPI_STATE_READY;
   __HAL_UNLOCK(hspi);
   return errorcode;
 }
@@ -1607,13 +1589,6 @@ HAL_StatusTypeDef HAL_SPI_Receive_IT(SPI_HandleTypeDef *hspi, uint8_t *pData, ui
 {
   HAL_StatusTypeDef errorcode = HAL_OK;
 
-
-  if (hspi->State != HAL_SPI_STATE_READY)
-  {
-    errorcode = HAL_BUSY;
-    goto error;
-  }
-
   if ((hspi->Init.Direction == SPI_DIRECTION_2LINES) && (hspi->Init.Mode == SPI_MODE_MASTER))
   {
     hspi->State = HAL_SPI_STATE_BUSY_RX;
@@ -1623,6 +1598,12 @@ HAL_StatusTypeDef HAL_SPI_Receive_IT(SPI_HandleTypeDef *hspi, uint8_t *pData, ui
 
   /* Process Locked */
   __HAL_LOCK(hspi);
+
+  if (hspi->State != HAL_SPI_STATE_READY)
+  {
+    errorcode = HAL_BUSY;
+    goto error;
+  }
 
   if ((pData == NULL) || (Size == 0U))
   {
@@ -1912,6 +1893,7 @@ HAL_StatusTypeDef HAL_SPI_Transmit_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, 
     SET_BIT(hspi->ErrorCode, HAL_SPI_ERROR_DMA);
     errorcode = HAL_ERROR;
 
+    hspi->State = HAL_SPI_STATE_READY;
     goto error;
   }
 
@@ -1950,13 +1932,7 @@ HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, u
 
   /* Check rx dma handle */
   assert_param(IS_SPI_DMA_HANDLE(hspi->hdmarx));
-  
-  if (hspi->State != HAL_SPI_STATE_READY)
-  {
-    errorcode = HAL_BUSY;
-    goto error;
-  }
-  
+
   if ((hspi->Init.Direction == SPI_DIRECTION_2LINES) && (hspi->Init.Mode == SPI_MODE_MASTER))
   {
     hspi->State = HAL_SPI_STATE_BUSY_RX;
@@ -1970,6 +1946,12 @@ HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, u
 
   /* Process Locked */
   __HAL_LOCK(hspi);
+
+  if (hspi->State != HAL_SPI_STATE_READY)
+  {
+    errorcode = HAL_BUSY;
+    goto error;
+  }
 
   if ((pData == NULL) || (Size == 0U))
   {
@@ -2065,6 +2047,7 @@ HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, u
     SET_BIT(hspi->ErrorCode, HAL_SPI_ERROR_DMA);
     errorcode = HAL_ERROR;
 
+    hspi->State = HAL_SPI_STATE_READY;
     goto error;
   }
 
@@ -2242,6 +2225,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive_DMA(SPI_HandleTypeDef *hspi, uint8_t *
     SET_BIT(hspi->ErrorCode, HAL_SPI_ERROR_DMA);
     errorcode = HAL_ERROR;
 
+    hspi->State = HAL_SPI_STATE_READY;
     goto error;
   }
 
@@ -2263,6 +2247,7 @@ HAL_StatusTypeDef HAL_SPI_TransmitReceive_DMA(SPI_HandleTypeDef *hspi, uint8_t *
     SET_BIT(hspi->ErrorCode, HAL_SPI_ERROR_DMA);
     errorcode = HAL_ERROR;
 
+    hspi->State = HAL_SPI_STATE_READY;
     goto error;
   }
 
@@ -3054,7 +3039,7 @@ static void SPI_DMAReceiveCplt(DMA_HandleTypeDef *hdma)
   uint32_t tickstart;
 #if (USE_SPI_CRC != 0U)
   __IO uint32_t tmpreg = 0U;
-  __IO uint8_t  *ptmpreg8;
+  __IO uint8_t  * ptmpreg8;
   __IO uint8_t  tmpreg8 = 0;
 #endif /* USE_SPI_CRC */
 
@@ -3171,7 +3156,7 @@ static void SPI_DMATransmitReceiveCplt(DMA_HandleTypeDef *hdma)
   uint32_t tickstart;
 #if (USE_SPI_CRC != 0U)
   __IO uint32_t tmpreg = 0U;
-  __IO uint8_t  *ptmpreg8;
+  __IO uint8_t  * ptmpreg8;
   __IO uint8_t  tmpreg8 = 0;
 #endif /* USE_SPI_CRC */
 
@@ -3548,7 +3533,7 @@ static void SPI_2linesRxISR_8BIT(struct __SPI_HandleTypeDef *hspi)
   */
 static void SPI_2linesRxISR_8BITCRC(struct __SPI_HandleTypeDef *hspi)
 {
-  __IO uint8_t  *ptmpreg8;
+  __IO uint8_t  * ptmpreg8;
   __IO uint8_t  tmpreg8 = 0;
 
   /* Initialize the 8bit temporary pointer */
@@ -3668,7 +3653,7 @@ static void SPI_2linesRxISR_16BITCRC(struct __SPI_HandleTypeDef *hspi)
   /* Read 16bit CRC to flush Data Register */
   tmpreg = READ_REG(hspi->Instance->DR);
   /* To avoid GCC warning */
-  UNUSED(tmpreg);
+  UNUSED(tmpreg);  
 
   /* Disable RXNE interrupt */
   __HAL_SPI_DISABLE_IT(hspi, SPI_IT_RXNE);
@@ -3723,7 +3708,7 @@ static void SPI_2linesTxISR_16BIT(struct __SPI_HandleTypeDef *hspi)
   */
 static void SPI_RxISR_8BITCRC(struct __SPI_HandleTypeDef *hspi)
 {
-  __IO uint8_t  *ptmpreg8;
+  __IO uint8_t  * ptmpreg8;
   __IO uint8_t  tmpreg8 = 0;
 
   /* Initialize the 8bit temporary pointer */
@@ -3940,7 +3925,7 @@ static HAL_StatusTypeDef SPI_WaitFlagStateUntilTimeout(SPI_HandleTypeDef *hspi, 
         return HAL_TIMEOUT;
       }
       /* If Systick is disabled or not incremented, deactivate timeout to go in disable loop procedure */
-      if (count == 0U)
+      if(count == 0U)
       {
         tmp_timeout = 0U;
       }
@@ -3967,7 +3952,7 @@ static HAL_StatusTypeDef SPI_WaitFifoStateUntilTimeout(SPI_HandleTypeDef *hspi, 
   __IO uint32_t count;
   uint32_t tmp_timeout;
   uint32_t tmp_tickstart;
-  __IO uint8_t  *ptmpreg8;
+  __IO uint8_t  * ptmpreg8;
   __IO uint8_t  tmpreg8 = 0;
 
   /* Adjust Timeout value  in case of end of transfer */
@@ -4022,10 +4007,10 @@ static HAL_StatusTypeDef SPI_WaitFifoStateUntilTimeout(SPI_HandleTypeDef *hspi, 
         return HAL_TIMEOUT;
       }
       /* If Systick is disabled or not incremented, deactivate timeout to go in disable loop procedure */
-      if (count == 0U)
+      if(count == 0U)
       {
         tmp_timeout = 0U;
-      }
+      }      
       count--;
     }
   }
@@ -4416,3 +4401,4 @@ static void SPI_AbortTx_ISR(SPI_HandleTypeDef *hspi)
   * @}
   */
 
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
