@@ -18,7 +18,7 @@ public:
   FrontLights();
   ~FrontLights();
   uint16_t GetThrottleVal() const;
-
+  uint16_t GetBreakVal() const;
   // CAN Functions
   void ToByteArray(uint8_t* buff) const;
   void FromByteArray(uint8_t* buff);
@@ -28,6 +28,7 @@ public:
 
 protected:
   uint16_t throttle_;
+  uint16_t break_;
   // TODO: Accelerometer values
 };
 
