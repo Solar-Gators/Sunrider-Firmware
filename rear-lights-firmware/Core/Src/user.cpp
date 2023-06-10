@@ -131,20 +131,16 @@ void UpdateSignals(void)
 	  //should add code here to keep lights on but dim
   }
 
-  if(FLights.GetBreakVal() > 10){
+  if(FLights.GetBreaksVal() > 10){
 	  rt_indicator.TurnOn();
 	  lt_indicator.TurnOn();
   }
   osMutexRelease(LightsState.mutex_id_);
-
-
 }
 
 void SendCanMsgs()
 {
-	//this may need to be an instance of the actual rear lights datamodule
 	CANController.Send(&RLights);
-
 }
 /*
 void ReadIMU()
@@ -167,5 +163,6 @@ void KillConditions(){
 	//This contains the regulation critical full car trip if pack is charging and charge temp limit is exceeded
 	if((bmsCurrent.getPackCurrent() > 0) && bmsCodes.isChargeenableRelayFault()){
 		HAL_GPIO_WritePin(HORN_EN_GPIO_Port, HORN_EN_Pin, GPIO_PIN_RESET);
+		RLights.setContactorStatus(false);
 	}
 }

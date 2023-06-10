@@ -49,24 +49,18 @@ bool RearLights::getContactorStatus() const{
 void RearLights::setContactorStatus(bool status){
 	contactor_status_ = status;
 }
-//
-void RearLights::doATrip(){
-	//HAL_GPIO_WritePin(HORN_EN_GPIO_Port, HORN_EN_Pin, GPIO_PIN_RESET);
-}
 
 void RearLights::ToByteArray(uint8_t* buff) const
 {
   buff[0] = static_cast<uint8_t>(break_);
   buff[0] |= static_cast<uint8_t>(killsw_) << 1;
   buff[0] |= static_cast<uint8_t>(contactor_status_) << 2;
-
 }
 void RearLights::FromByteArray(uint8_t* buff)
 {
   break_ = static_cast<bool>(buff[0] & 0x1);
   killsw_ = static_cast<bool>(buff[0] & (0x1 << 1));
   contactor_status_ = static_cast<bool>(buff[0] & (0x1 << 2));
-
 }
 
 } /* namespace DataModules */

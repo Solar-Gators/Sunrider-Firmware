@@ -22,7 +22,7 @@ public:
   bool getKillSwStatus() const;
   void setContactorStatus(bool status);
   bool getContactorStatus() const;
-  void doATrip();
+
   // CAN Functions
   void ToByteArray(uint8_t* buff) const;
   void FromByteArray(uint8_t* buff);
