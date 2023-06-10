@@ -7,8 +7,9 @@
 
 #ifndef SOLARGATORSBSP_DATAMODULES_INC_STEERINGCONTROLLER_HPP_
 #define SOLARGATORSBSP_DATAMODULES_INC_STEERINGCONTROLLER_HPP_
-
+#ifndef	IS_TELEMETRY
 #include <functional>
+
 #include "cmsis_os2.h"
 
 #include "etl/map.h"
@@ -110,5 +111,5 @@ private:
 
 } /* namespace DataModules */
 } /* namespace SolarGators */
-
+#endif
 #endif /* SOLARGATORSBSP_DATAMODULES_INC_STEERINGCONTROLLER_HPP_ */

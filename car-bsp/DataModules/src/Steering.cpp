@@ -25,8 +25,8 @@ namespace SolarGators::DataModules
     headlights_(false),
     horn_(false),
     reverse_(false),
-	regen_(false),
-    cruise_speed_(Min_Cruise_Speed_)
+    cruise_speed_(Min_Cruise_Speed_),
+	regen_(0)
   {}
   Steering::~Steering()
   {}
