@@ -4,7 +4,7 @@
  *  Created on: Oct 29, 2021
  *      Author: John Carr
  */
-
+#ifndef	IS_TELEMETRY
 #include <SteeringController.hpp>
 
 namespace SolarGators {
@@ -275,3 +275,4 @@ namespace DataModules {
 
 } /* namespace DataModules */
 } /* namespace SolarGators */
+#endif
