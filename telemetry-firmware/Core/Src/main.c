@@ -404,7 +404,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, Error_Pin|Board_OK_Pin|CAN_ERROR_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(Eco_En_GPIO_Port, Eco_En_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, Eco_En_Pin|Reverse_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOC, Regen_CS_Pin|Accel_CS_Pin, GPIO_PIN_SET);
@@ -424,12 +424,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(INT_IMU_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : Eco_En_Pin */
-  GPIO_InitStruct.Pin = Eco_En_Pin;
+  /*Configure GPIO pins : Eco_En_Pin Reverse_EN_Pin */
+  GPIO_InitStruct.Pin = Eco_En_Pin|Reverse_EN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(Eco_En_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pin : GSP_PPS_Pin */
   GPIO_InitStruct.Pin = GSP_PPS_Pin;

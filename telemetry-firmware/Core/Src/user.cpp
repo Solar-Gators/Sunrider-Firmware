@@ -63,19 +63,7 @@ void CPP_UserSetup(void)
   {
       Error_Handler();
   }
-  // Register initialize driver for IMU
-//  if(LSM6DSR_RegisterBusIO(&imu, &imu_bus))
-//  {
-//    Error_Handler();
-//  }
-//  if(LSM6DSR_Init(&imu))
-//  {
-//    Error_Handler();
-//  }
-//  if(LSM6DSR_ACC_Enable(&imu))
-//  {
-//    Error_Handler();
-//  }
+
   // Front Lights (for throttle)
   //we add these modules to the etl map, binds can id and actual module together
   CANController.AddRxModule(&FLights);
@@ -107,8 +95,8 @@ void CPP_UserSetup(void)
   CANController.Init();
 
   // Ready GPS
-  GPS_init(huart4.Instance);
-  GPS_startReception();
+  //GPS_init(huart4.Instance);
+  //GPS_startReception();
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
   osTimerStart(can_tx_timer_id, 2000);    // CAN Tx Transmission
@@ -162,21 +150,26 @@ void UpdateThrottle()
 {
   uint8_t adjThrottleVal = static_cast<uint8_t>(FLights.GetThrottleVal() >> 5);
   // Probs dont want to do the below would be better to drop two bits then map 12 bits to 18 bits
-  if (adjThrottleVal > 200) {
-	  adjThrottleVal = 200;
+  if(Steering.GetCruiseEnabledStatus()){
+	  adjThrottleVal = Steering.GetCruiseSpeed();
+  }
+  if (adjThrottleVal > 250) {
+	  adjThrottleVal = 250;
   }
   accel.WriteAndUpdate(adjThrottleVal); // shift over b\c we are sending 14 bit ADC to 8 bit DAC
-  // If the throttle is 0 then we should regen so that we are hitting a 0.2g *deceleration*
-  // Read IMU to get accel info for PID
-//  LSM6DSR_Axes_t accel_info;
-//  LSM6DSR_ACC_GetAxes(&imu, &accel_info);
-  // Calculate regen value
-  // Write regen value to motor controller
-//  regen_controller.Update(0.2, accel_info.x);
-//  if(adjThrottleVal == 0)
-//  {
-//    regen.WriteAndUpdate(regenVal);
-//  }
+
+  uint8_t regenVal = Steering.GetRegen();
+  if(regenVal == 3){
+	  regenLevelEnum = level3;
+  } else if(regenVal == 2){
+	  regenLevelEnum = level2;
+  } else if(regenVal == 1){
+	  regenLevelEnum = level1;
+  } else{
+	  regenLevelEnum = level0;
+  }
+  regen.WriteAndUpdate(regenLevelEnum);
+
   if(Steering.GetEcoEnabledStatus())
   {
     eco.TurnOn();
@@ -187,7 +180,9 @@ void UpdateThrottle()
   }
   if(Steering.GetReverseStatus())
   {
-    // TODO
+	reverse.TurnOn();
+  } else{
+	  reverse.TurnOff();
   }
 }
 

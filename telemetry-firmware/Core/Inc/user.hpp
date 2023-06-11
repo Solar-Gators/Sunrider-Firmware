@@ -38,6 +38,12 @@ extern SPI_HandleTypeDef hspi2;
 SolarGators::Drivers::CANDriver CANController(&hcan, 0);
 SolarGators::Drivers::RFD900x rfd(&huart2);
 SolarGators::Drivers::PitComms pit(&rfd);
+enum {
+	level0 = 0,
+	level1 = 84,
+	level2 = 180,
+	level3 = 255
+} regenLevelEnum;
 
 // DACs
 SolarGators::Drivers::LTC2630 accel(&hspi2, Accel_CS_GPIO_Port, Accel_CS_Pin, SolarGators::Drivers::OperatingMode::Bit8);
@@ -45,6 +51,7 @@ SolarGators::Drivers::LTC2630 regen(&hspi2, Regen_CS_GPIO_Port, Regen_CS_Pin, So
 
 // Mitsuba Controls
 SolarGators::Drivers::LED eco("Eco Enable", Eco_En_GPIO_Port, Eco_En_Pin);
+SolarGators::Drivers::LED reverse("Reverse Enable", Reverse_EN_GPIO_Port, Reverse_EN_Pin);
 
 // IMU
 LSM6DSR_IO_t imu_bus =
