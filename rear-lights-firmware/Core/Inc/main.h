@@ -113,6 +113,8 @@ void Error_Handler(void);
 #define TLR_GPIO_Pin LED2_EN_Pin
 /* USER CODE END Private defines */
 
+//bool strobeStatus = false;
+
 #ifdef __cplusplus
 }
 #endif

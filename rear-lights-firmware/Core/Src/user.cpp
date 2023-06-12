@@ -2,7 +2,7 @@
  * user.cpp
  *
  *  Created on: Jan 17, 2022
- *      Author: John Carr
+ *      Author: John Carr, Yash B
  */
 
 #include "user.hpp"
@@ -14,7 +14,7 @@
 using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
-
+extern "C" void strobeCheck(void);
 void UpdateSignals(void);
 void SendCanMsgs();
 void ReadIMU();
@@ -115,9 +115,10 @@ void UpdateSignals(void)
   	  //should add code here to keep lights on but dim
     }
 
-    if(FLights.GetBreaksVal() > 30){
+    if((FLights.GetBreaksVal() > 30) || LightsState.GetRegen()){
   	  rt_indicator.TurnOn();
   	  lt_indicator.TurnOn();
+  	  tlr_indicator.TurnOn();
     }
 
   osMutexRelease(LightsState.mutex_id_);
@@ -180,4 +181,12 @@ bool FaultPresent()
     bmsCodes.isHighestCellVoltageTooHighFault() |
     bmsCodes.isLowestCellVoltageTooLowFault() |
     bmsCodes.isPackTooHotFault();
+}
+//i really wanna call this glizzy check but that would be confusing soooo - yash
+//what can ya do i guess
+void strobeCheck(){
+	//check to activate strobe if discharge enable relay has been faulted, or kill sw
+	if(bmsCodes.isDischargeenableRelayFault() || RLights.getContactorStatus()){
+		strobeLight.strobe(3);
+	}
 }
