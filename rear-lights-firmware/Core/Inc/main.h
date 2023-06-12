@@ -107,6 +107,10 @@ void Error_Handler(void);
 #define LT_GPIO_Port LED5_EN_GPIO_Port
 #define RT_GPIO_Pin LED6_EN_Pin
 #define RT_GPIO_Port LED6_EN_GPIO_Port
+#define STROBE_GPIO_Port LED1_EN_GPIO_Port
+#define STROBE_GPIO_Pin LED1_EN_Pin
+#define TLR_GPIO_Port LED2_EN_GPIO_Port
+#define TLR_GPIO_Pin LED2_EN_Pin
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

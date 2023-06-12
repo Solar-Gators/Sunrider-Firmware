@@ -68,6 +68,7 @@ void CPP_UserSetup(void)
   //we add these modules to the etl map, binds can id and actual module together
   CANController.AddRxModule(&FLights);
   CANController.AddRxModule(&RLights);
+  CANController.AddRxModule(&Steering);
   // Mitsuba Stuff
   CANController.AddRxModule(&Motor_Rx_0);
   CANController.AddRxModule(&Motor_Rx_1);
