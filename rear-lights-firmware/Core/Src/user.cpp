@@ -19,7 +19,6 @@ void UpdateSignals(void);
 void SendCanMsgs();
 void ReadIMU();
 void ReadADC();
-bool FaultPresent();
 
 // OS Configs
 osTimerId_t signal_timer_id;
@@ -154,34 +153,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
 
-bool FaultPresent()
-{
-  return
-    bmsCodes.isInternalCellCommunicationFault() |
-    bmsCodes.isCellBalancingStuckOffFault() |
-    bmsCodes.isWeakCellFault() |
-    bmsCodes.isLowCellVoltageFault() |
-    bmsCodes.isCellOpenWiringFault() |
-    bmsCodes.isCurrentSensorFault() |
-    bmsCodes.isCellVoltageOver5vFault() |
-    bmsCodes.isCellBankFault() |
-    bmsCodes.isWeakPackFault() |
-    bmsCodes.isFanMonitorFault() |
-//    bmsCodes.isThermistorFault() |
-    bmsCodes.isCanCommunicationFault() |
-    bmsCodes.isRedundantPowerSupplyFault() |
-    bmsCodes.isHighVoltageIsolationFault() |
-    bmsCodes.isInvalidInputSupplyVoltageFault() |
-//    bmsCodes.isChargeenableRelayFault() |
-    bmsCodes.isDischargeenableRelayFault() |
-    bmsCodes.isChargerSafetyRelayFault() |
-    bmsCodes.isInternalHardwareFault() |
-    bmsCodes.isInternalHeatsinkThermistorFault() |
-    bmsCodes.isInternalLogicFault() |
-    bmsCodes.isHighestCellVoltageTooHighFault() |
-    bmsCodes.isLowestCellVoltageTooLowFault() |
-    bmsCodes.isPackTooHotFault();
-}
+
 //i really wanna call this glizzy check but that would be confusing soooo - yash
 //what can ya do i guess
 void strobeCheck(){

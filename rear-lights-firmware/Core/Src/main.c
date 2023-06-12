@@ -84,6 +84,7 @@ void StartBlink(void *argument);
 
 /* USER CODE BEGIN PFP */
 void CPP_UserSetup(void);
+void strobeCheck(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -387,6 +388,7 @@ void StartBlink(void *argument)
   {
     HAL_GPIO_TogglePin(Board_Ok_GPIO_Port, Board_Ok_Pin);
     osDelay(494);
+    strobeCheck();
   }
   /* USER CODE END StartBlink */
 }
