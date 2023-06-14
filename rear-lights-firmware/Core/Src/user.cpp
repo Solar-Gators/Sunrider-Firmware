@@ -17,7 +17,6 @@ extern "C" void CPP_UserSetup(void);
 extern "C" void strobeCheck(void);
 void UpdateSignals(void);
 void SendCanMsgs();
-void ReadIMU();
 void ReadADC();
 
 // OS Configs
@@ -26,12 +25,7 @@ osTimerAttr_t signal_timer_attr =
 {
     .name = "Lights Timer"
 };
-/* Definitions for IMU Thread */
-osTimerId_t imu_timer_id;
-osTimerAttr_t imu_timer_attr =
-{
-    .name = "IMU"
-};
+
 /* Definitions for the ADC Thread */
 osTimerId_t adc_timer_id;
 osTimerAttr_t adc_timer_attr =
@@ -51,6 +45,9 @@ void CPP_UserSetup(void)
   CANController.AddRxModule(&bmsCodes);
   CANController.AddRxModule(&FLights);
   CANController.AddRxModule(&bmsCurrent);
+  for(uint8_t i = 0; i < BUFF_SIZE; i++){
+	  FLights.breaksBuffer[i] = 0;
+  }
   // Start Thread that Handles Turn Signal LEDs
   signal_timer_id = osTimerNew((osThreadFunc_t)UpdateSignals, osTimerPeriodic, NULL, &signal_timer_attr);
   if (signal_timer_id == NULL)
@@ -114,7 +111,19 @@ void UpdateSignals(void)
   	  //should add code here to keep lights on but dim
     }
 
-    if((FLights.GetBreaksVal() > 30) || LightsState.GetRegen()){
+    //moving average
+    FLights.breaksBuffer[FLights.buffCtr] = FLights.GetBreaksVal();
+    FLights.buffCtr++;
+    if(FLights.buffCtr >= BUFF_SIZE){
+    	FLights.buffCtr = 0;
+    }
+    uint16_t sum = 0;
+    for(uint8_t i = 0; i < BUFF_SIZE; i++){
+    	sum += FLights.breaksBuffer[i];
+    }
+    uint16_t breaksval = sum/BUFF_SIZE;
+
+    if((breaksval > 45) || LightsState.GetRegen()){
   	  rt_indicator.TurnOn();
   	  lt_indicator.TurnOn();
   	  tlr_indicator.TurnOn();
@@ -122,12 +131,6 @@ void UpdateSignals(void)
 
   osMutexRelease(LightsState.mutex_id_);
 
-}
-
-void ReadIMU()
-{
-  LSM6DSR_Axes_t accel_info;
-  LSM6DSR_ACC_GetAxes(&imu, &accel_info);
 }
 
 void ReadADC()
@@ -144,6 +147,7 @@ void ReadADC()
 		//This contains the regulation critical full car trip if pack is charging and charge temp limit is exceeded
 		if((bmsCurrent.getPackCurrent() > 0) && bmsCodes.isChargeenableRelayFault()){
 			contactor_relay.TurnOff();
+			RLights.setContactorStatus(false);
 		}
 }
 
@@ -153,12 +157,15 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
 
-
 //i really wanna call this glizzy check but that would be confusing soooo - yash
 //what can ya do i guess
 void strobeCheck(){
 	//check to activate strobe if discharge enable relay has been faulted, or kill sw
 	if(bmsCodes.isDischargeenableRelayFault() || RLights.getContactorStatus()){
-		strobeLight.strobe(3);
+		//strobeLight.strobe(3);
+		strobeLight.Toggle();
+	}
+	else{
+		//osDelay(6);
 	}
 }

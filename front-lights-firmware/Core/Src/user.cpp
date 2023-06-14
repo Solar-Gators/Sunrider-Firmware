@@ -255,8 +255,9 @@ void ReadADC()
   THROTTLE_VAL = throttle.Read() >> 5; // FOR DEBUG
 
   // Read Breaks
-  FLights.SetBreaksVal(breaks.Read());
-  BREAKS_VAL = breaks.Read() >> 5;
+  uint16_t breaksVal = breaks.Read();
+  FLights.SetBreaksVal(breaksVal);
+  //BREAKS_VAL = breaks.Read() >> 5; // FOR DEBUGin or buggin
 
 }
 

@@ -17,7 +17,8 @@ namespace {
 FrontLights::FrontLights():
         DataModule(ID, 0, SIZE),
         throttle_(0),
-		breaks_(0)
+		breaks_(0),
+		buffCtr(0)
 { }
 
 FrontLights::~FrontLights()

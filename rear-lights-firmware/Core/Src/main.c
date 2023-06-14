@@ -387,7 +387,7 @@ void StartBlink(void *argument)
   for(;;)
   {
     HAL_GPIO_TogglePin(Board_Ok_GPIO_Port, Board_Ok_Pin);
-    osDelay(494);
+    osDelay(500);
     strobeCheck();
   }
   /* USER CODE END StartBlink */
