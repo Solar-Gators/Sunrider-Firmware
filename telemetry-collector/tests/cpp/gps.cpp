@@ -4,7 +4,8 @@
 #include <csignal>
 #include "GPS.hpp"
 
-int main(int argc, char **argv) {
+int smokeTest() {
+    // Test a valid GPRMC message
     SolarGators::DataModules::GPS GPS_Rx_0;
     uint8_t* testCoord = (uint8_t*)"$GPRMC,123519,A,4807.0380,N,01131.0000,E,022.4,084.4,230394,003.1,W*6A";
 
@@ -42,6 +43,44 @@ int main(int argc, char **argv) {
         std::cout << "ToByteArray output is not the same as the input!" << std::endl;
         return -1;
     }
+
+    return 0;
+}
+
+int invalidTest() {
+    // Test an invalid GPRMC message
+    SolarGators::DataModules::GPS GPS_Rx_0;
+    uint8_t* testCoord = (uint8_t*)"$GPRMC,,V,,,,,,,,,N*53";
+
+    GPS_Rx_0.FromByteArray(testCoord);
+    uint8_t buff2[100];
+    GPS_Rx_0.ToByteArray(buff2);
+
+    std::cout << "lat: " << GPS_Rx_0.getLatitude() << std::endl;
+    std::cout << "lo: " << GPS_Rx_0.getLongitude() << std::endl;
+    std::cout << "speed: " << GPS_Rx_0.getSpeed() << std::endl;
+    std::cout << "heading: " << GPS_Rx_0.getTrueCourse() << std::endl;
+    std::cout << "data: " << buff2 << std::endl;
+
+    return 0;
+}
+
+
+int main(int argc, char **argv) {
+
+    std::cout << "Running Smoke Test.." << std::endl;
+    if (smokeTest() == -1) {
+        std::cout << "Failed!" << std::endl;
+        return -1;
+    }
+    std::cout << "Passed." << std::endl << std::endl;
+
+    std::cout << "Running Empty Test.." << std::endl;
+    if (invalidTest() == -1) {
+        std::cout << "Failed!" << std::endl;
+        return -1;
+    }
+    std::cout << "Passed." << std::endl << std::endl;
 
     return 0;
 }

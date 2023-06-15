@@ -26,12 +26,12 @@ void GPS_init(USART_TypeDef* uart_instance)
 {
 	uartInstance = uart_instance;
 	//GPRMC only
-	const char options[] = "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n";
-	for(uint16_t i = 0; i < sizeof(options); i++)
-	{
-		while(!(uartInstance->ISR & USART_ISR_TXE));
-		uartInstance->TDR = options[i];
-	}
+	// const char options[] = "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n";
+	// for(uint16_t i = 0; i < sizeof(options); i++)
+	// {
+	// 	while(!(uartInstance->ISR & USART_ISR_TXE));
+	// 	uartInstance->TDR = options[i];
+	// }
 	memset(rxMessage,0, RX_MESSAGE_MAX_SIZE);
 }
 
@@ -41,11 +41,9 @@ void GPS_startReception(void)
 	uartInstance->CR1 |= USART_CR1_RXNEIE;
 }
 
-char* GPS_RxCpltCallback(bool* success)
+char* GPS_RxCpltCallback(bool* success, char rxChar)
 {
 	*success = false;
-
-	char rxChar = (char)uartInstance->RDR;
 	if(rxChar == '$')
 	{
 		messageStart = 1;
