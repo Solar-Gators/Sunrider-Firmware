@@ -216,7 +216,9 @@ void PollForGPS()
   if (status == HAL_OK) {
     char* data = GPS_RxCpltCallback(&finishedProcessing, (char)newByte);
     if (finishedProcessing) {
+      osMutexAcquire(Gps.mutex_id_, osWaitForever);
       Gps.FromByteArray((uint8_t*)data);
+      osMutexRelease(Gps.mutex_id_);
     }
   }
 
