@@ -26,12 +26,12 @@ void GPS_init(USART_TypeDef* uart_instance)
 {
 	uartInstance = uart_instance;
 	//GPRMC only
-	// const char options[] = "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n";
-	// for(uint16_t i = 0; i < sizeof(options); i++)
-	// {
-	// 	while(!(uartInstance->ISR & USART_ISR_TXE));
-	// 	uartInstance->TDR = options[i];
-	// }
+	const char options[] = "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n";
+	for(uint16_t i = 0; i < sizeof(options); i++)
+	{
+		while(!(uartInstance->ISR & USART_ISR_TXE));
+		uartInstance->TDR = options[i];
+	}
 	memset(rxMessage,0, RX_MESSAGE_MAX_SIZE);
 }
 
