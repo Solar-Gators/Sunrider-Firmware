@@ -15,6 +15,7 @@ extern "C" void CPP_UserSetup(void);
 void SendCanMsgs();
 void SendTelemetryData();
 void UpdateThrottle();
+void PollForGPS();
 uint8_t CalcRegen(float* acceleration);
 
 // OS Configs
@@ -35,6 +36,11 @@ osTimerAttr_t speed_control_timer_attr =
 {
     .name = "Speed"
 };
+osTimerId_t gps_poll_timer_id;
+osTimerAttr_t gps_poll_timer_attr =
+{
+    .name = "GPS Poll"
+};
 static constexpr uint32_t speed_control_period = 10;
 
 
@@ -48,14 +54,21 @@ void CPP_UserSetup(void)
       Error_Handler();
   }
   // Initialize routine that sends CAN Data
-  can_tx_timer_id = osTimerNew((osThreadFunc_t)SendCanMsgs, osTimerPeriodic, NULL, &can_tx_timer_attr);
-  if (can_tx_timer_id == NULL)
-  {
-      Error_Handler();
-  }
+   can_tx_timer_id = osTimerNew((osThreadFunc_t)SendCanMsgs, osTimerPeriodic, NULL, &can_tx_timer_attr);
+   if (can_tx_timer_id == NULL)
+   {
+       Error_Handler();
+   }
   // Initialize routine that updates regen and throttle
-  speed_control_timer_id = osTimerNew((osThreadFunc_t)UpdateThrottle, osTimerPeriodic, NULL, &speed_control_timer_attr);
-  if (speed_control_timer_id == NULL)
+   speed_control_timer_id = osTimerNew((osThreadFunc_t)UpdateThrottle, osTimerPeriodic, NULL, &speed_control_timer_attr);
+   if (speed_control_timer_id == NULL)
+   {
+       Error_Handler();
+   }
+
+  // Initialize routine that polls for GPS
+  gps_poll_timer_id = osTimerNew((osThreadFunc_t)PollForGPS, osTimerPeriodic, NULL, &gps_poll_timer_attr);
+  if (gps_poll_timer_id == NULL)
   {
       Error_Handler();
   }
@@ -92,11 +105,12 @@ void CPP_UserSetup(void)
   CANController.Init();
 
   // Ready GPS
-  GPS_init(&huart4);
-  //GPS_startReception(&huart4);
+  GPS_init(huart4.Instance);
+
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
   osTimerStart(can_tx_timer_id, 2000);    // CAN Tx Transmission
+  osTimerStart(gps_poll_timer_id, 1000);    // CAN Tx Transmission
   // Initialize DACs
   accel.SetRefVcc();
   regen.SetRefVcc();
@@ -187,11 +201,20 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 }
 
 
-void UART4_RX_Handler()
+void PollForGPS()
 {
   bool finishedProcessing;
-  char* data = GPS_RxCpltCallback(&finishedProcessing);
-  if (finishedProcessing) {
-    Gps.FromByteArray((uint8_t*)data);
+  uint8_t newByte;
+  HAL_StatusTypeDef status = HAL_UART_Receive(&huart4, &newByte, 1, 9999);
+
+  if (status == HAL_OK) {
+    char* data = GPS_RxCpltCallback(&finishedProcessing, (char)newByte);
+    if (finishedProcessing) {
+      osMutexAcquire(Gps.mutex_id_, osWaitForever);
+      Gps.FromByteArray((uint8_t*)data);
+      osMutexRelease(Gps.mutex_id_);
+    }
   }
+
+  pit.SendDataModule(Gps);
 }

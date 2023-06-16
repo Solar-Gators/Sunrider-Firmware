@@ -5,7 +5,7 @@
 # TODO: get this working
 
 import serial, sys, requests, time
-gps_ser = serial.Serial("/tmp/uart-gps")
+gps_ser = serial.Serial("/tmp/uart-gps", 38400)
 
 gps_ser.write(b"$GPRMC,123519,A,4807.0380,N,01131.0000,E,022.4,084.4,230394,003.1,W*6A")
 

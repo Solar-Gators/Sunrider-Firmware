@@ -44,11 +44,9 @@ void GPS_startReception(UART_HandleTypeDef* uart_instance)
 	//uartInstance->CR1 |= USART_CR1_RXNEIE;
 }
 
-char* GPS_RxCpltCallback(bool* success)
+char* GPS_RxCpltCallback(bool* success, char rxChar)
 {
 	*success = false;
-
-	char rxChar = (char)uartInstance->RDR;
 	if(rxChar == '$')
 	{
 		messageStart = 1;

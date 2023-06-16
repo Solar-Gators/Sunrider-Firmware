@@ -38,7 +38,7 @@ Verify That Service Receives Data
     Should Be Equal   ${result.stderr}    ${EMPTY}
     Should Contain   ${result.stdout}    All can messages received
 
-# TODO: get this working
+
 # Verify GPS Telemetry
 #     [Documentation]     Verifies GPS telemetry
 

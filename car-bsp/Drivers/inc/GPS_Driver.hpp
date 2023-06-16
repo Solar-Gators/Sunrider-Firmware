@@ -16,6 +16,6 @@ void GPS_init(UART_HandleTypeDef* uart_instance);
 
 void GPS_startReception(UART_HandleTypeDef* uart_instance);
 
-char* GPS_RxCpltCallback(bool* success);
+char* GPS_RxCpltCallback(bool* success, char rxChar);
 
 #endif //End Header Guard
