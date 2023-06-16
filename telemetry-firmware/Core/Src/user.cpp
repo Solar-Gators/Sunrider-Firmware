@@ -105,7 +105,7 @@ void CPP_UserSetup(void)
   CANController.Init();
 
   // Ready GPS
-  GPS_init(huart4.Instance);
+  GPS_init(&huart4);
 
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
@@ -205,7 +205,7 @@ void PollForGPS()
 {
   bool finishedProcessing;
   uint8_t newByte;
-  HAL_StatusTypeDef status = HAL_UART_Receive(&huart4, &newByte, 1, 9999);
+  HAL_StatusTypeDef status = HAL_UART_Receive(&huart4, &newByte, 1, 1);
 
   if (status == HAL_OK) {
     char* data = GPS_RxCpltCallback(&finishedProcessing, (char)newByte);
