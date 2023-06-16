@@ -8,7 +8,7 @@
 //Private Constants
 #define RX_MESSAGE_MAX_SIZE 100
 //Private Variables
-static UART_HandleTypeDef* uartInstance;
+//static UART_HandleTypeDef* uartInstance;
 static char rxMessage[RX_MESSAGE_MAX_SIZE];
 static uint8_t messageStart = 0;
 static uint16_t rxMessageIndex = 0;
@@ -56,7 +56,7 @@ char* GPS_RxCpltCallback(bool* success, char rxChar)
 	{
 		rxMessage[rxMessageIndex++] = rxChar;
 	}
-	if(rxChar == '\n')
+	if(rxChar == 0x0A)
 	{
 		rxMessage[rxMessageIndex] = '\0';
 		messageStart = 0;
