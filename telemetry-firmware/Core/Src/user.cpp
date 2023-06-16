@@ -11,11 +11,11 @@
 using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
+extern "C" void UartCallback(void);
 
 void SendCanMsgs();
 void SendTelemetryData();
 void UpdateThrottle();
-void PollForGPS();
 uint8_t CalcRegen(float* acceleration);
 
 // OS Configs
@@ -43,6 +43,8 @@ osTimerAttr_t gps_poll_timer_attr =
 };
 static constexpr uint32_t speed_control_period = 10;
 
+SolarGators::Drivers::PID regen_controller(Pgain, Igain, Dgain, speed_control_period);
+Drivers::Gps gps(&huart4);
 
 void CPP_UserSetup(void)
 {
@@ -200,21 +202,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
 
-
-void PollForGPS()
+void UartCallback()
 {
-  bool finishedProcessing;
-  uint8_t newByte;
-  HAL_StatusTypeDef status = HAL_UART_Receive(&huart4, &newByte, 1, 1);
-
-  if (status == HAL_OK) {
-    char* data = GPS_RxCpltCallback(&finishedProcessing, (char)newByte);
-    if (finishedProcessing) {
-      osMutexAcquire(Gps.mutex_id_, osWaitForever);
-      Gps.FromByteArray((uint8_t*)data);
-      osMutexRelease(Gps.mutex_id_);
-    }
-  }
-
-  pit.SendDataModule(Gps);
+  gps.rxCpltCallback();
 }

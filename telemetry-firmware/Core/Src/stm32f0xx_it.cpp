@@ -47,7 +47,7 @@ extern void UART4_RX_Handler(void);
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-
+void UartCallback(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -124,12 +124,7 @@ void TIM6_DAC_IRQHandler(void)
 void USART3_4_IRQHandler(void)
 {
   /* USER CODE BEGIN USART3_4_IRQn 0 */
-  if(huart4.Instance->ISR & USART_ISR_RXNE)
-  {
-    UART4_RX_Handler();
-  }else{
-    huart4.Instance->ICR |= USART_ICR_ORECF;
-  }
+  UartCallback();
   /* USER CODE END USART3_4_IRQn 0 */
   HAL_UART_IRQHandler(&huart4);
   /* USER CODE BEGIN USART3_4_IRQn 1 */
@@ -143,6 +138,7 @@ void USART3_4_IRQHandler(void)
 void CEC_CAN_IRQHandler(void)
 {
   /* USER CODE BEGIN CEC_CAN_IRQn 0 */
+
   /* USER CODE END CEC_CAN_IRQn 0 */
   HAL_CAN_IRQHandler(&hcan);
   /* USER CODE BEGIN CEC_CAN_IRQn 1 */
