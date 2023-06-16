@@ -22,23 +22,26 @@ static uint16_t rxMessageIndex = 0;
 //Private Function Definitions
 
 //Public Function Definitions
-void GPS_init(USART_TypeDef* uart_instance)
+void GPS_init(UART_HandleTypeDef* uart_instance)
 {
-	uartInstance = uart_instance;
+	//uartInstance = uart_instance;
 	//GPRMC only
-	const char options[] = "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n";
+	uint8_t options[] = "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n";
+	HAL_UART_Transmit(uart_instance, options, sizeof(options), 0);
+	/*
 	for(uint16_t i = 0; i < sizeof(options); i++)
 	{
 		while(!(uartInstance->ISR & USART_ISR_TXE));
 		uartInstance->TDR = options[i];
 	}
+	*/
 	memset(rxMessage,0, RX_MESSAGE_MAX_SIZE);
 }
 
-void GPS_startReception(void)
+void GPS_startReception(UART_HandleTypeDef* uart_instance)
 {
 	//Enable interrupts
-	uartInstance->CR1 |= USART_CR1_RXNEIE;
+	//uartInstance->CR1 |= USART_CR1_RXNEIE;
 }
 
 char* GPS_RxCpltCallback(bool* success, char rxChar)

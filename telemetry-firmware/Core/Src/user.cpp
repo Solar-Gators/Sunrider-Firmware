@@ -42,11 +42,7 @@ osTimerAttr_t gps_poll_timer_attr =
     .name = "GPS Poll"
 };
 static constexpr uint32_t speed_control_period = 10;
-static constexpr float Pgain=1275;  // proportional control gain
-static constexpr float Igain=2;     // integral control gain
-static constexpr float Dgain=50;    // derivative control gain
 
-SolarGators::Drivers::PID regen_controller(Pgain, Igain, Dgain, speed_control_period);
 
 void CPP_UserSetup(void)
 {
@@ -110,6 +106,7 @@ void CPP_UserSetup(void)
 
   // Ready GPS
   GPS_init(huart4.Instance);
+
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
   osTimerStart(can_tx_timer_id, 2000);    // CAN Tx Transmission
@@ -117,10 +114,7 @@ void CPP_UserSetup(void)
   // Initialize DACs
   accel.SetRefVcc();
   regen.SetRefVcc();
-  // Initialize PID Controller
-  regen_controller.SetOutLimits(0, 255);
-  regen_controller.SetIntegLimits(0, 255);
-  regen_controller.SetFilter(0);
+  //CANController.Init();
   // Start the thread that will update the motor controller
   osTimerStart(speed_control_timer_id, speed_control_period);    // Mitsuba throttle and regen
 }

@@ -12,9 +12,9 @@
 //Public Variables
 
 //Public Function Prototypes
-void GPS_init(USART_TypeDef* uart_instance);
+void GPS_init(UART_HandleTypeDef* uart_instance);
 
-void GPS_startReception(void);
+void GPS_startReception(UART_HandleTypeDef* uart_instance);
 
 char* GPS_RxCpltCallback(bool* success, char rxChar);
 
