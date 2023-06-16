@@ -11,6 +11,7 @@
 using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
+extern "C" void UartCallback(void);
 
 void SendCanMsgs();
 void SendTelemetryData();
@@ -41,6 +42,7 @@ static constexpr float Igain=2;     // integral control gain
 static constexpr float Dgain=50;    // derivative control gain
 
 SolarGators::Drivers::PID regen_controller(Pgain, Igain, Dgain, speed_control_period);
+Drivers::Gps gps(&huart4);
 
 void CPP_UserSetup(void)
 {
@@ -197,12 +199,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
 
-
-void UART4_RX_Handler()
+void UartCallback()
 {
-  bool finishedProcessing;
-  char* data = GPS_RxCpltCallback(&finishedProcessing);
-  if (finishedProcessing) {
-    Gps.FromByteArray((uint8_t*)data);
-  }
+  gps.rxCpltCallback();
 }
