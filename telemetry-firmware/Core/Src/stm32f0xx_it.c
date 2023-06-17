@@ -51,7 +51,7 @@
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void UartCallback();
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
@@ -138,7 +138,7 @@ void TIM6_DAC_IRQHandler(void)
 void USART3_4_IRQHandler(void)
 {
   /* USER CODE BEGIN USART3_4_IRQn 0 */
-
+  UartCallback();
   /* USER CODE END USART3_4_IRQn 0 */
   HAL_UART_IRQHandler(&huart4);
   /* USER CODE BEGIN USART3_4_IRQn 1 */
