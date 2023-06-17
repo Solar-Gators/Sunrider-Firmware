@@ -73,6 +73,7 @@ static void MX_SPI2_Init(void);
 static void MX_USART4_UART_Init(void);
 void StartDefaultTask(void *argument);
 
+static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
 void CPP_UserSetup(void);
 /* USER CODE END PFP */
@@ -116,6 +117,9 @@ int main(void)
   MX_USB_PCD_Init();
   MX_SPI2_Init();
   MX_USART4_UART_Init();
+
+  /* Initialize interrupts */
+  MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -208,6 +212,17 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief NVIC Configuration.
+  * @retval None
+  */
+static void MX_NVIC_Init(void)
+{
+  /* USART3_4_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(USART3_4_IRQn, 3, 0);
+  HAL_NVIC_EnableIRQ(USART3_4_IRQn);
 }
 
 /**
