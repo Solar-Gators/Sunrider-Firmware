@@ -100,12 +100,13 @@
 					</folderInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.379664147.117461611" name="RFD900x.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/RFD900x.hpp" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.379664147.394482917" name="LTC2630.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/LTC2630.hpp" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.379664147.1431199027" name="GpsDriver.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/GpsDriver.hpp" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.379664147.329586995" name="MCP33151.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/MCP33151.hpp" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry excluding="SolarGatorsBSP/Drivers/src/MCP33151.cpp|SolarGatorsBSP/Drivers/inc/MCP33151.hpp|SolarGatorsBSP/Drivers/inc/AsciiLib.h|SolarGatorsBSP/Drivers/src/Radio.cpp|SolarGatorsBSP/Drivers/src/PitComms.cpp|SolarGatorsBSP/Drivers/src/RFD900x.cpp|SolarGatorsBSP/Drivers/inc/PitComms.hpp|SolarGatorsBSP/Drivers/inc/Radio.hpp|SolarGatorsBSP/Drivers/inc/RFD900x.hpp|SolarGatorsBSP/Drivers/src/LTC2630.cpp|SolarGatorsBSP/Drivers/inc/LTC2630.hpp|SolarGatorsBSP/Drivers/inc/HY28b.hpp|SolarGatorsBSP/Drivers/src/HY28b.cpp|SolarGatorsBSP/etl/test|SolarGatorsBSP/etl/examples|SolarGatorsBSP/etl/arduino" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="Drivers/src/LTC2630.cpp|Drivers/src/MCP33151.cpp|Drivers/inc/MCP33151.hpp|Drivers/inc/LTC2630.hpp|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp|etl/test|etl/examples|etl/arduino" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
+						<entry excluding="Drivers/src/GpsDriver.cpp|Drivers/inc/GpsDriver.hpp|Drivers/src/LTC2630.cpp|Drivers/src/MCP33151.cpp|Drivers/inc/MCP33151.hpp|Drivers/inc/LTC2630.hpp|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp|etl/test|etl/examples|etl/arduino" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
