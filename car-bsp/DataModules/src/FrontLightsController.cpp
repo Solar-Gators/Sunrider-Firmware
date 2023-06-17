@@ -21,5 +21,10 @@ void FrontLightsController::SetThrottleVal(uint16_t val)
   throttle_ = val;
 }
 
+void FrontLightsController::SetBreaksVal(uint16_t val)
+{
+	breaks_ = val;
+}
+
 } /* namespace DataModules */
 } /* namespace SolarGators */

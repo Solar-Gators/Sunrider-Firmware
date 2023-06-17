@@ -27,6 +27,7 @@ namespace SolarGators::DataModules
     bool GetHornStatus() const;
     bool GetReverseStatus() const;
     uint8_t GetCruiseSpeed() const;
+    uint8_t GetRegen() const;
     void ToByteArray(uint8_t* buff) const;
     void FromByteArray(uint8_t* buff);
     #ifdef IS_TELEMETRY
@@ -45,6 +46,7 @@ void PostTelemetry(PythonScripts* scripts);
     bool horn_;
     bool reverse_;
     uint8_t cruise_speed_;
+    uint8_t regen_;
   };
 }
 

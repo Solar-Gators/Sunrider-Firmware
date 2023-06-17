@@ -15,6 +15,7 @@ extern "C" void CPP_UserSetup(void);
 void SendCanMsgs();
 void SendTelemetryData();
 void UpdateThrottle();
+void PollForGPS();
 uint8_t CalcRegen(float* acceleration);
 
 // OS Configs
@@ -35,12 +36,13 @@ osTimerAttr_t speed_control_timer_attr =
 {
     .name = "Speed"
 };
+osTimerId_t gps_poll_timer_id;
+osTimerAttr_t gps_poll_timer_attr =
+{
+    .name = "GPS Poll"
+};
 static constexpr uint32_t speed_control_period = 10;
-static constexpr float Pgain=1275;  // proportional control gain
-static constexpr float Igain=2;     // integral control gain
-static constexpr float Dgain=50;    // derivative control gain
 
-SolarGators::Drivers::PID regen_controller(Pgain, Igain, Dgain, speed_control_period);
 
 void CPP_UserSetup(void)
 {
@@ -52,34 +54,30 @@ void CPP_UserSetup(void)
       Error_Handler();
   }
   // Initialize routine that sends CAN Data
-  can_tx_timer_id = osTimerNew((osThreadFunc_t)SendCanMsgs, osTimerPeriodic, NULL, &can_tx_timer_attr);
-  if (can_tx_timer_id == NULL)
-  {
-      Error_Handler();
-  }
+   can_tx_timer_id = osTimerNew((osThreadFunc_t)SendCanMsgs, osTimerPeriodic, NULL, &can_tx_timer_attr);
+   if (can_tx_timer_id == NULL)
+   {
+       Error_Handler();
+   }
   // Initialize routine that updates regen and throttle
-  speed_control_timer_id = osTimerNew((osThreadFunc_t)UpdateThrottle, osTimerPeriodic, NULL, &speed_control_timer_attr);
-  if (speed_control_timer_id == NULL)
+   speed_control_timer_id = osTimerNew((osThreadFunc_t)UpdateThrottle, osTimerPeriodic, NULL, &speed_control_timer_attr);
+   if (speed_control_timer_id == NULL)
+   {
+       Error_Handler();
+   }
+
+  // Initialize routine that polls for GPS
+  gps_poll_timer_id = osTimerNew((osThreadFunc_t)PollForGPS, osTimerPeriodic, NULL, &gps_poll_timer_attr);
+  if (gps_poll_timer_id == NULL)
   {
       Error_Handler();
   }
-  // Register initialize driver for IMU
-//  if(LSM6DSR_RegisterBusIO(&imu, &imu_bus))
-//  {
-//    Error_Handler();
-//  }
-//  if(LSM6DSR_Init(&imu))
-//  {
-//    Error_Handler();
-//  }
-//  if(LSM6DSR_ACC_Enable(&imu))
-//  {
-//    Error_Handler();
-//  }
+
   // Front Lights (for throttle)
   //we add these modules to the etl map, binds can id and actual module together
   CANController.AddRxModule(&FLights);
   CANController.AddRxModule(&RLights);
+  CANController.AddRxModule(&Steering);
   // Mitsuba Stuff
   CANController.AddRxModule(&Motor_Rx_0);
   CANController.AddRxModule(&Motor_Rx_1);
@@ -107,18 +105,16 @@ void CPP_UserSetup(void)
   CANController.Init();
 
   // Ready GPS
-  GPS_init(huart4.Instance);
-  GPS_startReception();
+  GPS_init(&huart4);
+
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
   osTimerStart(can_tx_timer_id, 2000);    // CAN Tx Transmission
+  osTimerStart(gps_poll_timer_id, 10);    // CAN Tx Transmission
   // Initialize DACs
   accel.SetRefVcc();
   regen.SetRefVcc();
-  // Initialize PID Controller
-  regen_controller.SetOutLimits(0, 255);
-  regen_controller.SetIntegLimits(0, 255);
-  regen_controller.SetFilter(0);
+  //CANController.Init();
   // Start the thread that will update the motor controller
   osTimerStart(speed_control_timer_id, speed_control_period);    // Mitsuba throttle and regen
 }
@@ -162,21 +158,26 @@ void UpdateThrottle()
 {
   uint8_t adjThrottleVal = static_cast<uint8_t>(FLights.GetThrottleVal() >> 5);
   // Probs dont want to do the below would be better to drop two bits then map 12 bits to 18 bits
-  if (adjThrottleVal > 200) {
-	  adjThrottleVal = 200;
+  if(Steering.GetCruiseEnabledStatus()){
+	  adjThrottleVal = Steering.GetCruiseSpeed();
+  }
+  if (adjThrottleVal > 250) {
+	  adjThrottleVal = 250;
   }
   accel.WriteAndUpdate(adjThrottleVal); // shift over b\c we are sending 14 bit ADC to 8 bit DAC
-  // If the throttle is 0 then we should regen so that we are hitting a 0.2g *deceleration*
-  // Read IMU to get accel info for PID
-//  LSM6DSR_Axes_t accel_info;
-//  LSM6DSR_ACC_GetAxes(&imu, &accel_info);
-  // Calculate regen value
-  // Write regen value to motor controller
-//  regen_controller.Update(0.2, accel_info.x);
-//  if(adjThrottleVal == 0)
-//  {
-//    regen.WriteAndUpdate(regenVal);
-//  }
+
+  uint8_t regenVal = Steering.GetRegen();
+  if(regenVal == 3){
+	  regenLevelEnum = level3;
+  } else if(regenVal == 2){
+	  regenLevelEnum = level2;
+  } else if(regenVal == 1){
+	  regenLevelEnum = level1;
+  } else{
+	  regenLevelEnum = level0;
+  }
+  regen.WriteAndUpdate(regenLevelEnum);
+
   if(Steering.GetEcoEnabledStatus())
   {
     eco.TurnOn();
@@ -187,7 +188,9 @@ void UpdateThrottle()
   }
   if(Steering.GetReverseStatus())
   {
-    // TODO
+	reverse.TurnOn();
+  } else{
+	  reverse.TurnOff();
   }
 }
 
@@ -198,11 +201,20 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 }
 
 
-void UART4_RX_Handler()
+void PollForGPS()
 {
   bool finishedProcessing;
-  char* data = GPS_RxCpltCallback(&finishedProcessing);
-  if (finishedProcessing) {
-    Gps.FromByteArray((uint8_t*)data);
+  uint8_t newByte;
+  HAL_StatusTypeDef status = HAL_UART_Receive(&huart4, &newByte, 1, 1);
+
+  if (status == HAL_OK) {
+    char* data = GPS_RxCpltCallback(&finishedProcessing, (char)newByte);
+    if (finishedProcessing) {
+      osMutexAcquire(Gps.mutex_id_, osWaitForever);
+      Gps.FromByteArray((uint8_t*)data);
+      osMutexRelease(Gps.mutex_id_);
+    }
   }
+
+  pit.SendDataModule(Gps);
 }

@@ -9,6 +9,7 @@
 #define SOLARGATORSBSP_STM_DATAMODULES_INC_FRONTLIGHTS_HPP_
 
 #include <DataModule.hpp>
+#define BUFF_SIZE 4
 
 namespace SolarGators {
 namespace DataModules {
@@ -18,7 +19,9 @@ public:
   FrontLights();
   ~FrontLights();
   uint16_t GetThrottleVal() const;
-
+  uint16_t GetBreaksVal() const;
+  uint8_t buffCtr;
+  uint16_t breaksBuffer[BUFF_SIZE];
   // CAN Functions
   void ToByteArray(uint8_t* buff) const;
   void FromByteArray(uint8_t* buff);
@@ -28,6 +31,8 @@ public:
 
 protected:
   uint16_t throttle_;
+  uint16_t breaks_;
+
   // TODO: Accelerometer values
 };
 

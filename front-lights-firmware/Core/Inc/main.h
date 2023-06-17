@@ -76,10 +76,12 @@ void Error_Handler(void);
 #define Error_GPIO_Port GPIOB
 #define INT_IMU_Pin GPIO_PIN_2
 #define INT_IMU_GPIO_Port GPIOB
-#define LED6_EN_Pin GPIO_PIN_12
-#define LED6_EN_GPIO_Port GPIOB
+#define HORN_EN_Pin GPIO_PIN_12
+#define HORN_EN_GPIO_Port GPIOB
 #define LED5_EN_Pin GPIO_PIN_13
 #define LED5_EN_GPIO_Port GPIOB
+#define LED6_EN_Pin GPIO_PIN_14
+#define LED6_EN_GPIO_Port GPIOB
 #define LED4_EN_Pin GPIO_PIN_9
 #define LED4_EN_GPIO_Port GPIOC
 #define Throttle_Switch_Pin GPIO_PIN_3
@@ -93,18 +95,24 @@ void Error_Handler(void);
 #define Breaks_Pin GPIO_PIN_7
 #define Breaks_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-#define HLR_GPIO_Pin LED1_EN_Pin
-#define HLR_GPIO_Port LED1_EN_GPIO_Port
+#define HLR_GPIO_Pin LED4_EN_Pin
+#define HLR_GPIO_Port LED4_EN_GPIO_Port
+#define HLL_GPIO_Pin LED1_EN_Pin
+#define HLL_GPIO_Port LED1_EN_GPIO_Port
 #define BRK_GPIO_Pin LED4_EN_Pin
 #define BRK_GPIO_Port LED4_EN_GPIO_Port
-#define LT_GPIO_Pin LED5_EN_Pin
-#define LT_GPIO_Port LED5_EN_GPIO_Port
-#define RT_GPIO_Pin LED2_EN_Pin
-#define RT_GPIO_Port LED2_EN_GPIO_Port
+#define LT_GPIO_Pin LED2_EN_Pin
+#define LT_GPIO_Port LED2_EN_GPIO_Port
+#define RT_GPIO_Pin LED5_EN_Pin
+#define RT_GPIO_Port LED5_EN_GPIO_Port
 #define FI_GPIO_Pin  LED6_EN_Pin
 #define FI_GPIO_Port LED6_EN_GPIO_Port
-#define HRN_GPIO_Pin  LED3_EN_Pin
-#define HRN_GPIO_Port LED3_EN_GPIO_Port
+#define HRN_GPIO_Pin  HORN_EN_Pin
+#define HRN_GPIO_Port HORN_EN_GPIO_Port
+#define LHeadlight_GPIO_Port LED3_EN_GPIO_Port
+#define LHeadlight_Pin LED3_EN_Pin
+#define RHeadlight_GPIO_Port LED6_EN_GPIO_Port
+#define RHeadlight_Pin LED6_EN_Pin
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

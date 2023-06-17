@@ -7,12 +7,13 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
-  * All rights reserved.
+  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
@@ -75,10 +76,14 @@ void Error_Handler(void);
 #define Error_GPIO_Port GPIOB
 #define INT_IMU_Pin GPIO_PIN_2
 #define INT_IMU_GPIO_Port GPIOB
-#define LED6_EN_Pin GPIO_PIN_12
-#define LED6_EN_GPIO_Port GPIOB
+#define RELAY_EN_Pin GPIO_PIN_12
+#define RELAY_EN_GPIO_Port GPIOB
 #define LED5_EN_Pin GPIO_PIN_13
 #define LED5_EN_GPIO_Port GPIOB
+#define LED6_EN_Pin GPIO_PIN_14
+#define LED6_EN_GPIO_Port GPIOB
+#define KILL_SW_Pin GPIO_PIN_7
+#define KILL_SW_GPIO_Port GPIOC
 #define LED4_EN_Pin GPIO_PIN_9
 #define LED4_EN_GPIO_Port GPIOC
 #define Aux_C1_Pin GPIO_PIN_3
@@ -92,11 +97,23 @@ void Error_Handler(void);
 #define Aux_C5_Pin GPIO_PIN_7
 #define Aux_C5_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-#define LT_GPIO_Pin LED1_EN_Pin
-#define LT_GPIO_Port LED1_EN_GPIO_Port
-#define RT_GPIO_Pin LED4_EN_Pin
-#define RT_GPIO_Port LED4_EN_GPIO_Port
+#define HLR_GPIO_Pin LED4_EN_Pin
+#define HLR_GPIO_Port LED4_EN_GPIO_Port
+#define HLL_GPIO_Pin LED1_EN_Pin
+#define HLL_GPIO_Port LED1_EN_GPIO_Port
+#define BRK_GPIO_Pin LED4_EN_Pin
+#define BRK_GPIO_Port LED4_EN_GPIO_Port
+#define LT_GPIO_Pin LED5_EN_Pin
+#define LT_GPIO_Port LED5_EN_GPIO_Port
+#define RT_GPIO_Pin LED6_EN_Pin
+#define RT_GPIO_Port LED6_EN_GPIO_Port
+#define STROBE_GPIO_Port LED1_EN_GPIO_Port
+#define STROBE_GPIO_Pin LED1_EN_Pin
+#define TLR_GPIO_Port LED2_EN_GPIO_Port
+#define TLR_GPIO_Pin LED2_EN_Pin
 /* USER CODE END Private defines */
+
+//bool strobeStatus = false;
 
 #ifdef __cplusplus
 }

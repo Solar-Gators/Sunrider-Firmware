@@ -35,10 +35,33 @@ bool RearLights::isBreakPressed() const
 void RearLights::ToByteArray(uint8_t* buff) const
 {
   buff[0] = static_cast<uint8_t>(break_);
+  buff[0] |= (static_cast<uint8_t>(contactor_status_) << 1);
+  buff[0] |= (static_cast<uint8_t>(killsw_) << 2);
+
 }
+
+bool RearLights::getKillSwStatus() const{
+       return killsw_;
+}
+
+void RearLights::setKillSwStatus(bool status){
+       killsw_ = status;
+}
+
+bool RearLights::getContactorStatus() const{
+       return contactor_status_;
+}
+
+void RearLights::setContactorStatus(bool status){
+       contactor_status_ = status;
+}
+
 void RearLights::FromByteArray(uint8_t* buff)
 {
   break_ = static_cast<bool>(buff[0] & 0x1);
+  contactor_status_ = static_cast<bool>(buff[0] & (0x1<<1));
+  killsw_ = static_cast<bool>(buff[0] & (0x1<<2));
+
 }
 
 } /* namespace DataModules */

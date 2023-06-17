@@ -58,33 +58,34 @@ void CPP_UserSetup(void)
   }
   osTimerStart(signal_timer_id, 500);
   // Start Thread that Handles Reads the IMU
-  imu_timer_id = osTimerNew((osThreadFunc_t)ReadIMU, osTimerPeriodic, NULL, &imu_timer_attr);
-  if (imu_timer_id == NULL)
-  {
-      Error_Handler();
-  }
-
-  if(LSM6DSR_RegisterBusIO(&imu, &imu_bus))
-  {
-    Error_Handler();
-  }
-  if(LSM6DSR_Init(&imu))
-  {
-    Error_Handler();
-  }
-  if(LSM6DSR_ACC_Enable(&imu))
-  {
-    Error_Handler();
-  }
-  osTimerStart(imu_timer_id, 500);
+//  imu_timer_id = osTimerNew((osThreadFunc_t)ReadIMU, osTimerPeriodic, NULL, &imu_timer_attr);
+//  if (imu_timer_id == NULL)
+//  {
+//      Error_Handler();
+//  }
+//
+//  if(LSM6DSR_RegisterBusIO(&imu, &imu_bus))
+//  {
+//    Error_Handler();
+//  }
+//  if(LSM6DSR_Init(&imu))
+//  {
+//    Error_Handler();
+//  }
+//  if(LSM6DSR_ACC_Enable(&imu))
+//  {
+//    Error_Handler();
+//  }
+//  osTimerStart(imu_timer_id, 500);
   // Start Thread that Handles Reads the IMU
   adc_timer_id = osTimerNew((osThreadFunc_t)ReadADC, osTimerPeriodic, NULL, &adc_timer_attr);
   if (adc_timer_id == NULL)
   {
       Error_Handler();
   }
-  // Initialize the ADC for throttle
+  // Initialize the ADC for throttle and breaks
   throttle.Init();
+  breaks.Init();
   osTimerStart(adc_timer_id, 8);    // Needs to be >1x the rate we are sending
   // Start Thread that sends CAN Data
   can_tx_timer_id = osTimerNew((osThreadFunc_t)SendCanMsgs, osTimerPeriodic, NULL, &can_tx_timer_attr);
@@ -105,53 +106,116 @@ void SendCanMsgs()
 void UpdateSignals(void)
 {
   osMutexAcquire(LightsState.mutex_id_, osWaitForever);
-  if(!HAL_GPIO_ReadPin(Breaks_GPIO_Port, Breaks_Pin))
-  {
-    HAL_GPIO_WritePin(BRK_GPIO_Port, BRK_GPIO_Pin, GPIO_PIN_SET);
-  }
-  else
-  {
-    HAL_GPIO_WritePin(BRK_GPIO_Port, BRK_GPIO_Pin, GPIO_PIN_RESET);
-  }
   if(LightsState.GetHazardsStatus())
   {
     if (lt_indicator.IsOn())
     {
       lt_indicator.TurnOff();
+	  hll_indicator.TurnOff();
+	  hlr_indicator.TurnOff();
       rt_indicator.TurnOff();
     }
     else
     {
       lt_indicator.TurnOn();
       rt_indicator.TurnOn();
+      hll_indicator.TurnOn();
+      hlr_indicator.TurnOn();
     }
   }
-  else if(LightsState.GetRightTurnStatus())
-    rt_indicator.Toggle();
-  else if(LightsState.GetLeftTurnStatus())
-    lt_indicator.Toggle();
+  else if(LightsState.GetRightTurnStatus()) {
 
-  if(!LightsState.GetHazardsStatus() && !LightsState.GetRightTurnStatus())
-    rt_indicator.TurnOff();
+	  if (LightsState.GetHeadlightsStatus()) {
+		  lt_indicator.TurnOn();
+	  	  hll_indicator.TurnOn();
+	  } else {
+		  lt_indicator.TurnOff();
+		  hll_indicator.TurnOff();
+	  }
 
-  if(!LightsState.GetHazardsStatus() && !LightsState.GetLeftTurnStatus())
-    lt_indicator.TurnOff();
+	  if (rt_indicator.IsOn())
+	  {
+		rt_indicator.TurnOff();
+		hlr_indicator.TurnOff();
+	  }
+	  else
+	  {
+		rt_indicator.TurnOn();
+		hlr_indicator.TurnOn();
+	  }
+  }
+  else if(LightsState.GetLeftTurnStatus()) {
+
+	  if (LightsState.GetHeadlightsStatus()) {
+		  rt_indicator.TurnOn();
+		  hlr_indicator.TurnOn();
+	  } else {
+		  rt_indicator.TurnOff();
+		  hlr_indicator.TurnOff();
+	  }
+
+	  if (lt_indicator.IsOn())
+	  {
+		lt_indicator.TurnOff();
+	    hll_indicator.TurnOff();
+	  }
+	  else
+	  {
+		lt_indicator.TurnOn();
+		hll_indicator.TurnOn();
+	  }
+
+  }
+
+  if(!LightsState.GetHazardsStatus() && !LightsState.GetRightTurnStatus()) {
+	  if (LightsState.GetHeadlightsStatus()) {
+		  rt_indicator.TurnOn();
+		  hlr_indicator.TurnOn();
+	  } else {
+		  rt_indicator.TurnOff();
+		  hlr_indicator.TurnOff();
+	  }
+  }
+
+
+  if(!LightsState.GetHazardsStatus() && !LightsState.GetLeftTurnStatus()) {
+
+	  if (LightsState.GetHeadlightsStatus()) {
+		  lt_indicator.TurnOn();
+		  hll_indicator.TurnOn();
+	  } else {
+		  lt_indicator.TurnOff();
+		  hll_indicator.TurnOff();
+	  }
+
+  }
+
   if (LightsState.GetHeadlightsStatus())
   {
-    hlr_indicator.TurnOn();
+    //hlr_indicator.TurnOn();
+    headlightR.TurnOn();
+    headlightL.TurnOn();
+    if (!LightsState.GetLeftTurnStatus() && !LightsState.GetHazardsStatus()) {
+		 hll_indicator.TurnOn();
+	 } else if (!LightsState.GetRightTurnStatus() && !LightsState.GetHazardsStatus()) {
+		 hlr_indicator.TurnOn();
+	 }
+  } else {
+     if (!LightsState.GetLeftTurnStatus() && !LightsState.GetHazardsStatus() && !LightsState.GetRightTurnStatus()) {
+    	 hll_indicator.TurnOff();
+    	 hlr_indicator.TurnOff();
+     }
+     headlightR.TurnOff();
+     headlightL.TurnOff();
   }
-  else
-  {
-    hlr_indicator.TurnOff();
-  }
-  if(FaultPresent())
-  {
-    fault_indicator.TurnOn();
-  }
-  else
-  {
-    fault_indicator.TurnOff();
-  }
+//  if(FaultPresent())
+//  {
+//    fault_indicator.TurnOn();
+//  }
+//  else
+//  {
+//    fault_indicator.TurnOff();
+//  }
 
   if(LightsState.GetHornStatus())
   {
@@ -189,6 +253,12 @@ void ReadADC()
     FLights.SetThrottleVal(throttle.Read());
   }
   THROTTLE_VAL = throttle.Read() >> 5; // FOR DEBUG
+
+  // Read Breaks
+  uint16_t breaksVal = breaks.Read();
+  FLights.SetBreaksVal(breaksVal);
+  //BREAKS_VAL = breaks.Read() >> 5; // FOR DEBUGin or buggin
+
 }
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)

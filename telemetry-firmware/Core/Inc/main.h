@@ -68,6 +68,8 @@ void Error_Handler(void);
 #define INT_IMU_GPIO_Port GPIOB
 #define Eco_En_Pin GPIO_PIN_12
 #define Eco_En_GPIO_Port GPIOB
+#define Reverse_EN_Pin GPIO_PIN_14
+#define Reverse_EN_GPIO_Port GPIOB
 #define Regen_CS_Pin GPIO_PIN_6
 #define Regen_CS_GPIO_Port GPIOC
 #define Accel_CS_Pin GPIO_PIN_7

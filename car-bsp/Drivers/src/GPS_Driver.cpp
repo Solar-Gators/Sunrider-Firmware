@@ -8,7 +8,7 @@
 //Private Constants
 #define RX_MESSAGE_MAX_SIZE 100
 //Private Variables
-static USART_TypeDef* uartInstance;
+//static UART_HandleTypeDef* uartInstance;
 static char rxMessage[RX_MESSAGE_MAX_SIZE];
 static uint8_t messageStart = 0;
 static uint16_t rxMessageIndex = 0;
@@ -22,30 +22,31 @@ static uint16_t rxMessageIndex = 0;
 //Private Function Definitions
 
 //Public Function Definitions
-void GPS_init(USART_TypeDef* uart_instance)
+void GPS_init(UART_HandleTypeDef* uart_instance)
 {
-	uartInstance = uart_instance;
+	//uartInstance = uart_instance;
 	//GPRMC only
-	const char options[] = "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n";
+	uint8_t options[] = "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n";
+	HAL_UART_Transmit(uart_instance, options, sizeof(options), 0);
+	/*
 	for(uint16_t i = 0; i < sizeof(options); i++)
 	{
 		while(!(uartInstance->ISR & USART_ISR_TXE));
 		uartInstance->TDR = options[i];
 	}
+	*/
 	memset(rxMessage,0, RX_MESSAGE_MAX_SIZE);
 }
 
-void GPS_startReception(void)
+void GPS_startReception(UART_HandleTypeDef* uart_instance)
 {
 	//Enable interrupts
-	uartInstance->CR1 |= USART_CR1_RXNEIE;
+	//uartInstance->CR1 |= USART_CR1_RXNEIE;
 }
 
-char* GPS_RxCpltCallback(bool* success)
+char* GPS_RxCpltCallback(bool* success, char rxChar)
 {
 	*success = false;
-
-	char rxChar = (char)uartInstance->RDR;
 	if(rxChar == '$')
 	{
 		messageStart = 1;
@@ -55,7 +56,7 @@ char* GPS_RxCpltCallback(bool* success)
 	{
 		rxMessage[rxMessageIndex++] = rxChar;
 	}
-	if(rxChar == '\n')
+	if(rxChar == 0x0A)
 	{
 		rxMessage[rxMessageIndex] = '\0';
 		messageStart = 0;

@@ -42,6 +42,15 @@ void LED::UpdateLed()
     TurnOff();
 }
 
+void LED::strobe(uint8_t flashNum){
+	for(uint8_t i = 0; i<flashNum; i++){
+		TurnOn();
+		osDelay(1);
+		TurnOff();
+		osDelay(1);
+	}
+}
+
 bool LED::GetStatus()
 {
   return on_;
@@ -56,5 +65,7 @@ bool LED::IsOff()
 {
   return !on_;
 }
+
+
 
 } /* namespace SolarGators */

@@ -9,6 +9,7 @@
 #define SOLARGATORSBSP_DRIVERS_INC_LED_HPP_
 
 #include "main.h"
+#include "cmsis_os.h"
 
 namespace SolarGators::Drivers {
 
@@ -19,6 +20,7 @@ public:
   void TurnOn();
   void TurnOff();
   void Toggle();
+  void strobe(uint8_t flashNum);
   void UpdateLed();
   bool GetStatus();
   bool IsOn();

@@ -10,7 +10,7 @@
 
 namespace {
   static constexpr uint32_t ID = 1023;
-  static constexpr uint32_t SIZE = 0x2;
+  static constexpr uint32_t SIZE = 3;
 }
 namespace SolarGators::DataModules
 {
@@ -25,6 +25,7 @@ namespace SolarGators::DataModules
     headlights_(false),
     horn_(false),
     reverse_(false),
+	  regen_(0),
     cruise_speed_(Min_Cruise_Speed_)
   {}
   Steering::~Steering()
@@ -69,8 +70,13 @@ namespace SolarGators::DataModules
   {
     return cruise_speed_;
   }
+  uint8_t Steering::GetRegen() const
+  {
+	  return regen_;
+  }
   void Steering::ToByteArray(uint8_t* buff) const
   {
+    memset(buff, 0, sizeof(buff));
     buff[0] |= (static_cast<uint8_t>(left_turn_)     << 0);
     buff[0] |= (static_cast<uint8_t>(right_turn_)    << 1);
     buff[0] |= (static_cast<uint8_t>(hazards_)       << 2);
@@ -80,6 +86,7 @@ namespace SolarGators::DataModules
     buff[0] |= (static_cast<uint8_t>(headlights_)    << 6);
     buff[0] |= (static_cast<uint8_t>(horn_)          << 7);
     buff[1] |= (static_cast<uint8_t>(reverse_)       << 0);
+    buff[1] |= regen_ 								 << 1;
     buff[2] |= cruise_speed_;
   }
   void Steering::FromByteArray(uint8_t* buff)
@@ -93,6 +100,7 @@ namespace SolarGators::DataModules
     headlights_     = buff[0] & (1 << 6);
     horn_           = buff[0] & (1 << 7);
     reverse_        = buff[1] & (1 << 0);
+    regen_			= (buff[1] & (3 << 1)) >> 1;
     cruise_speed_   = buff[2];
   }
 #ifdef IS_TELEMETRY
