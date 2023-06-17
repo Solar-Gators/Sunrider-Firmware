@@ -98,14 +98,18 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.750943051" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.303314308.1714358534" name="GpsDriver.cpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/src/GpsDriver.cpp" toolsToInvoke="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.1216864864.466071882">
+						<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.1216864864.466071882" name="MCU G++ Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.1216864864"/>
+					</fileInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.303314308.228975052" name="RFD900x.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/RFD900x.hpp" toolsToInvoke=""/>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.303314308.475183201" name="GPS_Driver.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/GPS_Driver.hpp" toolsToInvoke=""/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.303314308.693403735" name="GpsDriver.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/GpsDriver.hpp" toolsToInvoke=""/>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USB_DEVICE"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="X-CUBE-MEMS1"/>
-						<entry excluding="Drivers/inc/GPS_Driver.hpp|Drivers/src/GPS_Driver.cpp|etl/test|etl/examples|etl/arduino|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
+						<entry excluding="Drivers/src/GpsDriver.cpp|Drivers/inc/GpsDriver.hpp|etl/test|etl/examples|etl/arduino|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -133,5 +137,9 @@
 			<autodiscovery enabled="false" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/RearLightsFirmware"/>
+		</configuration>
+	</storageModule>
 </cproject>
