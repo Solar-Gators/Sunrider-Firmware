@@ -26,7 +26,7 @@ public:
 private:
   void updateDmaEngine(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32_t DataLength);
   static constexpr uint32_t MAX_SENTENCE_LENGTH = 100;
-  static constexpr uint8_t DELIM_CHAR = 'z';
+  static constexpr uint8_t DELIM_CHAR = '\n';
 
   static constexpr uint8_t PING_FLAG = 1 << 0;
   static constexpr uint8_t PONG_FLAG = 1 << 1;
