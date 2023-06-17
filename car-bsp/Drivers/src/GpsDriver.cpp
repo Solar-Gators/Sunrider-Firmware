@@ -50,7 +50,9 @@ void Gps::HandleReceive()
       // Read from the pong buffer
       strcpy(gps_sentence, reinterpret_cast<char*>(pong_));
     }
+    osMutexAcquire(gps_data_->mutex_id_, osWaitForever);
     gps_data_->FromByteArray(reinterpret_cast<uint8_t*>(gps_sentence));
+    osMutexRelease(gps_data_->mutex_id_);      
   }
 }
 
