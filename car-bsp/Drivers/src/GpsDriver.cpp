@@ -6,14 +6,15 @@
  */
 
 //Include Files
-#include "Gps.hpp"
+#include "GpsDriver.hpp"
 #include "string.h"
 
 namespace SolarGators {
 namespace Drivers {
 
-Gps::Gps(UART_HandleTypeDef* uart_instance)
+Gps::Gps(UART_HandleTypeDef* uart_instance, SolarGators::DataModules::GPS* gps_data)
 {
+  gps_data_ = gps_data;
   uart_instance_ = uart_instance;
 
   uart_rx_event_ = osEventFlagsNew(NULL);
@@ -49,6 +50,7 @@ void Gps::HandleReceive()
       // Read from the pong buffer
       strcpy(gps_sentence, reinterpret_cast<char*>(pong_));
     }
+    gps_data_->FromByteArray(reinterpret_cast<uint8_t*>(gps_sentence));
     HAL_UART_Transmit(uart_instance_, reinterpret_cast<uint8_t*>(gps_sentence), strlen(gps_sentence), HAL_MAX_DELAY);
   }
 }
