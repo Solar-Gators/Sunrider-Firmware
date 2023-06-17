@@ -53,7 +53,7 @@ void TIM6_DAC_IRQHandler(void);
 void USART3_4_IRQHandler(void);
 void CEC_CAN_IRQHandler(void);
 /* USER CODE BEGIN EFP */
-
+void UartCallback();
 /* USER CODE END EFP */
 
 #ifdef __cplusplus

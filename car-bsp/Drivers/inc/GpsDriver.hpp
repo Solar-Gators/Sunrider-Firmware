@@ -9,6 +9,7 @@
 #define SOLARGATORSBSP_DRIVERS_INC_GPS_HPP_
 
 #include "main.h"
+#include "GPS.hpp"
 #include <cmsis_os.h>
 
 namespace SolarGators {
@@ -16,7 +17,7 @@ namespace Drivers {
 
 class Gps {
 public:
-  Gps(UART_HandleTypeDef* uart_instance);
+  Gps(UART_HandleTypeDef* uart_instance, SolarGators::DataModules::GPS* gps_data);
   ~Gps();
   void HandleReceive();
   void rxCpltCallback();
@@ -29,6 +30,8 @@ private:
 
   static constexpr uint8_t PING_FLAG = 1 << 0;
   static constexpr uint8_t PONG_FLAG = 1 << 1;
+
+  SolarGators::DataModules::GPS* gps_data_;
 
   uint8_t ping_[MAX_SENTENCE_LENGTH];
   uint8_t pong_[MAX_SENTENCE_LENGTH];

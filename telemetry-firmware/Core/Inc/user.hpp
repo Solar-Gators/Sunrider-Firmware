@@ -14,7 +14,7 @@
 #include "PitComms.hpp"
 #include "LTC2630.hpp"
 #include "LED.hpp"
-#include "Gps.hpp"
+#include "GpsDriver.hpp"
 
 // Data Module Info
 #include "DataModuleInfo.hpp"

@@ -32,7 +32,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-extern void UART4_RX_Handler(void);
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -47,7 +47,7 @@ extern void UART4_RX_Handler(void);
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-void UartCallback(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/

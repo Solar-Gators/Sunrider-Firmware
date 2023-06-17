@@ -42,7 +42,7 @@ static constexpr float Igain=2;     // integral control gain
 static constexpr float Dgain=50;    // derivative control gain
 
 SolarGators::Drivers::PID regen_controller(Pgain, Igain, Dgain, speed_control_period);
-Drivers::Gps gps(&huart4);
+Drivers::Gps gps(&huart4, &Gps);
 
 void CPP_UserSetup(void)
 {
@@ -109,8 +109,7 @@ void CPP_UserSetup(void)
   CANController.Init();
 
   // Ready GPS
-  GPS_init(huart4.Instance);
-  GPS_startReception();
+  gps.startReception();
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
   osTimerStart(can_tx_timer_id, 2000);    // CAN Tx Transmission
@@ -199,7 +198,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
 
-void UartCallback()
+void UartCallback(void)
 {
   gps.rxCpltCallback();
 }
