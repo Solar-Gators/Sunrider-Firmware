@@ -51,7 +51,6 @@ void Gps::HandleReceive()
       strcpy(gps_sentence, reinterpret_cast<char*>(pong_));
     }
     gps_data_->FromByteArray(reinterpret_cast<uint8_t*>(gps_sentence));
-    HAL_UART_Transmit(uart_instance_, reinterpret_cast<uint8_t*>(gps_sentence), strlen(gps_sentence), HAL_MAX_DELAY);
   }
 }
 
