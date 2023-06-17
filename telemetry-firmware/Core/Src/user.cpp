@@ -43,7 +43,6 @@ osTimerAttr_t gps_poll_timer_attr =
 };
 static constexpr uint32_t speed_control_period = 10;
 
-SolarGators::Drivers::PID regen_controller(Pgain, Igain, Dgain, speed_control_period);
 Drivers::Gps gps(&huart4, &Gps);
 
 void CPP_UserSetup(void)
@@ -67,13 +66,6 @@ void CPP_UserSetup(void)
    {
        Error_Handler();
    }
-
-  // Initialize routine that polls for GPS
-  gps_poll_timer_id = osTimerNew((osThreadFunc_t)PollForGPS, osTimerPeriodic, NULL, &gps_poll_timer_attr);
-  if (gps_poll_timer_id == NULL)
-  {
-      Error_Handler();
-  }
 
   // Front Lights (for throttle)
   //we add these modules to the etl map, binds can id and actual module together
