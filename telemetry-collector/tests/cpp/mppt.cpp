@@ -40,7 +40,7 @@ int smokeTest() {
         return -1;
     }
 
-    if (std::memcmp(data, result, 8)) {
+    if (memcmp(data, result, 8)) {
         std::cout << "ToByteArray output is not the same as the input!" << std::endl;
         return -1;
     }
@@ -75,7 +75,7 @@ int smokeTest() {
         return -1;
     }
 
-    if (std::memcmp(data, result, 8)) {
+    if (memcmp(data, result, 8)) {
         std::cout << "ToByteArray output is not the same as the input!" << std::endl;
         return -1;
     }
