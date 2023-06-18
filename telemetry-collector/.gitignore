@@ -1,7 +1,7 @@
 collector
-collector.dSYM
-test
-test.dSYM
+gps-test
+mppt-test
+*.dSYM
 *.gcno
 *.gcda
 *.gcov

@@ -38,7 +38,7 @@ void Mpptx0::ToByteArray(uint8_t* buff) const
 	}
 	f2b.f = inputCurrent;
 	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i];
+		buff[i] = f2b.s[i - 4];
 	}
 }
 
@@ -49,7 +49,7 @@ void Mpptx0::FromByteArray(uint8_t* buff)
 	}
 	inputVoltage = f2b.f;
 	for(int i=4;i<=7;i++){
-		f2b.s[i] = buff[i];
+		f2b.s[i - 4] = buff[i];
 	}
 	inputCurrent = f2b.f;
 }
@@ -94,26 +94,26 @@ Mpptx1::Mpptx1(uint32_t can_id): // INCREMENT BY 1 FROM MPPTx0
 
 void Mpptx1::ToByteArray(uint8_t* buff) const
 {
-f2b.f = outputVoltage;
-for (int i=0;i<=3;i++){
-	buff[i] = f2b.s[i];
-}
-f2b.f = outputCurrent;
-for (int i=4;i<=7;i++){
-	buff[i] = f2b.s[i];
-}
+	f2b.f = outputVoltage;
+	for (int i=0;i<=3;i++){
+		buff[i] = f2b.s[i];
+	}
+	f2b.f = outputCurrent;
+	for (int i=4;i<=7;i++){
+		buff[i] = f2b.s[i - 4];
+	}
 }
 
 void Mpptx1::FromByteArray(uint8_t* buff)
 {
-for(int i=0;i<=3;i++){
-	f2b.s[i] = buff[i];
-}
-outputVoltage = f2b.f;
-for(int i=4;i<=7;i++){
-	f2b.s[i] = buff[i];
-}
-outputCurrent = f2b.f;
+	for(int i=0;i<=3;i++){
+		f2b.s[i] = buff[i];
+	}
+	outputVoltage = f2b.f;
+	for(int i=4;i<=7;i++){
+		f2b.s[i - 4] = buff[i];
+	}
+	outputCurrent = f2b.f;
 }
 
 float Mpptx1::getOutputVoltage() const {
@@ -162,7 +162,7 @@ void Mpptx2::ToByteArray(uint8_t* buff) const
 	}
 	f2b.f = controllerTemp;
 	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i];
+		buff[i] = f2b.s[i - 4];
 	}
 }
 
@@ -173,7 +173,7 @@ void Mpptx2::FromByteArray(uint8_t* buff)
 	}
 	mosfetTemp = f2b.f;
 	for(int i=4;i<=7;i++){
-		f2b.s[i] = buff[i];
+		f2b.s[i - 4] = buff[i];
 	}
 	controllerTemp = f2b.f;
 }
@@ -286,7 +286,7 @@ void Mpptx4::ToByteArray(uint8_t* buff) const
 	}
 	f2b.f = maxInputCurrent;
 	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i];
+		buff[i] = f2b.s[i - 4];
 	}
 }
 
@@ -297,7 +297,7 @@ void Mpptx4::FromByteArray(uint8_t* buff)
 	}
 	maxOutputVoltage = f2b.f;
 	for(int i=4;i<=7;i++){
-		f2b.s[i] = buff[i];
+		f2b.s[i - 4] = buff[i];
 	}
 	maxInputCurrent = f2b.f;
 }
@@ -393,8 +393,8 @@ void Mpptx5::FromByteArray(uint8_t* buff)
 	flag_duty_cycle_min		= buff[4] & (1 << 4);
 	flag_duty_cycle_max		= buff[4] & (1 << 5);
 	flag_local_mppt			= buff[4] & (1 << 6);
-	flag_global_mppt		= buff[4] & (1 << 7); 	
-	
+	flag_global_mppt		= buff[4] & (1 << 7);
+
 	mode = buff[5] & 0x1;
 	counter = buff[7];
 }
@@ -524,7 +524,7 @@ void Mpptx6::ToByteArray(uint8_t* buff) const
 	}
 	f2b.f = powerConnTemp;
 	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i];
+		buff[i] = f2b.s[i - 4];
 	}
 }
 
@@ -537,7 +537,7 @@ void Mpptx6::FromByteArray(uint8_t* buff)
 	battOutVolt = f2b.f;
 
 	for(int i=4;i<=7;i++){
-		f2b.s[i] = buff[i];
+		f2b.s[i - 4] = buff[i];
 	}
 
 	powerConnTemp = f2b.f;

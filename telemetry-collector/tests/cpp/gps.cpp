@@ -66,6 +66,43 @@ int invalidTest() {
 }
 
 
+int emptyModule() {
+    // Test an empty module
+    SolarGators::DataModules::GPS GPS_Rx_0;
+
+    uint8_t buff2[100];
+    GPS_Rx_0.ToByteArray(buff2);
+
+    std::cout << "lat: " << GPS_Rx_0.getLatitude() << std::endl;
+    std::cout << "lo: " << GPS_Rx_0.getLongitude() << std::endl;
+    std::cout << "speed: " << GPS_Rx_0.getSpeed() << std::endl;
+    std::cout << "heading: " << GPS_Rx_0.getTrueCourse() << std::endl;
+    std::cout << "data: " << buff2 << std::endl;
+
+    if (strcmp(GPS_Rx_0.getLatitude(), "0")) {
+        std::cout << "Lat is incorrect!" << std::endl;
+        return -1;
+    }
+
+    if (strcmp(GPS_Rx_0.getLongitude(), "0")) {
+        std::cout << "Lat is incorrect!" << std::endl;
+        return -1;
+    }
+
+    if (strcmp(GPS_Rx_0.getSpeed(), "0")) {
+        std::cout << "Lat is incorrect!" << std::endl;
+        return -1;
+    }
+
+    if (strcmp(GPS_Rx_0.getTrueCourse(), "0")) {
+        std::cout << "Lat is incorrect!" << std::endl;
+        return -1;
+    }
+
+    return 0;
+}
+
+
 int main(int argc, char **argv) {
 
     std::cout << "Running Smoke Test.." << std::endl;
@@ -77,6 +114,13 @@ int main(int argc, char **argv) {
 
     std::cout << "Running Empty Test.." << std::endl;
     if (invalidTest() == -1) {
+        std::cout << "Failed!" << std::endl;
+        return -1;
+    }
+    std::cout << "Passed." << std::endl << std::endl;
+
+    std::cout << "Running Empty Module Test.." << std::endl;
+    if (emptyModule() == -1) {
         std::cout << "Failed!" << std::endl;
         return -1;
     }

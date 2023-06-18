@@ -17,9 +17,15 @@ PROD_COMPIPE = $(BASE_COMPILE) src/main.cpp -o $(EXECUTABLE)
 all:
 	$(PROD_COMPIPE)
 
-test:
-	$(BASE_COMPILE) tests/cpp/gps.cpp -o test
+gps-test:
+	$(BASE_COMPILE) tests/cpp/gps.cpp -o gps-test
+	./gps-test
 
+mppt-test:
+	$(BASE_COMPILE) tests/cpp/gps.cpp -o mppt-test
+	./mppt-test
+
+test: mppt-test gps-test
 
 
 coverage:
