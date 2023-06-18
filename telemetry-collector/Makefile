@@ -17,14 +17,17 @@ PROD_COMPIPE = $(BASE_COMPILE) src/main.cpp -o $(EXECUTABLE)
 all:
 	$(PROD_COMPIPE)
 
+.PHONY: gps-test
 gps-test:
 	$(BASE_COMPILE) tests/cpp/gps.cpp -o gps-test
 	./gps-test
 
+.PHONY: mppt-test
 mppt-test:
-	$(BASE_COMPILE) tests/cpp/gps.cpp -o mppt-test
+	$(BASE_COMPILE) tests/cpp/mppt.cpp -o mppt-test
 	./mppt-test
 
+.PHONY: test
 test: mppt-test gps-test
 
 
