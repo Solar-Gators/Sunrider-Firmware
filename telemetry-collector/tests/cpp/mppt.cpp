@@ -1,6 +1,7 @@
 #include <map>
 #include <iostream>
 #include <sstream>
+#include <cstring>
 #include <csignal>
 #include "Mppt.hpp"
 
@@ -13,8 +14,8 @@ int smokeTest() {
     SolarGators::DataModules::Mpptx0 MPPT_Rx_0(0);
     float inputVoltage = 1.1;
     float inputCurrent = 2.2;
-    std::memcpy(&data[0], &inputVoltage, sizeof(inputVoltage));
-    std::memcpy(&data[4], &inputCurrent, sizeof(inputCurrent));
+    memcpy(&data[0], &inputVoltage, sizeof(inputVoltage));
+    memcpy(&data[4], &inputCurrent, sizeof(inputCurrent));
     MPPT_Rx_0.FromByteArray(data);
     MPPT_Rx_0.ToByteArray(result);
 
@@ -49,8 +50,8 @@ int smokeTest() {
     SolarGators::DataModules::Mpptx1 MPPT_Rx_1(0);
     float outputVoltage = 1.1;
     float outputCurrent = 2.2;
-    std::memcpy(&data[0], &outputVoltage, sizeof(outputVoltage));
-    std::memcpy(&data[4], &outputCurrent, sizeof(outputCurrent));
+    memcpy(&data[0], &outputVoltage, sizeof(outputVoltage));
+    memcpy(&data[4], &outputCurrent, sizeof(outputCurrent));
     MPPT_Rx_1.FromByteArray(data);
     MPPT_Rx_1.ToByteArray(result);
 

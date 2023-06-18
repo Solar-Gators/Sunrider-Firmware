@@ -4,19 +4,14 @@
  *  Created on: Apr 17, 2023
  *      Author: Jack W
  */
+
+#include <cstring>
+
 #include "Mppt.hpp"
 #include "DataModuleInfo.hpp"
 
 namespace SolarGators::DataModules
 {
-
-union float2byte
-{
-	  float f;
-	  char  s[4];
-};
-
-float2byte f2b;
 
 enum {
 	MPPT0 = 1,
@@ -32,26 +27,18 @@ Mpptx0::Mpptx0(uint32_t can_id):
 
 void Mpptx0::ToByteArray(uint8_t* buff) const
 {
-	f2b.f = inputVoltage;
-	for (int i=0;i<=3;i++){
-		buff[i] = f2b.s[i];
-	}
-	f2b.f = inputCurrent;
-	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i - 4];
-	}
+	size_t index = 0;
+	memcpy(buff + index, &inputVoltage, sizeof(inputVoltage));
+	index += sizeof(inputVoltage);
+	memcpy(buff + index, &inputCurrent, sizeof(inputCurrent));
 }
 
 void Mpptx0::FromByteArray(uint8_t* buff)
 {
-	for(int i=0;i<=3;i++){
-		f2b.s[i] = buff[i];
-	}
-	inputVoltage = f2b.f;
-	for(int i=4;i<=7;i++){
-		f2b.s[i - 4] = buff[i];
-	}
-	inputCurrent = f2b.f;
+  size_t index = 0;
+  memcpy(&inputVoltage, buff + index, sizeof(inputVoltage));
+  index += sizeof(inputVoltage);
+  memcpy(&inputCurrent, buff + index, sizeof(inputCurrent));
 }
 
 float Mpptx0::getInputVoltage() const {
@@ -94,26 +81,18 @@ Mpptx1::Mpptx1(uint32_t can_id): // INCREMENT BY 1 FROM MPPTx0
 
 void Mpptx1::ToByteArray(uint8_t* buff) const
 {
-	f2b.f = outputVoltage;
-	for (int i=0;i<=3;i++){
-		buff[i] = f2b.s[i];
-	}
-	f2b.f = outputCurrent;
-	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i - 4];
-	}
+  size_t index = 0;
+  memcpy(buff + index, &outputVoltage, sizeof(outputVoltage));
+  index += sizeof(outputVoltage);
+  memcpy(buff + index, &outputCurrent, sizeof(outputCurrent));
 }
 
 void Mpptx1::FromByteArray(uint8_t* buff)
 {
-	for(int i=0;i<=3;i++){
-		f2b.s[i] = buff[i];
-	}
-	outputVoltage = f2b.f;
-	for(int i=4;i<=7;i++){
-		f2b.s[i - 4] = buff[i];
-	}
-	outputCurrent = f2b.f;
+  size_t index = 0;
+  memcpy(&outputVoltage, buff + index, sizeof(outputVoltage));
+  index += sizeof(outputVoltage);
+  memcpy(&outputCurrent, buff + index, sizeof(outputCurrent));
 }
 
 float Mpptx1::getOutputVoltage() const {
@@ -156,26 +135,18 @@ Mpptx2::Mpptx2(uint32_t can_id): // INCREMENT BY 2 FROM MPPTx0
 
 void Mpptx2::ToByteArray(uint8_t* buff) const
 {
-	f2b.f = mosfetTemp;
-	for (int i=0;i<=3;i++){
-		buff[i] = f2b.s[i];
-	}
-	f2b.f = controllerTemp;
-	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i - 4];
-	}
+  size_t index = 0;
+  memcpy(buff + index, &mosfetTemp, sizeof(mosfetTemp));
+  index += sizeof(mosfetTemp);
+  memcpy(buff + index, &controllerTemp, sizeof(controllerTemp));
 }
 
 void Mpptx2::FromByteArray(uint8_t* buff)
 {
-	for(int i=0;i<=3;i++){
-		f2b.s[i] = buff[i];
-	}
-	mosfetTemp = f2b.f;
-	for(int i=4;i<=7;i++){
-		f2b.s[i - 4] = buff[i];
-	}
-	controllerTemp = f2b.f;
+  size_t index = 0;
+  memcpy(&mosfetTemp, buff + index, sizeof(mosfetTemp));
+  index += sizeof(mosfetTemp);
+  memcpy(&controllerTemp, buff + index, sizeof(controllerTemp));
 }
 
 float Mpptx2::getMosfetTemp() const {
@@ -218,26 +189,18 @@ Mpptx3::Mpptx3(uint32_t can_id): // INCREMENT BY 3 FROM MPPTx0
 
 void Mpptx3::ToByteArray(uint8_t* buff) const
 {
-	f2b.f = aux12V;
-	for (int i=0;i<=3;i++){
-		buff[i] = f2b.s[i];
-	}
-	f2b.f = aux3V;
-	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i];
-	}
+  size_t index = 0;
+  memcpy(buff + index, &aux12V, sizeof(aux12V));
+  index += sizeof(aux12V);
+  memcpy(buff + index, &aux3V, sizeof(aux3V));
 }
 
 void Mpptx3::FromByteArray(uint8_t* buff)
 {
-	for(int i=0;i<=3;i++){
-		f2b.s[i] = buff[i];
-	}
-	aux12V = f2b.f;
-	for(int i=4;i<=7;i++){
-		f2b.s[i] = buff[i];
-	}
-	aux3V = f2b.f;
+  size_t index = 0;
+  memcpy(&aux12V, buff + index, sizeof(aux12V));
+  index += sizeof(aux12V);
+  memcpy(&aux3V, buff + index, sizeof(aux3V));
 }
 
 float Mpptx3::getAux12V() const {
@@ -280,26 +243,18 @@ Mpptx4::Mpptx4(uint32_t can_id): // INCREMENT BY 4 FROM MPPTx0
 
 void Mpptx4::ToByteArray(uint8_t* buff) const
 {
-	f2b.f = maxOutputVoltage;
-	for (int i=0;i<=3;i++){
-		buff[i] = f2b.s[i];
-	}
-	f2b.f = maxInputCurrent;
-	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i - 4];
-	}
+  size_t index = 0;
+  memcpy(buff + index, &maxOutputVoltage, sizeof(maxOutputVoltage));
+  index += sizeof(maxOutputVoltage);
+  memcpy(buff + index, &maxInputCurrent, sizeof(maxInputCurrent));
 }
 
 void Mpptx4::FromByteArray(uint8_t* buff)
 {
-	for(int i=0;i<=3;i++){
-		f2b.s[i] = buff[i];
-	}
-	maxOutputVoltage = f2b.f;
-	for(int i=4;i<=7;i++){
-		f2b.s[i - 4] = buff[i];
-	}
-	maxInputCurrent = f2b.f;
+  size_t index = 0;
+  memcpy(&maxOutputVoltage, buff + index, sizeof(maxOutputVoltage));
+  index += sizeof(maxOutputVoltage);
+  memcpy(&maxInputCurrent, buff + index, sizeof(maxInputCurrent));
 }
 
 float Mpptx4::getMaxOutputVoltage() const {
@@ -518,30 +473,18 @@ Mpptx6::Mpptx6(uint32_t can_id): // INCREMENT BY 4 FROM MPPTx0
 
 void Mpptx6::ToByteArray(uint8_t* buff) const
 {
-	f2b.f = battOutVolt;
-	for (int i=0;i<=3;i++){
-		buff[i] = f2b.s[i];
-	}
-	f2b.f = powerConnTemp;
-	for (int i=4;i<=7;i++){
-		buff[i] = f2b.s[i - 4];
-	}
+  size_t index = 0;
+  memcpy(buff + index, &battOutVolt, sizeof(battOutVolt));
+  index += sizeof(battOutVolt);
+  memcpy(buff + index, &powerConnTemp, sizeof(powerConnTemp));
 }
 
 void Mpptx6::FromByteArray(uint8_t* buff)
 {
-	for(int i=0;i<=3;i++){
-		f2b.s[i] = buff[i];
-	}
-
-	battOutVolt = f2b.f;
-
-	for(int i=4;i<=7;i++){
-		f2b.s[i - 4] = buff[i];
-	}
-
-	powerConnTemp = f2b.f;
-
+  size_t index = 0;
+  memcpy(&battOutVolt, buff + index, sizeof(battOutVolt));
+  index += sizeof(battOutVolt);
+  memcpy(&powerConnTemp, buff + index, sizeof(powerConnTemp));
 }
 
 float Mpptx6::getBattOutVolt() const{
