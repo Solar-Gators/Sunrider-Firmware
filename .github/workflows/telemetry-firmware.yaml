@@ -63,7 +63,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: pip install -r ./tests/python/test-requirements.txt
       - run: pytest ./tests/python/integration.py # python tests
-      - run: make test && ./test # cpp tests
+      - run: make test # cpp tests
       - run: make coverage-html
       - uses: actions/upload-artifact@v3
         with:
