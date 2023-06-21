@@ -75,6 +75,7 @@
 									<listOptionValue builtIn="false" value="../../car-bsp/Drivers/inc"/>
 									<listOptionValue builtIn="false" value="../../car-bsp/DataModules/inc"/>
 									<listOptionValue builtIn="false" value="../../car-bsp/etl/include"/>
+									<listOptionValue builtIn="false" value="../../car-bsp/Helpers/inc"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp.2031096446" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp"/>
 							</tool>

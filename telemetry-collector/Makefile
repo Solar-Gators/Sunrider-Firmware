@@ -1,8 +1,10 @@
 CPP_FILES = src/lib/*.cpp
 CPP_FILES += ../car-bsp/DataModules/src/*.cpp
+CPP_FILES += ../car-bsp/Helpers/src/*.cpp
 
 CPP_INCLUDES = -I ../car-bsp/DataModules/inc
 CPP_INCLUDES += -I ../car-bsp/etl/incude
+CPP_INCLUDES += -I ../car-bsp/Helpers/inc
 CPP_INCLUDES += -I ./src/lib/inc
 
 
