@@ -16,6 +16,11 @@ FrontLightsController::FrontLightsController()
 FrontLightsController::~FrontLightsController()
 { }
 
+void FrontLightsController::SetAcknowledgement(bool val)
+{
+	acknowledgement_ = val;
+}
+
 void FrontLightsController::SetThrottleVal(uint16_t val)
 {
   throttle_ = val;

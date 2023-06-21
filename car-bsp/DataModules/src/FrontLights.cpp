@@ -18,6 +18,7 @@ FrontLights::FrontLights():
         DataModule(ID, 0, SIZE),
         throttle_(0),
 		breaks_(0),
+		acknowledgement_(true),
 		buffCtr(0)
 { }
 
@@ -34,17 +35,24 @@ uint16_t FrontLights::GetBreaksVal() const
 	return breaks_;
 }
 
+bool FrontLights::GetAcknowledgementVal() const
+{
+	return acknowledgement_;
+}
+
 void FrontLights::ToByteArray(uint8_t* buff) const
 {
   buff[0] = static_cast<uint8_t>(throttle_);
   buff[1] = static_cast<uint8_t>(throttle_ >> 8);
   buff[2] = static_cast<uint8_t>(breaks_);
   buff[3] = static_cast<uint8_t>(breaks_ >> 8);
+  buff[4] = static_cast<uint8_t>(acknowledgement_);
 }
 void FrontLights::FromByteArray(uint8_t* buff)
 {
   throttle_ = static_cast<uint16_t>(buff[1]) << 8 | buff[0];
   breaks_ = static_cast<uint16_t>(buff[3]) << 8 | buff[2];
+  acknowledgement_ = static_cast<bool>(buff[4]);
 }
 
 #ifdef IS_TELEMETRY

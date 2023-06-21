@@ -21,6 +21,8 @@ void ReadIMU();
 void ReadADC();
 bool FaultPresent();
 
+extern "C" IWDG_HandleTypeDef hiwdg;
+
 // OS Configs
 osTimerId_t signal_timer_id;
 osTimerAttr_t signal_timer_attr =
@@ -242,6 +244,7 @@ void ReadIMU()
 
 void ReadADC()
 {
+  HAL_IWDG_Refresh(&hiwdg);
   // Read Throttle
   // If the throttle is pressed
   if(HAL_GPIO_ReadPin(Throttle_Switch_GPIO_Port, Throttle_Switch_Pin))

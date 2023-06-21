@@ -20,6 +20,7 @@ public:
   ~FrontLights();
   uint16_t GetThrottleVal() const;
   uint16_t GetBreaksVal() const;
+  bool GetAcknowledgementVal() const;
   uint8_t buffCtr;
   uint16_t breaksBuffer[BUFF_SIZE];
   // CAN Functions
@@ -32,7 +33,7 @@ public:
 protected:
   uint16_t throttle_;
   uint16_t breaks_;
-
+  bool acknowledgement_;
   // TODO: Accelerometer values
 };
 

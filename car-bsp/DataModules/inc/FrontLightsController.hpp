@@ -17,6 +17,7 @@ class FrontLightsController final: public FrontLights {
 public:
   FrontLightsController();
   ~FrontLightsController();
+  void SetAcknowledgement(bool);
   void SetThrottleVal(uint16_t);
   void SetBreaksVal(uint16_t);
 };
