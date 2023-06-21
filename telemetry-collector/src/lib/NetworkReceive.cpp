@@ -4,5 +4,6 @@ void NetworkReceive::fromByteArray(u_int8_t *buff) {
     this->can_id = (int)buff[3] | ((int)buff[2] << 8) | ((int)buff[1] << 16) | ((int)buff[0] << 24);
     this->instance_id = buff[4];
     this->size = buff[5];
-    this->data = &buff[6];
+    this->crc = (int)buff[7] | ((int)buff[6] << 8);
+    this->data = &buff[8];
 }

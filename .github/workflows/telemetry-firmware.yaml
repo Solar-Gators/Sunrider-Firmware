@@ -115,7 +115,9 @@ jobs:
       - name: Comment out files that renode doesn't mock properly
         run: |
           sed -i 's/SystemClock_Config();/\/\/SystemClock_Config();/' Core/Src/main.c && \
-          sed -i 's/MX_CAN_Init();/\/\/MX_CAN_Init();/' Core/Src/main.c
+          sed -i 's/MX_CAN_Init();/\/\/MX_CAN_Init();/' Core/Src/main.c && \
+          sed -i 's/osTimerStart(can_tx_timer_id, 2000);/\/\/osTimerStart(can_tx_timer_id, 2000);/' Core/Src/user.cpp && \
+          sed -i 's/osTimerStart(gps_poll_timer_id, 10);/\/\/osTimerStart(gps_poll_timer_id, 10);/' Core/Src/user.cpp
 
       # Need to rebuild with modified code
       - uses: Solar-Gators/STM32-Infrastructure@main

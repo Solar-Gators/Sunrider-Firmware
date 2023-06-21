@@ -6,6 +6,7 @@
  */
 
 #include "PitComms.hpp"
+#include "crc16.hpp"
 
 namespace SolarGators {
 namespace Drivers {
@@ -30,11 +31,19 @@ void PitComms::SendDataModule(SolarGators::DataModules::DataModule& data_module)
   radio_->SendByte(EscapeData((data_module.can_id_ & 0x00FF0000) >> 16));
   radio_->SendByte(EscapeData((data_module.can_id_ & 0x0000FF00) >> 8));
   radio_->SendByte(EscapeData(data_module.can_id_ & 0x000000FF));
-  radio_->SendByte(data_module.instance_id_);
-  radio_->SendByte(data_module.size_);
+  radio_->SendByte(EscapeData(data_module.instance_id_));
+  radio_->SendByte(EscapeData(data_module.size_));
   // Temporary buffer
   uint8_t buff[100];
   data_module.ToByteArray(buff);
+  // Calculate and send CRC
+  uint16_t crc = SolarGators::Helpers::crc16(buff, data_module.size_);
+  uint8_t lo_crc = crc & 0xFF;
+  uint8_t hi_crc = (crc >> 8) & 0xFF;
+  EscapeData(hi_crc);
+  radio_->SendByte(hi_crc);
+  EscapeData(lo_crc);
+  radio_->SendByte(lo_crc);
   // Send Buffer
   for (uint16_t i = 0; i < data_module.size_; ++i) {
     EscapeData(buff[i]);
