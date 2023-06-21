@@ -110,7 +110,7 @@ void CPP_UserSetup(void)
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
   osTimerStart(can_tx_timer_id, 2000);    // CAN Tx Transmission
-  osTimerStart(gps_poll_timer_id, 10);    // CAN Tx Transmission
+  //osTimerStart(gps_poll_timer_id, 10);    // GPS Polling
   // Initialize DACs
   accel.SetRefVcc();
   regen.SetRefVcc();
