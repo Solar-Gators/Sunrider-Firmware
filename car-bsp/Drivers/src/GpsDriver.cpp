@@ -63,8 +63,6 @@ void Gps::rxCpltCallback()
     // If this IRQ is caused by a character match
     if(READ_BIT(uart_instance_->Instance->ISR, USART_ISR_CMF))
     {
-      // Clear the IRQ
-      SET_BIT(uart_instance_->Instance->ICR, USART_ICR_CMCF);
       // Change the DMA reg
       // Stop DMA
       hdma->Instance->CCR &= ~DMA_CCR_EN;
@@ -93,6 +91,10 @@ void Gps::rxCpltCallback()
       /* Enable the DMA Peripheral */
       hdma->Instance->CCR |= DMA_CCR_EN;
     }
+
+    // Clear Interrupts
+    uint32_t toClear = uart_instance_->Instance->ISR;
+    uart_instance_->Instance->ICR |= toClear;
 }
 
 void Gps::startReception()
