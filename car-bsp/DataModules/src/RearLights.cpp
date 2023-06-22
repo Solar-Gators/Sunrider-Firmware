@@ -17,7 +17,11 @@ namespace {
 
 RearLights::RearLights():
             DataModule(ID, 0, SIZE),
-            break_(false) {
+            break_(false),
+			contactor_status_(true)
+
+{
+
   // TODO Auto-generated constructor stub
 
 }

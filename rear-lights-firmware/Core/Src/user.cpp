@@ -127,6 +127,8 @@ void UpdateSignals(void)
   	  rt_indicator.TurnOn();
   	  lt_indicator.TurnOn();
   	  tlr_indicator.TurnOn();
+    } else {
+    	tlr_indicator.TurnOff();
     }
 
   osMutexRelease(LightsState.mutex_id_);
@@ -161,7 +163,31 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //what can ya do i guess
 void strobeCheck(){
 	//check to activate strobe if discharge enable relay has been faulted, or kill sw
-	if(bmsCodes.isDischargeenableRelayFault() || RLights.getContactorStatus()){
+	if (bmsCodes.isInternalCellCommunicationFault() ||
+			bmsCodes.isCellBalancingStuckOffFault() ||
+			bmsCodes.isWeakCellFault() ||
+			bmsCodes.isLowCellVoltageFault() ||
+			bmsCodes.isCellOpenWiringFault() ||
+			bmsCodes.isCurrentSensorFault() ||
+			bmsCodes.isCellVoltageOver5vFault() ||
+			bmsCodes.isCellBankFault() ||
+			bmsCodes.isWeakPackFault() ||
+			bmsCodes.isFanMonitorFault() ||
+			//bmsCodes.isThermistorFault() ||
+			bmsCodes.isCanCommunicationFault() ||
+			bmsCodes.isRedundantPowerSupplyFault() ||
+			bmsCodes.isHighVoltageIsolationFault() ||
+			bmsCodes.isInvalidInputSupplyVoltageFault() ||
+			bmsCodes.isChargeenableRelayFault() ||
+			bmsCodes.isDischargeenableRelayFault() ||
+			bmsCodes.isChargerSafetyRelayFault() ||
+			bmsCodes.isInternalHardwareFault() ||
+			bmsCodes.isInternalHeatsinkThermistorFault() ||
+			bmsCodes.isInternalLogicFault() ||
+			bmsCodes.isHighestCellVoltageTooHighFault() ||
+			bmsCodes.isLowestCellVoltageTooLowFault() ||
+			bmsCodes.isPackTooHotFault() ||
+			(!RLights.getContactorStatus())) {
 		//strobeLight.strobe(3);
 		strobeLight.Toggle();
 	}
