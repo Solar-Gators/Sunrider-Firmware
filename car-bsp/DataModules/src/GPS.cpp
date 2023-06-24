@@ -8,7 +8,9 @@
 #include <GPS.hpp>
 #include <string.h>
 #include <cmath>
+#ifdef IS_TELEMETRY
 #include <stdio.h>
+#endif
 
 namespace SolarGators {
 namespace DataModules {
@@ -77,6 +79,9 @@ void GPS::FromByteArray(uint8_t* buff)
 
   memcpy(lastTransmission, buff, GPS_TRANSMISSION_SIZE);
 
+  // don't need to parse anything on the car,
+  // since we sent the entire message over
+  #ifdef IS_TELEMETRY
   // Latitude
   end = strchr(start, ',');
   char temp[10];
@@ -114,6 +119,7 @@ void GPS::FromByteArray(uint8_t* buff)
   end = strchr(start, ',');
   double true_course_deg = atof(start);
   sprintf(trueCourse, "%.2f", true_course_deg);
+  #endif
 }
 
 
