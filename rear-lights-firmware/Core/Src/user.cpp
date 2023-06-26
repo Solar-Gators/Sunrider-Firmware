@@ -143,7 +143,7 @@ void ReadADC()
 			RLights.setKillSwStatus(false);
 		} else{
 			RLights.setKillSwStatus(true);
-			RLights.setContactorStatus(false);
+			//RLights.setContactorStatus(false);
 			contactor_relay.TurnOff();
 		}
 		//This contains the regulation critical full car trip if pack is charging and charge temp limit is exceeded
