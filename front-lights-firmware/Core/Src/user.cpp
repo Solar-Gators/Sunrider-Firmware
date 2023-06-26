@@ -94,7 +94,7 @@ void CPP_UserSetup(void)
       Error_Handler();
   }
   CANController.Init();
-  osTimerStart(can_tx_timer_id, 10); // 10Hz we'll probably want to make this ~100Hz?
+  osTimerStart(can_tx_timer_id, 50); // 10Hz we'll probably want to make this ~100Hz?
   throttle.Init();
 }
 
