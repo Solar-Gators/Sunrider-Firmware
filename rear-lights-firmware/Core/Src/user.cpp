@@ -15,7 +15,6 @@ using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
 extern "C" void strobeCheck(void);
-extern "C" IWDG_HandleTypeDef hiwdg;
 void UpdateSignals(void);
 void SendCanMsgs();
 void ReadADC();
@@ -63,7 +62,7 @@ void CPP_UserSetup(void)
       Error_Handler();
   }
 
-  osTimerStart(adc_timer_id, 500);
+  osTimerStart(adc_timer_id, 100);
   // Start Thread that sends CAN Data
   can_tx_timer_id = osTimerNew((osThreadFunc_t)SendCanMsgs, osTimerPeriodic, NULL, &can_tx_timer_attr);
   if (can_tx_timer_id == NULL)
@@ -84,8 +83,19 @@ void UpdateSignals(void)
 {
   osMutexAcquire(LightsState.mutex_id_, osWaitForever);
 
-  if(LightsState.GetHazardsStatus())
-    {
+  //moving average filter
+  FLights.breaksBuffer[FLights.buffCtr] = FLights.GetBreaksVal();
+  FLights.buffCtr++;
+  if(FLights.buffCtr >= BUFF_SIZE){
+  	FLights.buffCtr = 0;
+  }
+  uint16_t sum = 0;
+  for(uint8_t i = 0; i < BUFF_SIZE; i++){
+  	sum += FLights.breaksBuffer[i];
+  }
+  uint16_t breaksval = sum/BUFF_SIZE;
+
+  if(LightsState.GetHazardsStatus()){
       if (lt_indicator.IsOn())
       {
         lt_indicator.TurnOff();
@@ -96,42 +106,30 @@ void UpdateSignals(void)
         lt_indicator.TurnOn();
         rt_indicator.TurnOn();
       }
+   }
+   else if(LightsState.GetRightTurnStatus())
+     rt_indicator.Toggle();
+   else if(LightsState.GetLeftTurnStatus())
+     lt_indicator.Toggle();
+   else{
+        //moving average for breaks
+        if((breaksval > 55) || LightsState.GetRegen()){
+      	  rt_indicator.TurnOn();
+      	  lt_indicator.TurnOn();
+      	  tlr_indicator.TurnOn();
+        } else {
+        	tlr_indicator.TurnOff();
+            if(!LightsState.GetHazardsStatus() && !LightsState.GetRightTurnStatus())
+              rt_indicator.TurnOff();
+
+            if(!LightsState.GetHazardsStatus() && !LightsState.GetLeftTurnStatus())
+              lt_indicator.TurnOff();
+        }
     }
-    else if(LightsState.GetRightTurnStatus())
-      rt_indicator.Toggle();
-    else if(LightsState.GetLeftTurnStatus())
-      lt_indicator.Toggle();
-
-    if(!LightsState.GetHazardsStatus() && !LightsState.GetRightTurnStatus())
-      rt_indicator.TurnOff();
-
-    if(!LightsState.GetHazardsStatus() && !LightsState.GetLeftTurnStatus())
-      lt_indicator.TurnOff();
 
     if(LightsState.GetHeadlightsStatus()){
   	  //should add code here to keep lights on but dim
     }
-
-    //moving average
-    FLights.breaksBuffer[FLights.buffCtr] = FLights.GetBreaksVal();
-    FLights.buffCtr++;
-    if(FLights.buffCtr >= BUFF_SIZE){
-    	FLights.buffCtr = 0;
-    }
-    uint16_t sum = 0;
-    for(uint8_t i = 0; i < BUFF_SIZE; i++){
-    	sum += FLights.breaksBuffer[i];
-    }
-    uint16_t breaksval = sum/BUFF_SIZE;
-    HAL_IWDG_Refresh(&hiwdg);
-    if((breaksval > 55) || LightsState.GetRegen()){
-  	  rt_indicator.TurnOn();
-  	  lt_indicator.TurnOn();
-  	  tlr_indicator.TurnOn();
-    } else {
-    	tlr_indicator.TurnOff();
-    }
-
   osMutexRelease(LightsState.mutex_id_);
 
 }
@@ -148,7 +146,8 @@ void ReadADC()
 			contactor_relay.TurnOff();
 		}
 		//This contains the regulation critical full car trip if pack is charging and charge temp limit is exceeded
-		if((bmsCurrent.getPackCurrent() > 0) && bmsCodes.isChargeenableRelayFault()){
+		// get pack
+		if((bmsCurrent.getPackCurrent() < 0) && bmsCodes.isChargeenableRelayFault()){
 			contactor_relay.TurnOff();
 			RLights.setContactorStatus(false);
 		}
