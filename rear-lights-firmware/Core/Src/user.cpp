@@ -15,6 +15,7 @@ using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
 extern "C" void strobeCheck(void);
+extern "C" IWDG_HandleTypeDef hiwdg;
 void UpdateSignals(void);
 void SendCanMsgs();
 void ReadADC();
@@ -122,7 +123,7 @@ void UpdateSignals(void)
     	sum += FLights.breaksBuffer[i];
     }
     uint16_t breaksval = sum/BUFF_SIZE;
-
+    HAL_IWDG_Refresh(&hiwdg);
     if((breaksval > 55) || LightsState.GetRegen()){
   	  rt_indicator.TurnOn();
   	  lt_indicator.TurnOn();
