@@ -123,7 +123,7 @@ void UpdateSignals(void)
     }
     uint16_t breaksval = sum/BUFF_SIZE;
 
-    if((breaksval > 75) || LightsState.GetRegen()){
+    if((breaksval > 55) || LightsState.GetRegen()){
   	  rt_indicator.TurnOn();
   	  lt_indicator.TurnOn();
   	  tlr_indicator.TurnOn();

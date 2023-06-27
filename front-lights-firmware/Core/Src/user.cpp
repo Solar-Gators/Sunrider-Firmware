@@ -12,7 +12,7 @@
 #include "etl/format_spec.h"
 
 using namespace SolarGators;
-
+extern "C" IWDG_HandleTypeDef hiwdg;
 extern "C" void CPP_UserSetup(void);
 
 void UpdateSignals(void);
@@ -101,6 +101,7 @@ void CPP_UserSetup(void)
 void SendCanMsgs()
 {
   CANController.Send(&FLights);
+  HAL_IWDG_Refresh(&hiwdg);
 }
 
 void UpdateSignals(void)
