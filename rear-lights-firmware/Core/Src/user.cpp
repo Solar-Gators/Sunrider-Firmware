@@ -86,45 +86,49 @@ void UpdateSignals(void)
 
   HAL_IWDG_Refresh(&hiwdg);
 
-
-  bool leftToggle = LightsState.GetLeftTurnStatus() || LightsState.GetHazardsStatus();
-  bool rightToggle = LightsState.GetRightTurnStatus() || LightsState.GetHazardsStatus();
   bool breakVal = FLights.GetBreaksVal();
 
-  if (leftToggle) {
-	  lt_indicator.Toggle();
-	  if (breakVal) {
-		  rt_indicator.TurnOn();
-		  tlr_indicator.TurnOn();
-	  } else{
-		  rt_indicator.TurnOff();
-		  tlr_indicator.TurnOff();
-	  }
-  }
-  if (rightToggle) {
-	rt_indicator.Toggle();
-	if (breakVal) {
-	  lt_indicator.TurnOn();
+  // State, 0: off, 1: toggle, 2: on
+  uint32_t leftState = 0;
+  uint32_t rightState = 0;
+
+  if (breakVal) {
+	  leftState = 2;
+	  rightState = 2;
 	  tlr_indicator.TurnOn();
-	} else{
-	  lt_indicator.TurnOff();
-	  tlr_indicator.TurnOff();
-	}
   }
-  if (!rightToggle && !leftToggle && breakVal) {
-  	  rt_indicator.TurnOn();
-  	  lt_indicator.TurnOn();
-  	  tlr_indicator.TurnOn();
-    }
-  else if (!rightToggle && !leftToggle && !breakVal) {
-	  rt_indicator.TurnOff();
-	  lt_indicator.TurnOff();
+  else
 	  tlr_indicator.TurnOff();
+
+  if (LightsState.GetLeftTurnStatus() || LightsState.GetHazardsStatus())
+  	  leftState = 1;
+  if (LightsState.GetRightTurnStatus() || LightsState.GetHazardsStatus())
+	  rightState = 1;
+
+  switch (leftState) {
+  case 1:
+	  lt_indicator.Toggle();
+	  break;
+  case 2:
+	  lt_indicator.TurnOn();
+	  break;
+  default:
+	  lt_indicator.TurnOff();
+	  break;
   }
 
-    if(LightsState.GetHeadlightsStatus()){
-  	  //should add code here to keep lights on but dim
+  switch (rightState) {
+    case 1:
+  	  rt_indicator.Toggle();
+  	  break;
+    case 2:
+  	  rt_indicator.TurnOn();
+  	  break;
+    default:
+  	  rt_indicator.TurnOff();
+  	  break;
     }
+
   osMutexRelease(LightsState.mutex_id_);
 
 }
@@ -159,7 +163,7 @@ void strobeCheck(){
 	//check to activate strobe if discharge enable relay has been faulted, or kill sw
 	if (bmsCodes.isInternalCellCommunicationFault() ||
 			bmsCodes.isCellBalancingStuckOffFault() ||
-			bmsCodes.isWeakCellFault() ||
+			//bmsCodes.isWeakCellFault() ||
 			bmsCodes.isLowCellVoltageFault() ||
 			bmsCodes.isCellOpenWiringFault() ||
 			bmsCodes.isCurrentSensorFault() ||
@@ -184,8 +188,10 @@ void strobeCheck(){
 			(!RLights.getContactorStatus())) {
 		//strobeLight.strobe(3);
 		strobeLight.Toggle();
+		RLights.setContactorStatus(false);
+		contactor_relay.TurnOff();
 	}
 	else{
-		//osDelay(6);
+		strobeLight.TurnOff();
 	}
 }
