@@ -76,6 +76,8 @@
 									<listOptionValue builtIn="false" value="../../car-bsp/DataModules/inc"/>
 									<listOptionValue builtIn="false" value="../../car-bsp/etl/include"/>
 									<listOptionValue builtIn="false" value="../../car-bsp/Helpers/inc"/>
+									<listOptionValue builtIn="false" value="../../RTT/Config"/>
+									<listOptionValue builtIn="false" value="../../RTT/Inc"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp.2031096446" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.input.cpp"/>
 							</tool>
@@ -103,6 +105,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
 						<entry excluding="SolarGatorsBSP_STM/CAN-Decoder/src/etl|SolarGatorsBSP_STM/CAN-Decoder/tests|SolarGatorsBSP_STM/Drivers/src/RFD900x.cpp|SolarGatorsBSP_STM/etl/examples|SolarGatorsBSP_STM/etl/test|SolarGatorsBSP_STM/etl/arduino|SolarGatorsBSP_STM/Drivers/src/HY28b.cpp|SolarGatorsBSP_STM/Drivers/inc/HY28b.hpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="RTT"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="X-CUBE-MEMS1"/>
 						<entry excluding="Drivers/inc/GPS_Driver.hpp|Drivers/src/GPS_Driver.cpp|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp|etl/test|etl/examples|etl/arduino" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
 					</sourceEntries>

@@ -8,6 +8,8 @@
 #include "user.hpp"
 #include "PID.hpp"
 
+#include "SEGGER_RTT.h"
+
 using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
@@ -46,6 +48,7 @@ static constexpr uint32_t speed_control_period = 10;
 
 void CPP_UserSetup(void)
 {
+	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_);
 	//the below code initializes but doesn't actually add them to scheduler yet
   // Initialize routine that sends telemetry data
   telem_tx_timer_id = osTimerNew((osThreadFunc_t)SendTelemetryData, osTimerPeriodic, NULL, &telem_tx_timer_attr);
