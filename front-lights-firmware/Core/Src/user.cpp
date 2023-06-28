@@ -256,8 +256,25 @@ void ReadADC()
   THROTTLE_VAL = throttle.Read() >> 5; // FOR DEBUG
 
   // Read Breaks
-  uint16_t breaksVal = breaks.Read();
-  FLights.SetBreaksVal(breaksVal);
+  uint16_t tempBreaksVal = breaks.Read();
+
+  //MOVING AVERAGE FILTER
+  FLights.breaksBuffer[FLights.buffCtr] = tempBreaksVal;
+  FLights.buffCtr++;
+  if(FLights.buffCtr >= BUFF_SIZE){
+	  FLights.buffCtr = 0;
+  }
+  uint16_t sum = 0;
+  for(uint8_t i = 0; i<BUFF_SIZE; i++){
+	  sum += FLights.breaksBuffer[i];
+  }
+  tempBreaksVal = sum/BUFF_SIZE;
+  if((tempBreaksVal > 55) || LightsState.GetRegen()){
+	  FLights.SetBreaksVal(true);
+  } else{
+	  FLights.SetBreaksVal(false);
+  }
+
   //BREAKS_VAL = breaks.Read() >> 5; // FOR DEBUGin or buggin
 
 }

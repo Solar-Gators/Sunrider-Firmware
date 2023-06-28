@@ -112,17 +112,7 @@ void UpdateSignals(void)
   	  //should add code here to keep lights on but dim
     }
 
-    //moving average
-    FLights.breaksBuffer[FLights.buffCtr] = FLights.GetBreaksVal();
-    FLights.buffCtr++;
-    if(FLights.buffCtr >= BUFF_SIZE){
-    	FLights.buffCtr = 0;
-    }
-    uint16_t sum = 0;
-    for(uint8_t i = 0; i < BUFF_SIZE; i++){
-    	sum += FLights.breaksBuffer[i];
-    }
-    uint16_t breaksval = sum/BUFF_SIZE;
+
     HAL_IWDG_Refresh(&hiwdg);
     if((breaksval > 55) || LightsState.GetRegen()){
   	  rt_indicator.TurnOn();
