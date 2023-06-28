@@ -17,7 +17,7 @@ extern "C" void CPP_UserSetup(void);
 
 void UpdateSignals(void);
 void SendCanMsgs();
-void ReadIMU();
+void ReadBreak();
 void ReadADC();
 bool FaultPresent();
 
@@ -28,8 +28,8 @@ osTimerAttr_t signal_timer_attr =
     .name = "Lights Timer"
 };
 /* Definitions for IMU Thread */
-osTimerId_t imu_timer_id;
-osTimerAttr_t imu_timer_attr =
+osTimerId_t break_timer_id;
+osTimerAttr_t break_timer_attr =
 {
     .name = "IMU"
 };
@@ -63,6 +63,10 @@ void CPP_UserSetup(void)
 //  {
 //      Error_Handler();
 //  }
+  break_timer_id = osTimerNew((osThreadFunc_t)ReadBreak, osTimerPeriodic, NULL, &break_timer_attr);
+  if(break_timer_id == NULL){
+	  Error_Handler();
+  }
 //
 //  if(LSM6DSR_RegisterBusIO(&imu, &imu_bus))
 //  {
@@ -88,6 +92,7 @@ void CPP_UserSetup(void)
   breaks.Init();
   osTimerStart(adc_timer_id, 8);    // Needs to be >1x the rate we are sending
   // Start Thread that sends CAN Data
+  osTimerStart(break_timer_id, 6);
   can_tx_timer_id = osTimerNew((osThreadFunc_t)SendCanMsgs, osTimerPeriodic, NULL, &can_tx_timer_attr);
   if (can_tx_timer_id == NULL)
   {
@@ -235,10 +240,30 @@ void UpdateSignals(void)
 //  CDC_Transmit_FS((uint8_t*)buff.c_str(), 18);
 }
 
-void ReadIMU()
+void ReadBreak()
 {
-  LSM6DSR_Axes_t accel_info;
-  LSM6DSR_ACC_GetAxes(&imu, &accel_info);
+	// Read Breaks
+	  uint16_t tempBreaksVal = breaks.Read();
+
+	  //MOVING AVERAGE FILTER
+	  FLights.breaksBuffer[FLights.buffCtr] = tempBreaksVal;
+	  FLights.buffCtr++;
+	  if(FLights.buffCtr >= BUFF_SIZE){
+		  FLights.buffCtr = 0;
+	  }
+	  uint16_t sum = 0;
+	  for(uint8_t i = 0; i<BUFF_SIZE; i++){
+		  sum += FLights.breaksBuffer[i];
+	  }
+	  tempBreaksVal = sum/BUFF_SIZE;
+	  if((tempBreaksVal > 170) || LightsState.GetRegen()){
+		  FLights.SetBreaksVal(true);
+	  } else{
+		  FLights.SetBreaksVal(false);
+	  }
+
+	  //BREAKS_VAL = breaks.Read() >> 5; // FOR DEBUGin or buggin
+
 }
 
 void ReadADC()
@@ -254,29 +279,6 @@ void ReadADC()
     FLights.SetThrottleVal(throttle.Read());
   }
   THROTTLE_VAL = throttle.Read() >> 5; // FOR DEBUG
-
-  // Read Breaks
-  uint16_t tempBreaksVal = breaks.Read();
-
-  //MOVING AVERAGE FILTER
-  FLights.breaksBuffer[FLights.buffCtr] = tempBreaksVal;
-  FLights.buffCtr++;
-  if(FLights.buffCtr >= BUFF_SIZE){
-	  FLights.buffCtr = 0;
-  }
-  uint16_t sum = 0;
-  for(uint8_t i = 0; i<BUFF_SIZE; i++){
-	  sum += FLights.breaksBuffer[i];
-  }
-  tempBreaksVal = sum/BUFF_SIZE;
-  if((tempBreaksVal > 55) || LightsState.GetRegen()){
-	  FLights.SetBreaksVal(true);
-  } else{
-	  FLights.SetBreaksVal(false);
-  }
-
-  //BREAKS_VAL = breaks.Read() >> 5; // FOR DEBUGin or buggin
-
 }
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)

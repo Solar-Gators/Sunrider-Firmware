@@ -84,44 +84,47 @@ void UpdateSignals(void)
 {
   osMutexAcquire(LightsState.mutex_id_, osWaitForever);
 
-  if(LightsState.GetHazardsStatus())
-    {
-      if (lt_indicator.IsOn())
-      {
-        lt_indicator.TurnOff();
-        rt_indicator.TurnOff();
-      }
-      else
-      {
-        lt_indicator.TurnOn();
-        rt_indicator.TurnOn();
-      }
+  HAL_IWDG_Refresh(&hiwdg);
+
+
+  bool leftToggle = LightsState.GetLeftTurnStatus() || LightsState.GetHazardsStatus();
+  bool rightToggle = LightsState.GetRightTurnStatus() || LightsState.GetHazardsStatus();
+  bool breakVal = FLights.GetBreaksVal();
+
+  if (leftToggle) {
+	  lt_indicator.Toggle();
+	  if (breakVal) {
+		  rt_indicator.TurnOn();
+		  tlr_indicator.TurnOn();
+	  } else{
+		  rt_indicator.TurnOff();
+		  tlr_indicator.TurnOff();
+	  }
+  }
+  if (rightToggle) {
+	rt_indicator.Toggle();
+	if (breakVal) {
+	  lt_indicator.TurnOn();
+	  tlr_indicator.TurnOn();
+	} else{
+	  lt_indicator.TurnOff();
+	  tlr_indicator.TurnOff();
+	}
+  }
+  if (!rightToggle && !leftToggle && breakVal) {
+  	  rt_indicator.TurnOn();
+  	  lt_indicator.TurnOn();
+  	  tlr_indicator.TurnOn();
     }
-    else if(LightsState.GetRightTurnStatus())
-      rt_indicator.Toggle();
-    else if(LightsState.GetLeftTurnStatus())
-      lt_indicator.Toggle();
-
-    if(!LightsState.GetHazardsStatus() && !LightsState.GetRightTurnStatus())
-      rt_indicator.TurnOff();
-
-    if(!LightsState.GetHazardsStatus() && !LightsState.GetLeftTurnStatus())
-      lt_indicator.TurnOff();
+  else if (!rightToggle && !leftToggle && !breakVal) {
+	  rt_indicator.TurnOff();
+	  lt_indicator.TurnOff();
+	  tlr_indicator.TurnOff();
+  }
 
     if(LightsState.GetHeadlightsStatus()){
   	  //should add code here to keep lights on but dim
     }
-
-
-    HAL_IWDG_Refresh(&hiwdg);
-    if((breaksval > 55) || LightsState.GetRegen()){
-  	  rt_indicator.TurnOn();
-  	  lt_indicator.TurnOn();
-  	  tlr_indicator.TurnOn();
-    } else {
-    	tlr_indicator.TurnOff();
-    }
-
   osMutexRelease(LightsState.mutex_id_);
 
 }
