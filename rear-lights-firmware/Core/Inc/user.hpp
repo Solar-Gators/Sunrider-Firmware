@@ -38,8 +38,8 @@ LSM6DSR_Object_t imu;
 
 extern SPI_HandleTypeDef hspi1;
 // Leds
-SolarGators::Drivers::LED lt_indicator    ("LT Indicator", LT_GPIO_Port, LT_GPIO_Pin);
-SolarGators::Drivers::LED rt_indicator    ("RT Indicator", RT_GPIO_Port, RT_GPIO_Pin);
+SolarGators::Drivers::LED rt_indicator    ("LT Indicator", LT_GPIO_Port, LT_GPIO_Pin);
+SolarGators::Drivers::LED lt_indicator    ("RT Indicator", RT_GPIO_Port, RT_GPIO_Pin);
 SolarGators::Drivers::LED contactor_relay ("Contactor Relay", RELAY_EN_GPIO_Port, RELAY_EN_Pin);
 SolarGators::Drivers::LED tlr_indicator   ("TLR Indicator", TLR_GPIO_Port, TLR_GPIO_Pin);
 SolarGators::Drivers::LED strobeLight	  ("Strobe", STROBE_GPIO_Port, STROBE_GPIO_Pin);

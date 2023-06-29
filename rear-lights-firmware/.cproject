@@ -102,11 +102,11 @@
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.303314308.228975052" name="RFD900x.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/RFD900x.hpp" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.303314308.475183201" name="GPS_Driver.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/GPS_Driver.hpp" toolsToInvoke=""/>
 					<sourceEntries>
+						<entry excluding="Drivers/inc/GPS_Driver.hpp|Drivers/src/GPS_Driver.cpp|etl/test|etl/examples|etl/arduino|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="X-CUBE-MEMS1"/>
-						<entry excluding="Drivers/inc/GPS_Driver.hpp|Drivers/src/GPS_Driver.cpp|etl/test|etl/examples|etl/arduino|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

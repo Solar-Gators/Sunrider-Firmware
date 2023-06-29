@@ -9,7 +9,7 @@
 #include <string.h>
 
 namespace {
-  static constexpr uint32_t ID = 1023;
+  static constexpr uint32_t ID = 10;
   static constexpr uint32_t SIZE = 3;
 }
 namespace SolarGators::DataModules
