@@ -28,22 +28,22 @@ GPS::GPS():
 GPS::~GPS()
 { }
 
-double GPS::getLatitude()
+float GPS::getLatitude()
 {
   return latitude;
 }
 
-double GPS::getLongitude()
+float GPS::getLongitude()
 {
   return longitude;
 }
 
-double GPS::getSpeed()
+float GPS::getSpeed()
 {
   return speed;
 }
 
-double GPS::getTrueCourse()
+float GPS::getTrueCourse()
 {
   return trueCourse;
 }
@@ -90,7 +90,7 @@ void GPS::FromByteArray(uint8_t* buff)
   if (*start == 'S') {
     latitude_dd = -latitude_dd;
   }
-  this->latitude = latitude_dd;
+  this->latitude = (float)latitude_dd;
   start = strchr(start, ',') + 1;
 
   // Longitude
@@ -105,19 +105,19 @@ void GPS::FromByteArray(uint8_t* buff)
   if (*start == 'W') {
     longitude_dd = -longitude_dd;
   }
-  this->longitude = longitude_dd;
+  this->longitude = (float)longitude_dd;
   start = strchr(start, ',') + 1;
 
   // Speed
   end = strchr(start, ',');
   double speed_knots = atof(start);
-  this->speed = speed_knots;
+  this->speed = (float)speed_knots;
   start = end + 1;
 
   // True course
   end = strchr(start, ',');
   double true_course_deg = atof(start);
-  this->trueCourse = true_course_deg;
+  this->trueCourse = (float)true_course_deg;
 }
 
 

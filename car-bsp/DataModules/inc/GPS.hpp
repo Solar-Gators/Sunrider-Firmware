@@ -24,10 +24,10 @@ class GPS: public DataModule {
 public:
   GPS();
   virtual ~GPS();
-  double getLatitude();
-  double getLongitude();
-  double getSpeed();
-  double getTrueCourse();
+  float getLatitude();
+  float getLongitude();
+  float getSpeed();
+  float getTrueCourse();
 
   #ifdef IS_TELEMETRY
     	void PostTelemetry(PythonScripts* scripts);
