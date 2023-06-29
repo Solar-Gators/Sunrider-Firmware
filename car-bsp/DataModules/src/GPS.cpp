@@ -18,7 +18,7 @@ namespace {
 }
 
 GPS::GPS():
-    DataModule(ID, 0, SIZE),
+    DataModule(ID, 0, GPS_TRANSMISSION_SIZE),
     latitude(0),
     longitude(0),
     speed(0),
