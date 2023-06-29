@@ -154,8 +154,8 @@ void UpdateThrottle()
   if(Steering.GetCruiseEnabledStatus()){
 	  adjThrottleVal = Steering.GetCruiseSpeed();
   }
-  if (adjThrottleVal > 250) {
-	  adjThrottleVal = 250;
+  if (adjThrottleVal > 237) {
+	  adjThrottleVal = 237;
   }
   accel.WriteAndUpdate(adjThrottleVal); // shift over b\c we are sending 14 bit ADC to 8 bit DAC
 
