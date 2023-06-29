@@ -1,3 +1,6 @@
 [submodule "car-bsp/etl"]
 	path = car-bsp/etl
 	url = https://github.com/ETLCPP/etl.git
+[submodule "RTT"]
+	path = RTT
+	url = https://github.com/Solar-Gators/RTT.git
