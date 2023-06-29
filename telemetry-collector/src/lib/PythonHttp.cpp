@@ -40,6 +40,13 @@ void PythonHttp::addData(const char* name, float data) {
     );
 }
 
+void PythonHttp::addData(const char* name, double data) {
+    addParameter(
+        name,
+        PyFloat_FromDouble(data)
+    );
+}
+
 
 void PythonHttp::addData(const char* name, bool data) {
     PyObject *value;
