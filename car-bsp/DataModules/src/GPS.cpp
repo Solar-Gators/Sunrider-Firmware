@@ -123,6 +123,7 @@ void GPS::FromByteArray(uint8_t* buff)
   end = strchr(start, ',');
   double true_course_deg = atof(start);
   this->trueCourse = (float)true_course_deg;
+#endif
 }
 
 
