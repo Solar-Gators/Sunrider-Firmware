@@ -322,7 +322,7 @@ void Mpptx5::ToByteArray(uint8_t* buff) const
 	buff[4] |= (static_cast<uint8_t>(flag_duty_cycle_max)		<< 5);
 	buff[4] |= (static_cast<uint8_t>(flag_local_mppt)			<< 6);
 	buff[4] |= (static_cast<uint8_t>(flag_global_mppt)			<< 7);
-
+	buff[5] = 0;
 	buff[6] = (static_cast<uint8_t>(mode));
 	buff[7]= counter;
 }

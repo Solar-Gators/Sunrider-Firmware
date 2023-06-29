@@ -11,13 +11,17 @@ namespace SolarGators {
 namespace DataModules {
 
 namespace {
-  static constexpr uint32_t ID = 0x2345;
+  static constexpr uint32_t ID = 0x3e0;
   static constexpr uint32_t SIZE = 1;
 }
 
 RearLights::RearLights():
             DataModule(ID, 0, SIZE),
-            break_(false) {
+            break_(false),
+			contactor_status_(true)
+
+{
+
   // TODO Auto-generated constructor stub
 
 }

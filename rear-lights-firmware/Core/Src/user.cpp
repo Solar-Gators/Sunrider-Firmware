@@ -15,6 +15,7 @@ using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
 extern "C" void strobeCheck(void);
+extern "C" IWDG_HandleTypeDef hiwdg;
 void UpdateSignals(void);
 void SendCanMsgs();
 void ReadADC();
@@ -83,50 +84,49 @@ void UpdateSignals(void)
 {
   osMutexAcquire(LightsState.mutex_id_, osWaitForever);
 
-  if(LightsState.GetHazardsStatus())
-    {
-      if (lt_indicator.IsOn())
-      {
-        lt_indicator.TurnOff();
-        rt_indicator.TurnOff();
-      }
-      else
-      {
-        lt_indicator.TurnOn();
-        rt_indicator.TurnOn();
-      }
-    }
-    else if(LightsState.GetRightTurnStatus())
-      rt_indicator.Toggle();
-    else if(LightsState.GetLeftTurnStatus())
-      lt_indicator.Toggle();
+  HAL_IWDG_Refresh(&hiwdg);
 
-    if(!LightsState.GetHazardsStatus() && !LightsState.GetRightTurnStatus())
-      rt_indicator.TurnOff();
+  bool breakVal = FLights.GetBreaksVal();
 
-    if(!LightsState.GetHazardsStatus() && !LightsState.GetLeftTurnStatus())
-      lt_indicator.TurnOff();
+  // State, 0: off, 1: toggle, 2: on
+  uint32_t leftState = 0;
+  uint32_t rightState = 0;
 
-    if(LightsState.GetHeadlightsStatus()){
-  	  //should add code here to keep lights on but dim
-    }
+  if (breakVal) {
+	  leftState = 2;
+	  rightState = 2;
+	  tlr_indicator.TurnOn();
+  }
+  else
+	  tlr_indicator.TurnOff();
 
-    //moving average
-    FLights.breaksBuffer[FLights.buffCtr] = FLights.GetBreaksVal();
-    FLights.buffCtr++;
-    if(FLights.buffCtr >= BUFF_SIZE){
-    	FLights.buffCtr = 0;
-    }
-    uint16_t sum = 0;
-    for(uint8_t i = 0; i < BUFF_SIZE; i++){
-    	sum += FLights.breaksBuffer[i];
-    }
-    uint16_t breaksval = sum/BUFF_SIZE;
+  if (LightsState.GetLeftTurnStatus() || LightsState.GetHazardsStatus())
+  	  leftState = 1;
+  if (LightsState.GetRightTurnStatus() || LightsState.GetHazardsStatus())
+	  rightState = 1;
 
-    if((breaksval > 45) || LightsState.GetRegen()){
+  switch (leftState) {
+  case 1:
+	  lt_indicator.Toggle();
+	  break;
+  case 2:
+	  lt_indicator.TurnOn();
+	  break;
+  default:
+	  lt_indicator.TurnOff();
+	  break;
+  }
+
+  switch (rightState) {
+    case 1:
+  	  rt_indicator.Toggle();
+  	  break;
+    case 2:
   	  rt_indicator.TurnOn();
-  	  lt_indicator.TurnOn();
-  	  tlr_indicator.TurnOn();
+  	  break;
+    default:
+  	  rt_indicator.TurnOff();
+  	  break;
     }
 
   osMutexRelease(LightsState.mutex_id_);
@@ -161,11 +161,37 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //what can ya do i guess
 void strobeCheck(){
 	//check to activate strobe if discharge enable relay has been faulted, or kill sw
-	if(bmsCodes.isDischargeenableRelayFault() || RLights.getContactorStatus()){
+	if (bmsCodes.isInternalCellCommunicationFault() ||
+			bmsCodes.isCellBalancingStuckOffFault() ||
+			//bmsCodes.isWeakCellFault() ||
+			bmsCodes.isLowCellVoltageFault() ||
+			bmsCodes.isCellOpenWiringFault() ||
+			bmsCodes.isCurrentSensorFault() ||
+			bmsCodes.isCellVoltageOver5vFault() ||
+			bmsCodes.isCellBankFault() ||
+			bmsCodes.isWeakPackFault() ||
+			bmsCodes.isFanMonitorFault() ||
+			//bmsCodes.isThermistorFault() ||
+			bmsCodes.isCanCommunicationFault() ||
+			bmsCodes.isRedundantPowerSupplyFault() ||
+			bmsCodes.isHighVoltageIsolationFault() ||
+			bmsCodes.isInvalidInputSupplyVoltageFault() ||
+			bmsCodes.isChargeenableRelayFault() ||
+			bmsCodes.isDischargeenableRelayFault() ||
+			bmsCodes.isChargerSafetyRelayFault() ||
+			bmsCodes.isInternalHardwareFault() ||
+			bmsCodes.isInternalHeatsinkThermistorFault() ||
+			bmsCodes.isInternalLogicFault() ||
+			bmsCodes.isHighestCellVoltageTooHighFault() ||
+			bmsCodes.isLowestCellVoltageTooLowFault() ||
+			bmsCodes.isPackTooHotFault() ||
+			(!RLights.getContactorStatus())) {
 		//strobeLight.strobe(3);
 		strobeLight.Toggle();
+		RLights.setContactorStatus(false);
+		contactor_relay.TurnOff();
 	}
 	else{
-		//osDelay(6);
+		strobeLight.TurnOff();
 	}
 }

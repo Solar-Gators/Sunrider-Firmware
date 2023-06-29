@@ -18,7 +18,7 @@ public:
   FrontLightsController();
   ~FrontLightsController();
   void SetThrottleVal(uint16_t);
-  void SetBreaksVal(uint16_t);
+  void SetBreaksVal(bool);
 };
 
 } /* namespace DataModules */
