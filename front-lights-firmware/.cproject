@@ -101,12 +101,12 @@
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1992854786.638315071" name="RFD900x.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/RFD900x.hpp" toolsToInvoke=""/>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1992854786.289957108" name="GpsDriver.hpp" rcbsApplicability="disable" resourcePath="car-bsp/Drivers/inc/GpsDriver.hpp" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="SolarGatorsBSP_STM/CAN-Decoder/src/etl|SolarGatorsBSP_STM/CAN-Decoder/tests|SolarGatorsBSP_STM/Drivers/src/RFD900x.cpp|SolarGatorsBSP_STM/etl/examples|SolarGatorsBSP_STM/etl/test|SolarGatorsBSP_STM/etl/arduino|SolarGatorsBSP_STM/Drivers/src/HY28b.cpp|SolarGatorsBSP_STM/Drivers/inc/HY28b.hpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
-						<entry excluding="Drivers/inc/GPS_Driver.hpp|Drivers/src/GPS_Driver.cpp|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp|etl/test|etl/examples|etl/arduino" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
+						<entry excluding="SolarGatorsBSP_STM/CAN-Decoder/src/etl|SolarGatorsBSP_STM/CAN-Decoder/tests|SolarGatorsBSP_STM/Drivers/src/RFD900x.cpp|SolarGatorsBSP_STM/etl/examples|SolarGatorsBSP_STM/etl/test|SolarGatorsBSP_STM/etl/arduino|SolarGatorsBSP_STM/Drivers/src/HY28b.cpp|SolarGatorsBSP_STM/Drivers/inc/HY28b.hpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="X-CUBE-MEMS1"/>
-						<entry excluding="Drivers/src/GpsDriver.cpp|Drivers/inc/GpsDriver.hpp|Drivers/inc/RFD900x.hpp|Drivers/src/RFD900x.cpp|etl/test|etl/examples|etl/arduino" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="car-bsp"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="car-bsp/DataModules/src"/>
+						<entry excluding="RFD900x.cpp|GpsDriver.cpp" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="car-bsp/Drivers/src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
