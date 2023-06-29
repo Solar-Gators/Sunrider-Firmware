@@ -24,10 +24,10 @@ class GPS: public DataModule {
 public:
   GPS();
   virtual ~GPS();
-  const char* getLatitude();
-  const char* getLongitude();
-  const char* getSpeed();
-  const char* getTrueCourse();
+  double getLatitude();
+  double getLongitude();
+  double getSpeed();
+  double getTrueCourse();
 
   #ifdef IS_TELEMETRY
     	void PostTelemetry(PythonScripts* scripts);
@@ -39,10 +39,10 @@ public:
   void FromByteArray(uint8_t* buff);
 protected:
   uint8_t lastTransmission[GPS_TRANSMISSION_SIZE];
-  char latitude[GPS_LATITUDE_BYTES]; //Format for lat lon is: lat: DDMM.MMMM(N/S) lon: DDDMM.MMMM(E/W)
-  char longitude[GPS_LONGITUDE_BYTES]; //4042.6142,N 07400.4168,W. = +40  42.6142', -74  00.4168' in google maps
-  char speed[GPS_SPEED_BYTES]; //This is in knots
-  char trueCourse[GPS_TRUECOURSE_BYTES]; //This is in degrees
+  float latitude; //Format for lat lon is: lat: DDMM.MMMM(N/S) lon: DDDMM.MMMM(E/W)
+  float longitude; //4042.6142,N 07400.4168,W. = +40  42.6142', -74  00.4168' in google maps
+  float speed; //This is in knots
+  float trueCourse; //This is in degrees
 };
 
 } /* namespace DataModules */
