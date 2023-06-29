@@ -12,6 +12,8 @@
 namespace SolarGators {
 namespace Drivers {
 
+static uint32_t GPS_INT_CNT = 0;
+
 Gps::Gps(UART_HandleTypeDef* uart_instance, SolarGators::DataModules::GPS* gps_data)
 {
   gps_data_ = gps_data;
@@ -63,6 +65,7 @@ void Gps::rxCpltCallback()
     // If this IRQ is caused by a character match
     if(READ_BIT(uart_instance_->Instance->ISR, USART_ISR_CMF))
     {
+      GPS_INT_CNT++;
       // Change the DMA reg
       // Stop DMA
       hdma->Instance->CCR &= ~DMA_CCR_EN;

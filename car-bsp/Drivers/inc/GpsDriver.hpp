@@ -26,7 +26,7 @@ public:
 private:
   void updateDmaEngine(DMA_HandleTypeDef *hdma, uint32_t SrcAddress, uint32_t DstAddress, uint32_t DataLength);
   static constexpr uint32_t MAX_SENTENCE_LENGTH = 100;
-  static constexpr uint8_t DELIM_CHAR = '\n';
+  static constexpr uint8_t DELIM_CHAR = 'z';
 
   static constexpr uint8_t PING_FLAG = 1 << 0;
   static constexpr uint8_t PONG_FLAG = 1 << 1;
@@ -39,7 +39,7 @@ private:
   UART_HandleTypeDef* uart_instance_;
   osEventFlagsId_t uart_rx_event_;                 // Rx Data Ready for processing
   osThreadId_t rx_task_handle_;                    // Rx Task Handle
-  uint32_t rx_task_buffer_[ 128 ];                 // Rx Task Buffer
+  uint32_t rx_task_buffer_[ 256 ];                 // Rx Task Buffer
   StaticTask_t rx_task_control_block_;             // Rx Task Control Block
   const osThreadAttr_t rx_task_attributes_ =       // Rx Task Attributes
   {
