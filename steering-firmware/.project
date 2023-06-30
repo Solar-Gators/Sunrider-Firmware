@@ -34,7 +34,7 @@
 		<link>
 			<name>car-bsp</name>
 			<type>2</type>
-			<location>/Users/rbernardo/Documents/GitHub/Sunrider-Firmware/car-bsp</location>
+			<location>C:/Users/georg/STM32CubeIDE/SolarGators/Sunrider-Firmware/car-bsp</location>
 		</link>
 	</linkedResources>
 </projectDescription>

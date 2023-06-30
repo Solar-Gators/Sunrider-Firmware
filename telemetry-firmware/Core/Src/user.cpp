@@ -12,6 +12,7 @@ using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
 extern "C" void UartCallback(void);
+extern "C" void PitRxCallback(void);
 
 void SendCanMsgs();
 void SendTelemetryData();
@@ -191,6 +192,11 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 {
   CANController.SetRxFlag();
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
+}
+
+void PitRxCallback(void)
+{
+  pit.rxCpltCallback();
 }
 
 void UartCallback(void)
