@@ -45,13 +45,10 @@ namespace DataModules {
 
   void SteeringController::ToggleLeftTurnSignal()
   {
-    if(left_turn_) {
+    if(left_turn_)
       DisableLeftTurnSignal();
-    } else {
+    else
       EnableLeftTurnSignal();
-      DisableRightTurnSignal();
-      hazards_ = false;
-    }
   }
 
   void SteeringController::EnableRightTurnSignal()
@@ -67,13 +64,10 @@ namespace DataModules {
 
   void SteeringController::ToggleRightTurnSignal()
   {
-    if(right_turn_) {
+    if(right_turn_)
       DisableRightTurnSignal();
-    } else {
+    else
       EnableRightTurnSignal();
-      DisableLeftTurnSignal();
-	  hazards_ = false;
-    }
   }
 
   void SteeringController::EnableHazards()
@@ -90,13 +84,10 @@ namespace DataModules {
 
   void SteeringController::ToggleHazards()
   {
-    if(hazards_) {
+    if(hazards_)
       DisableHazards();
-  	} else {
+    else
       EnableHazards();
-      DisableRightTurnSignal();
-      DisableLeftTurnSignal();
-    }
   }
 
   void SteeringController::SetBpsFault(bool fault)
@@ -161,20 +152,12 @@ namespace DataModules {
 
   void SteeringController::IncreaseCruiseSpeed()
   {
-	  if (!regen_) {
 		  SetCruiseSpeed(cruise_speed_++);
-	  } else {
-		  IncreaseRegen();
-	  }
   }
 
   void SteeringController::DecreaseCruiseSpeed()
   {
-	  if (!regen_) {
 		  SetCruiseSpeed(cruise_speed_--);
-	  } else {
-		  DecreaseRegen();
-	  }
   }
 
   void SteeringController::SetCruiseSpeed(uint16_t speed)
@@ -182,28 +165,6 @@ namespace DataModules {
     // Make sure the the requested cruise speed is acceptable
     if(speed < Max_Cruise_Speed_ && speed > Min_Cruise_Speed_)
       cruise_speed_ = speed;
-  }
-
-  void SteeringController::IncreaseRegen() {
-	  if (regen_ > 0 && regen_ < 3) {
-		  regen_++;
-	  }
-  }
-
-  void SteeringController::DecreaseRegen() {
-	  if (regen_ > 1) {
-		  regen_--;
-	  }
-  }
-
-  void SteeringController::EnableRegen() {
-	  if (!regen_) {
-		  regen_ = 1;
-	  }
-  }
-
-  void SteeringController::DisableRegen() {
-	  regen_ = 0;
   }
 
   void SteeringController::EnableReverse()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>SteeringFirmware</name>
+	<name>SteeringWheel2023</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -34,7 +34,7 @@
 		<link>
 			<name>car-bsp</name>
 			<type>2</type>
-			<locationURI>$%7BPARENT-1-PROJECT_LOC%7D/car-bsp</locationURI>
+			<location>/Users/rbernardo/Documents/GitHub/Sunrider-Firmware/car-bsp</location>
 		</link>
 	</linkedResources>
 </projectDescription>
