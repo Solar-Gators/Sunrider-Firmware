@@ -1,9 +1,10 @@
 /*
+
  * UI.h
  *
  *  Created on: Jan 12, 2022
  *      Author: John Carr
- */
+
 
 #ifndef SOLARGATORSBSP_DRIVERS_INC_UI_HPP_
 #define SOLARGATORSBSP_DRIVERS_INC_UI_HPP_
@@ -79,7 +80,8 @@ private:
   void DrawTripCodes();
 };
 
-} /* namespace Drivers */
-} /* namespace SolarGators */
+}  namespace Drivers
+}  namespace SolarGators
 
-#endif /* SOLARGATORSBSP_DRIVERS_INC_UI_HPP_ */
+#endif  SOLARGATORSBSP_DRIVERS_INC_UI_HPP_
+*/

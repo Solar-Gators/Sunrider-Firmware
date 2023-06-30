@@ -57,13 +57,13 @@ static constexpr uint16_t MPPT2_RX5_MSG_ID = MPPT2_ID + 5;
 static constexpr uint16_t MPPT2_RX6_MSG_ID = MPPT2_ID + 6;
 
 // Steering Wheel
-static constexpr uint16_t STEERING_ID = 2048;
+static constexpr uint16_t STEERING_ID = 0x010;
 
 // Front Lights
-static constexpr uint16_t FRONT_LIGHTS_ID = 2049;
+static constexpr uint16_t FRONT_LIGHTS_ID = 0x234;
 
 // Rear Lights
-static constexpr uint16_t REAR_LIGHTS_ID = 2050;
+static constexpr uint16_t REAR_LIGHTS_ID = 0x3e0;
 
 //power board, might need to make lower pri
 static constexpr uint16_t POWER_BOARD_ID = 0x235;

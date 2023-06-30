@@ -1,9 +1,10 @@
 /*
+
  * ILI9341.h
  *
  *  Created on: Apr 21, 2022
  *      Author: John Carr
- */
+
 
 #ifndef SOLARGATORSBSP_DRIVERS_INC_ILI9341_HPP_
 #define SOLARGATORSBSP_DRIVERS_INC_ILI9341_HPP_
@@ -69,9 +70,9 @@ protected:
   int16_t width_;
   int16_t height_;
   int16_t text_size_;
-  /** @var array Chache memory char index row */
+  * @var array Chache memory char index row
   unsigned short int ili9341_cache_index_row_ = 0;
-  /** @var array Chache memory char index column */
+  * @var array Chache memory char index column
   unsigned short int ili9341_cache_index_col_ = 0;
   int16_t cursor_x;
   int16_t cursor_y;
@@ -124,7 +125,8 @@ private:
   GPIO_TypeDef* LCD_RST_GPIO_Port_    = GPIOA;
 };
 
-} /* namespace Drivers */
-} /* namespace SolarGators */
+}  namespace Drivers
+}  namespace SolarGators
 
-#endif /* SOLARGATORSBSP_DRIVERS_INC_ILI9341_HPP_ */
+#endif  SOLARGATORSBSP_DRIVERS_INC_ILI9341_HPP_
+*/

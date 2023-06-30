@@ -82,6 +82,8 @@ void Error_Handler(void);
 #define LED5_EN_GPIO_Port GPIOB
 #define LED6_EN_Pin GPIO_PIN_14
 #define LED6_EN_GPIO_Port GPIOB
+#define Break_EN_Pin GPIO_PIN_7
+#define Break_EN_GPIO_Port GPIOC
 #define LED4_EN_Pin GPIO_PIN_9
 #define LED4_EN_GPIO_Port GPIOC
 #define Throttle_Switch_Pin GPIO_PIN_3

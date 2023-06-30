@@ -6,17 +6,17 @@
  */
 
 #include <RearLights.hpp>
+#include <DataModuleInfo.hpp>
 
 namespace SolarGators {
 namespace DataModules {
 
 namespace {
-  static constexpr uint32_t ID = 0x3e0;
   static constexpr uint32_t SIZE = 1;
 }
 
 RearLights::RearLights():
-            DataModule(ID, 0, SIZE),
+            DataModule(SolarGators::DataModuleInfo::REAR_LIGHTS_ID, 0, SIZE),
             break_(false),
 			contactor_status_(true)
 

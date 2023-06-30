@@ -6,16 +6,16 @@
  */
 
 #include <FrontLights.hpp>
+#include <DataModuleInfo.hpp>
 
 namespace SolarGators {
 namespace DataModules {
 namespace {
-  static constexpr uint32_t ID = 0x234;
-  static constexpr uint32_t SIZE = 4;
+  static constexpr uint32_t SIZE = 3;
 }
 
 FrontLights::FrontLights():
-        DataModule(ID, 0, SIZE),
+        DataModule(SolarGators::DataModuleInfo::FRONT_LIGHTS_ID, 0, SIZE),
         throttle_(0),
 		breaks_(false),
 		buffCtr(0)

@@ -63,10 +63,12 @@ void CPP_UserSetup(void)
 //  {
 //      Error_Handler();
 //  }
+  /*
   break_timer_id = osTimerNew((osThreadFunc_t)ReadBreak, osTimerPeriodic, NULL, &break_timer_attr);
   if(break_timer_id == NULL){
 	  Error_Handler();
   }
+  */
 //
 //  if(LSM6DSR_RegisterBusIO(&imu, &imu_bus))
 //  {
@@ -92,7 +94,7 @@ void CPP_UserSetup(void)
   breaks.Init();
   osTimerStart(adc_timer_id, 8);    // Needs to be >1x the rate we are sending
   // Start Thread that sends CAN Data
-  osTimerStart(break_timer_id, 6);
+  //osTimerStart(break_timer_id, 6);
   can_tx_timer_id = osTimerNew((osThreadFunc_t)SendCanMsgs, osTimerPeriodic, NULL, &can_tx_timer_attr);
   if (can_tx_timer_id == NULL)
   {
@@ -243,6 +245,7 @@ void UpdateSignals(void)
 void ReadBreak()
 {
 	// Read Breaks
+		/*
 	  uint16_t tempBreaksVal = breaks.Read();
 
 	  //MOVING AVERAGE FILTER
@@ -261,7 +264,8 @@ void ReadBreak()
 	  } else{
 		  FLights.SetBreaksVal(false);
 	  }
-
+	  */
+	  FLights.SetBreaksVal(HAL_GPIO_ReadPin(Break_EN_GPIO_Port, Break_EN_Pin));
 	  //BREAKS_VAL = breaks.Read() >> 5; // FOR DEBUGin or buggin
 
 }
@@ -279,6 +283,7 @@ void ReadADC()
     FLights.SetThrottleVal(throttle.Read());
   }
   THROTTLE_VAL = throttle.Read() >> 5; // FOR DEBUG
+  FLights.SetBreaksVal(HAL_GPIO_ReadPin(Break_EN_GPIO_Port, Break_EN_Pin));
 }
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)

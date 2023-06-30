@@ -378,6 +378,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(HORN_EN_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : Break_EN_Pin */
+  GPIO_InitStruct.Pin = Break_EN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(Break_EN_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pins : Throttle_Switch_Pin Breaks_Pin */
   GPIO_InitStruct.Pin = Throttle_Switch_Pin|Breaks_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
