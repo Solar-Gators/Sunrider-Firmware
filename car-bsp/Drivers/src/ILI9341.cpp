@@ -47,9 +47,19 @@ ILI9341::~ILI9341()
   // TODO Auto-generated destructor stub
 }
 
+void ILI9341::Reset() {
+	HAL_GPIO_WritePin(LCD_CD_GPIO_Port_, LCD_CD_Pin_, GPIO_PIN_RESET);
+}
+
+void ILI9341::Resume() {
+	HAL_GPIO_WritePin(LCD_CD_GPIO_Port_, LCD_CD_Pin_, GPIO_PIN_SET);
+}
+
 void ILI9341::Init()
 {
   // Write all control signals high
+  HAL_GPIO_WritePin(Backlight_PWM_GPIO_Port, Backlight_PWM_Pin, GPIO_PIN_SET);
+
   HAL_GPIO_WritePin(LCD_CS_GPIO_Port_, LCD_CS_Pin_, GPIO_PIN_SET);
   HAL_GPIO_WritePin(LCD_CD_GPIO_Port_, LCD_CD_Pin_, GPIO_PIN_SET);
   HAL_GPIO_WritePin(LCD_WRITE_GPIO_Port_, LCD_WRITE_Pin_, GPIO_PIN_SET);
@@ -114,7 +124,7 @@ inline void ILI9341::Write(uint8_t data)
   LCD_DATA6_GPIO_Port_->ODR ^= ( -((data & 0x40U) >> 6)^LCD_DATA6_GPIO_Port_->ODR ) & (1 << LCD_DATA6_Pos_);
   LCD_DATA7_GPIO_Port_->ODR ^= ( -((data & 0x80U) >> 7)^LCD_DATA7_GPIO_Port_->ODR ) & (1 << LCD_DATA7_Pos_);
   // Pulse Write
-  LCD_WRITE_GPIO_Port_->BRR = LCD_WRITE_Pin_;
+  LCD_WRITE_GPIO_Port_->BSRR = LCD_WRITE_Pin_; // changed from brr to bsrr... ok?
   LCD_WRITE_GPIO_Port_->BSRR = LCD_WRITE_Pin_;
 #endif
 
@@ -242,10 +252,10 @@ void ILI9341::Flood(uint16_t color, uint32_t count)
   HAL_GPIO_WritePin(LCD_WRITE_GPIO_Port_, LCD_WRITE_Pin_, GPIO_PIN_SET);
 #else
   // Pulse Write for high byte
-  LCD_WRITE_GPIO_Port_->BRR = LCD_WRITE_Pin_;
+  LCD_WRITE_GPIO_Port_->BSRR = LCD_WRITE_Pin_; // changed from brr to bsrr
   LCD_WRITE_GPIO_Port_->BSRR = LCD_WRITE_Pin_;
   // Pulse Write for low byte
-  LCD_WRITE_GPIO_Port_->BRR = LCD_WRITE_Pin_;
+  LCD_WRITE_GPIO_Port_->BSRR = LCD_WRITE_Pin_; // changed from brr to bsrr
   LCD_WRITE_GPIO_Port_->BSRR = LCD_WRITE_Pin_;
 
 #endif

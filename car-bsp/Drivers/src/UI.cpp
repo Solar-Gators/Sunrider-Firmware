@@ -31,11 +31,11 @@ void InfoSquare::UpdateValue(ILI9341& disp, etl::string<5>& val)
 UI::UI(ILI9341& display):disp(display)
 {
   // Set Screen Orientation
-  disp.SetRotation(3);
+  disp.SetRotation(1);
   // Set Background Color
   disp.ClearScreen(0x0000);
   // Setup info squares
-  etl::string<5> titles[] = {"Accel"," SOC ","Voltg","Curnt"};
+  etl::string<5> titles[] = {"Vsup","Psup","Voltg","Pmain"};
   for (size_t i = 0; i < first_row_.size(); ++i)
   {
     first_row_[i].title = titles[i];

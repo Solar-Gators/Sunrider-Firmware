@@ -12,7 +12,7 @@ jobs:
       - uses: Solar-Gators/STM32-Infrastructure@main
         with:
           project-path: 'steering-firmware'
-          project-target: 'SteeringFirmware'
+          project-target: 'SteeringWheel2023'
 
       - uses: actions/upload-artifact@v3
         with:

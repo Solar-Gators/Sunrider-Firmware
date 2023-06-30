@@ -106,7 +106,7 @@
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="X-CUBE-MEMS1"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="car-bsp/DataModules/src"/>
-						<entry excluding="RFD900x.cpp|GpsDriver.cpp" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="car-bsp/Drivers/src"/>
+						<entry excluding="ILI9341.cpp|RFD900x.cpp|GpsDriver.cpp" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="car-bsp/Drivers/src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
