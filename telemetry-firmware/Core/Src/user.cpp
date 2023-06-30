@@ -11,11 +11,11 @@
 using namespace SolarGators;
 
 extern "C" void CPP_UserSetup(void);
+extern "C" void UartCallback(void);
 
 void SendCanMsgs();
 void SendTelemetryData();
 void UpdateThrottle();
-void PollForGPS();
 uint8_t CalcRegen(float* acceleration);
 
 // OS Configs
@@ -43,6 +43,7 @@ osTimerAttr_t gps_poll_timer_attr =
 };
 static constexpr uint32_t speed_control_period = 10;
 
+Drivers::Gps gps(&huart4, &Gps);
 
 void CPP_UserSetup(void)
 {
@@ -65,13 +66,6 @@ void CPP_UserSetup(void)
    {
        Error_Handler();
    }
-
-  // Initialize routine that polls for GPS
-  gps_poll_timer_id = osTimerNew((osThreadFunc_t)PollForGPS, osTimerPeriodic, NULL, &gps_poll_timer_attr);
-  if (gps_poll_timer_id == NULL)
-  {
-      Error_Handler();
-  }
 
   // Front Lights (for throttle)
   //we add these modules to the etl map, binds can id and actual module together
@@ -105,8 +99,7 @@ void CPP_UserSetup(void)
   CANController.Init();
 
   // Ready GPS
-  GPS_init(&huart4);
-
+  gps.startReception();
   // Start Timers
   osTimerStart(telem_tx_timer_id, 1000);  // Pit Transmission
   osTimerStart(can_tx_timer_id, 2000);    // CAN Tx Transmission
@@ -161,8 +154,8 @@ void UpdateThrottle()
   if(Steering.GetCruiseEnabledStatus()){
 	  adjThrottleVal = Steering.GetCruiseSpeed();
   }
-  if (adjThrottleVal > 250) {
-	  adjThrottleVal = 250;
+  if (adjThrottleVal > 237) {
+	  adjThrottleVal = 237;
   }
   accel.WriteAndUpdate(adjThrottleVal); // shift over b\c we are sending 14 bit ADC to 8 bit DAC
 
@@ -200,21 +193,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
   HAL_CAN_DeactivateNotification(hcan, CAN_IT_RX_FIFO0_MSG_PENDING);
 }
 
-
-void PollForGPS()
+void UartCallback(void)
 {
-  bool finishedProcessing;
-  uint8_t newByte;
-  HAL_StatusTypeDef status = HAL_UART_Receive(&huart4, &newByte, 1, 1);
-
-  if (status == HAL_OK) {
-    char* data = GPS_RxCpltCallback(&finishedProcessing, (char)newByte);
-    if (finishedProcessing) {
-      osMutexAcquire(Gps.mutex_id_, osWaitForever);
-      Gps.FromByteArray((uint8_t*)data);
-      osMutexRelease(Gps.mutex_id_);
-    }
-  }
-
-  pit.SendDataModule(Gps);
+  gps.rxCpltCallback();
 }

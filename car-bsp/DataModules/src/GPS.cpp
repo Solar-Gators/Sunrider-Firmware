@@ -16,36 +16,36 @@ namespace SolarGators {
 namespace DataModules {
 namespace {
   static constexpr uint32_t ID = 0x567;
-  static constexpr uint32_t SIZE = 4;
+  static constexpr uint32_t SIZE = 15;
 }
 
 GPS::GPS():
-    DataModule(ID, 0, SIZE),
-    latitude("0"),
-    longitude("0"),
-    speed("0"),
-    trueCourse("0")
+    DataModule(ID, 0, GPS_TRANSMISSION_SIZE),
+    latitude(0),
+    longitude(0),
+    speed(0),
+    trueCourse(0)
 { }
 
 GPS::~GPS()
 { }
 
-const char* GPS::getLatitude()
+float GPS::getLatitude()
 {
   return latitude;
 }
 
-const char* GPS::getLongitude()
+float GPS::getLongitude()
 {
   return longitude;
 }
 
-const char* GPS::getSpeed()
+float GPS::getSpeed()
 {
   return speed;
 }
 
-const char* GPS::getTrueCourse()
+float GPS::getTrueCourse()
 {
   return trueCourse;
 }
@@ -91,9 +91,11 @@ void GPS::FromByteArray(uint8_t* buff)
   double latitude_ddm_min = atof(start + 2);
   start = end + 1;
 
-  if (*start == 'S') latitude_ddm_deg = -latitude_ddm_deg;
   double latitude_dd = ddmToDd(latitude_ddm_deg, latitude_ddm_min);
-  sprintf(latitude, "%f", latitude_dd);
+  if (*start == 'S') {
+    latitude_dd = -latitude_dd;
+  }
+  this->latitude = (float)latitude_dd;
   start = strchr(start, ',') + 1;
 
   // Longitude
@@ -104,22 +106,24 @@ void GPS::FromByteArray(uint8_t* buff)
   double longitude_ddm_min = atof(start + 3);
   start = end + 1;
 
-  if (*start == 'W') longitude_ddm_deg = -longitude_ddm_deg;
   double longitude_dd = ddmToDd(longitude_ddm_deg, longitude_ddm_min);
-  sprintf(longitude, "%f", longitude_dd);
+  if (*start == 'W') {
+    longitude_dd = -longitude_dd;
+  }
+  this->longitude = (float)longitude_dd;
   start = strchr(start, ',') + 1;
 
   // Speed
   end = strchr(start, ',');
   double speed_knots = atof(start);
-  sprintf(speed, "%.2f", speed_knots);
+  this->speed = (float)speed_knots;
   start = end + 1;
 
   // True course
   end = strchr(start, ',');
   double true_course_deg = atof(start);
-  sprintf(trueCourse, "%.2f", true_course_deg);
-  #endif
+  this->trueCourse = (float)true_course_deg;
+#endif
 }
 
 

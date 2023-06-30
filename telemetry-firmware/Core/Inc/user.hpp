@@ -14,6 +14,7 @@
 #include "PitComms.hpp"
 #include "LTC2630.hpp"
 #include "LED.hpp"
+#include "GpsDriver.hpp"
 
 // Data Module Info
 #include "DataModuleInfo.hpp"
@@ -28,7 +29,6 @@
 #include "PowerBoard.hpp"
 #include "Mppt.hpp"
 #include "GPS.hpp"
-#include "GPS_Driver.hpp"
 
 extern CAN_HandleTypeDef hcan;
 extern UART_HandleTypeDef huart2;
