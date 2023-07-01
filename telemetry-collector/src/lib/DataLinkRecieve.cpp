@@ -14,15 +14,14 @@ void DataLinkReceive::flush() {
 bool DataLinkReceive::read(u_int8_t data) {
     if (this->escaped) {
         this->escaped = false;
-        return false;
     }
 
-    if (data == ESCAPE) {
+    else if (data == ESCAPE) {
         this->escaped = true;
         return false;
     }
 
-    if (data == START) {
+    else if (data == START) {
         if (this->in_progress) {
             this->flush();
             Logger::info("Error: There was multiple start conditions\n");
@@ -32,7 +31,7 @@ bool DataLinkReceive::read(u_int8_t data) {
         return false;
     }
 
-    if (data == END) {
+    else if (data == END) {
         if (!this->in_progress) {
             this->flush();
             Logger::info("Error: There was an end condition without a start\n");

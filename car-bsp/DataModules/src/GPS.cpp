@@ -129,14 +129,16 @@ void GPS::FromByteArray(uint8_t* buff)
 
 #ifdef IS_TELEMETRY
 void GPS::PostTelemetry(PythonScripts* scripts) {
-  PythonHttp http;
-  http.init();
-  http.addData("heading", getTrueCourse());
-  http.addData("latitude", getLatitude());
-  http.addData("longitude", getLongitude());
-  http.addData("speed", getSpeed());
-  scripts->send("gps/rx0", http.getParameters());
-  http.flush();
+  if (getLatitude() > 0) {
+    PythonHttp http;
+    http.init();
+    http.addData("heading", getTrueCourse());
+    http.addData("latitude", getLatitude());
+    http.addData("longitude", getLongitude());
+    http.addData("speed", getSpeed());
+    scripts->send("gps/rx0", http.getParameters());
+    http.flush();
+  }
 }
 #endif
 

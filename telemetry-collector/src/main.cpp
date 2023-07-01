@@ -44,6 +44,8 @@ SolarGators::DataModules::Mpptx5 MPPT1_Rx_5(SolarGators::DataModuleInfo::MPPT1_R
 SolarGators::DataModules::Mpptx5 MPPT2_Rx_5(SolarGators::DataModuleInfo::MPPT2_RX5_MSG_ID);
 //SolarGators::DataModules::PowerBoard PBoard(SolarGators::DataModuleInfo::POWER_BOARD_ID, 0);
 
+// SolarGators::DataModules::Flight Flight(SolarGators::DataModuleInfo::FRONT_LIGHTS_ID, 0);
+
 
 void signalHandler( int signum ) {
    exit(0);
@@ -90,6 +92,9 @@ int main(int argc, char *argv[]) {
 
     // GPS
     modules.insert(std::make_pair(GPS_Rx_0.can_id_, &GPS_Rx_0));
+
+
+    // modules.insert(stdd::make_pair(Flight.can_id_, &Flight));
 
     //need review here?
     //modules.insert(std::make_pair(PBoard.can_id_, &PBoard));

@@ -152,7 +152,7 @@ namespace SolarGators::DataModules
   {
     pack_dcl_     = (static_cast<uint16_t>(buff[0]) << 8) | buff[1];
     pack_ccl_     = (static_cast<uint16_t>(buff[2]) << 8) | buff[3];
-    pack_current_ = (static_cast<uint16_t>(buff[4]) << 8) | buff[5];
+    pack_current_ = (static_cast<int16_t>(buff[4]) << 8) | buff[5];
     constant_val_ = (static_cast<uint16_t>(buff[6]) << 8) | buff[7];
   }
 
@@ -165,7 +165,7 @@ namespace SolarGators::DataModules
   }
 
   float OrionBMSRx2::getPackCurrent() const {
-    return pack_current_ * 0.1;
+    return pack_current_ / 10;
   }
 
   uint16_t OrionBMSRx2::getPackDcl() const {
