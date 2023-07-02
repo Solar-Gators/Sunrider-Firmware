@@ -21,6 +21,9 @@ public:
   float GetSupBatPower();
   float GetMainBatPower();
   uint8_t GetPowerSource();
+#ifdef IS_TELEMETRY
+  void PostTelemetry(PythonScripts* scripts);
+#endif
   // CAN Functions
   void ToByteArray(uint8_t* buff) const;
   void FromByteArray(uint8_t* buff);

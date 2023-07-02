@@ -69,13 +69,12 @@ void PowerBoard::FromByteArray(uint8_t* buff)
   void PowerBoard::PostTelemetry(PythonScripts* scripts) {
     PythonHttp http;
 	http.init();
-	http.addData("SupBatVoltage_", getLowCellVolt());
-	http.addData("SupBatPower_", getHighCellVolt());
-	http.addData("MainBatPower_", getAvgCellVolt());
+	http.addData("SupBatVoltage_", GetSupBatVoltage());
+	http.addData("SupBatPower_", GetSupBatPower());
+	http.addData("MainBatPower_", GetMainBatPower());
 	if (GetPowerSource()) {
 		scripts->send("powerBoard/rx0", http.getParameters());
-	}
-	else {
+	} else {
 		scripts->send("powerBoard/rx1", http.getParameters());
 	}
 	http.flush();

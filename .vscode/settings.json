@@ -9,6 +9,12 @@
         "initializer_list": "cpp",
         "map": "cpp",
         "unordered_map": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "istream": "cpp",
+        "locale": "cpp",
+        "memory": "cpp",
+        "thread": "cpp",
+        "tuple": "cpp",
+        "variant": "cpp"
     }
 }
