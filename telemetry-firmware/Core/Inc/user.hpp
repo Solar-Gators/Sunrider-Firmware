@@ -72,7 +72,7 @@ SolarGators::DataModules::FrontLights FLights;
 SolarGators::DataModules::RearLights RLights;
 SolarGators::DataModules::Steering Steering;
 SolarGators::DataModules::GPS Gps;
-SolarGators::DataModules::PowerBoard Pboard(SolarGators::DataModuleInfo::POWER_BOARD_ID, 0);
+SolarGators::DataModules::PowerBoard Pboard();
 SolarGators::DataModules::MitsubaRequest Motor_Tx(SolarGators::DataModuleInfo::MOTORTX_RL_MSG_ID);
 
 // Objects that we will want to send data to the pit on

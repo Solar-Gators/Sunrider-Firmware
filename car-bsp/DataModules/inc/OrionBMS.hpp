@@ -56,7 +56,7 @@ namespace SolarGators::DataModules
     uint8_t getInternalTemp() const;
     uint8_t getLowTemp() const;
     uint8_t getLowTempId() const;
-    
+
 
     static constexpr uint8_t Size = 8;
   protected:

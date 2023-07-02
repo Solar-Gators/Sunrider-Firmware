@@ -6,6 +6,7 @@
  */
 
 #include "OrionBMS.hpp"
+#include "string.h"
 
 namespace SolarGators::DataModules
 {
@@ -138,14 +139,14 @@ namespace SolarGators::DataModules
 
   void OrionBMSRx2::ToByteArray(uint8_t* buff) const
   {
-    buff[0] = pack_dcl_ >> 8;
-    buff[1] = (pack_dcl_ & 0x00FF);
-    buff[2] = pack_ccl_ >> 8;
-    buff[3] = (pack_ccl_ & 0x00FF);
-    buff[4] = pack_current_ >> 8;
-    buff[5] = (pack_current_ & 0x00FF);
-    buff[6] = constant_val_ >> 8;
-    buff[7] = (constant_val_ & 0x00FF);
+	buff[0] = pack_dcl_ >> 8;
+	buff[1] = (pack_dcl_ & 0x00FF);
+	buff[2] = pack_ccl_ >> 8;
+	buff[3] = (pack_ccl_ & 0x00FF);
+	buff[4] = pack_current_ >> 8;
+	buff[5] = (pack_current_ & 0x00FF);
+	buff[6] = constant_val_ >> 8;
+	buff[7] = (constant_val_ & 0x00FF);
   }
 
   void OrionBMSRx2::FromByteArray(uint8_t* buff)

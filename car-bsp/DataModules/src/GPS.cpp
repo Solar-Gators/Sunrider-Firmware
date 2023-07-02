@@ -16,11 +16,11 @@ namespace SolarGators {
 namespace DataModules {
 namespace {
   static constexpr uint32_t ID = 0x567;
-  static constexpr uint32_t SIZE = 15;
+  static constexpr uint32_t SIZE = GPS_TRANSMISSION_SIZE;
 }
 
 GPS::GPS():
-    DataModule(ID, 0, GPS_TRANSMISSION_SIZE),
+    DataModule(ID, 0, SIZE),
     latitude(0),
     longitude(0),
     speed(0),
