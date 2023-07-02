@@ -65,5 +65,22 @@ void PowerBoard::FromByteArray(uint8_t* buff)
 	PowerSource_ = buff[6];
 }
 
+#ifdef IS_TELEMETRY
+  void PowerBoard::PostTelemetry(PythonScripts* scripts) {
+    PythonHttp http;
+	http.init();
+	http.addData("SupBatVoltage_", getLowCellVolt());
+	http.addData("SupBatPower_", getHighCellVolt());
+	http.addData("MainBatPower_", getAvgCellVolt());
+	if (GetPowerSource()) {
+		scripts->send("powerBoard/rx0", http.getParameters());
+	}
+	else {
+		scripts->send("powerBoard/rx1", http.getParameters());
+	}
+	http.flush();
+  }
+#endif
+
 } /* namespace DataModules */
 } /* namespace SolarGators */

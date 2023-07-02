@@ -42,7 +42,7 @@ SolarGators::DataModules::Mpptx1 MPPT2_Rx_1(SolarGators::DataModuleInfo::MPPT2_R
 SolarGators::DataModules::Mpptx5 MPPT0_Rx_5(SolarGators::DataModuleInfo::MPPT0_RX5_MSG_ID);
 SolarGators::DataModules::Mpptx5 MPPT1_Rx_5(SolarGators::DataModuleInfo::MPPT1_RX5_MSG_ID);
 SolarGators::DataModules::Mpptx5 MPPT2_Rx_5(SolarGators::DataModuleInfo::MPPT2_RX5_MSG_ID);
-//SolarGators::DataModules::PowerBoard PBoard(SolarGators::DataModuleInfo::POWER_BOARD_ID, 0);
+SolarGators::DataModules::PowerBoard PBoard();
 
 // SolarGators::DataModules::Flight Flight(SolarGators::DataModuleInfo::FRONT_LIGHTS_ID, 0);
 
@@ -96,8 +96,7 @@ int main(int argc, char *argv[]) {
 
     // modules.insert(stdd::make_pair(Flight.can_id_, &Flight));
 
-    //need review here?
-    //modules.insert(std::make_pair(PBoard.can_id_, &PBoard));
+    modules.insert(std::make_pair(PBoard.can_id_, &PBoard));
 
     NetworkReceive network;
     while (1) {
