@@ -149,6 +149,7 @@ void SendTelemetryData()
 
 void UpdateThrottle()
 {
+	//comment 2
   uint8_t adjThrottleVal = static_cast<uint8_t>(FLights.GetThrottleVal() >> 5);
   // Probs dont want to do the below would be better to drop two bits then map 12 bits to 18 bits
   if(Steering.GetCruiseEnabledStatus()){
