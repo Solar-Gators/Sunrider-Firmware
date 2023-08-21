@@ -27,7 +27,7 @@ Verify For Telemetry Messages
     Should Contain   ${result.stdout}    All can messages received
 
 Verify That Service Receives Data
-    [Documentation]     Verifies that the pit-gui service recieved the telemetry
+    [Documentation]     Verifies that the pit-gui service received the telemetry
 
     Execute Command     emulation CreateUartPtyTerminal "term" "/tmp/uart" true
     Execute Command     connector Connect sysbus.usart2 term
