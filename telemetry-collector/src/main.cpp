@@ -25,6 +25,7 @@ SolarGators::DataModules::MitsubaRx2 MitsubaRx2(SolarGators::DataModuleInfo::MOT
 
 SolarGators::DataModules::CustomBMSRx0 CustomBMSRx0(SolarGators::DataModuleInfo::CBMS_RX0_MSG_ID);
 SolarGators::DataModules::CustomBMSRx1 CustomBMSRx1(SolarGators::DataModuleInfo::CBMS_RX1_MSG_ID);
+SolarGators::DataModules::CustomBMSRx2 CustomBMSRx2(SolarGators::DataModuleInfo::CBMS_RX2_MSG_ID);
 
 SolarGators::DataModules::OrionBMSRx0 OrionBMSRx0(SolarGators::DataModuleInfo::BMS_RX0_MSG_ID, 0);
 SolarGators::DataModules::OrionBMSRx1 OrionBMSRx1(SolarGators::DataModuleInfo::BMS_RX1_MSG_ID, 0);
@@ -82,7 +83,8 @@ int main(int argc, char *argv[]) {
     modules.insert(std::make_pair(OrionBMSRx5.can_id_, &OrionBMSRx5));
 
     modules.insert(std::make_pair(CustomBMSRx0.can_id_, &CustomBMSRx0));
-    modules.insert(std::make_pair(CustomBMSRx0.can_id_, &CustomBMSRx1));
+    modules.insert(std::make_pair(CustomBMSRx1.can_id_, &CustomBMSRx1));
+    modules.insert(std::make_pair(CustomBMSRx2.can_id_, &CustomBMSRx2));
     // MPPTs
     modules.insert(std::make_pair(MPPT0_Rx_0.can_id_, &MPPT0_Rx_0));
     modules.insert(std::make_pair(MPPT1_Rx_0.can_id_, &MPPT1_Rx_0));
