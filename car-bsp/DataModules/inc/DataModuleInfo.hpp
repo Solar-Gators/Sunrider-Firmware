@@ -21,6 +21,11 @@ static constexpr uint32_t BMS_RX3_MSG_ID = 0x6B3;
 static constexpr uint32_t BMS_RX4_MSG_ID = 0x6B4;
 static constexpr uint32_t BMS_RX5_MSG_ID = 0x6B5;
 
+static constexpr uint32_t CBMS_RX0_MSG_ID = 0x6C0;
+static constexpr uint32_t CBMS_RX1_MSG_ID = 0x6C1;
+static constexpr uint32_t CBMS_RX2_MSG_ID = 0x6C2;
+static constexpr uint32_t CBMS_RX3_MSG_ID = 0x6C3;
+
 // Mitsuba
 //TX Messages
 static constexpr uint32_t MOTORTX_RL_MSG_ID = 0x08F89540;
