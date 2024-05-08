@@ -2,7 +2,7 @@ const commonConfig = {
   "INTERNAL_UDP_HOST": "localhost",
   "INTERNAL_UDP_PORT": "8000",
   "EXTERNAL_UDP_PORT": "8000",
-  "UART_BAUD_RATE": "57600",
+  "UART_BAUD_RATE": "3000000",
 }
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
           script: "./collector",
           env: {
             "EXTERNAL_UDP_HOST": "api.ufsolargators.org",
-            "UART_PORT": "/tmp/uart",
+            "UART_PORT": "/dev/ttyACM0",
             ...commonConfig,
           },
           env_ci: {

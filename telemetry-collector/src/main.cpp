@@ -105,18 +105,20 @@ int main(int argc, char *argv[]) {
             continue;
         }
         network.fromByteArray(dataLink.buffer);
+	/*
         uint16_t crc = SolarGators::Helpers::crc16(network.data, network.size);
         if (crc != network.crc) {
             Logger::info("Error: CRC did not match, skipping.\n");
             continue;
         }
-
+	*/
         //Get module
         if (modules.count(network.can_id) > 0) {
             SolarGators::DataModules::DataModule* rx_module = (*modules.find(network.can_id)).second;
             rx_module->FromByteArray(network.data);
             rx_module->PostTelemetry(&scripts);
-        }
+       	    Logger::info("success/n");
+	}
         dataLink.flush();
     }
 
