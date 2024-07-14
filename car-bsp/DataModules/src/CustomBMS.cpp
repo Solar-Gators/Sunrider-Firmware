@@ -175,6 +175,46 @@ uint16_t CustomBMSRx2::GetInternalTemp() const {
 	scripts->send("bms/rx2", http.getParameters());
 }
 #endif
-}
+
 
 //BMSFrame3: Implementation
+CustomBMSRx3::CustomBMSRx3(uint32_t can_id) : DataModule(can_id, 0, this->Size, 0, false) {}
+
+void CustomBMSRx3::FromByteArray(uint8_t* buff){
+    fault_flags_ = buff[0];
+    status_flags_ = buff[1];
+    pack_soc_ = (static_cast<uint16_t>(buff[3]) << 8) | buff[4];
+}
+
+bool CustomBMSRx3::GetLowCellVoltageFault() const {
+    return (fault_flags_ && 0b1);
+}
+
+bool CustomBMSRx3::GetHighCellVoltageFault() const {
+    return (fault_flags_ && 0b10);
+}
+
+bool CustomBMSRx3::GetHighDischargeCurrentFault() const {
+    return (fault_flags_ && 0b100);
+}
+
+bool CustomBMSRx3::GetHighChargeCurrentFault() const {
+    return (fault_flags_ && 0b1000);
+}
+
+bool CustomBMSRx3::GetHighTempFault() const {
+    return (fault_flags_ && 0b10000);
+} 
+
+bool CustomBMSRx3::GetThermistorDisconnectedFault() const {
+    return (fault_flags_ && 0b100000);
+}
+
+bool CustomBMSRx3::GetCurrentSensorDisconnectedFault() const {
+    return (fault_flags_ && 0b1000000);
+}
+
+bool CustomBMSRx3::GetKillSwitchPressedFault() const {
+    return (fault_flags_ && 0b10000000);
+}
+
