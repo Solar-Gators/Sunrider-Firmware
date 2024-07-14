@@ -17,7 +17,7 @@ public:
     CustomBMSRx0(uint32_t can_id);
     ~CustomBMSRx0() {};
 
-    //void ToByteArray(uint8_t* buff) const;
+    void ToByteArray(uint8_t* buff) const;
     void FromByteArray(uint8_t* buff);
     #ifdef IS_TELEMETRY
     void PostTelemetry(PythonScripts* scripts);
@@ -109,9 +109,6 @@ public:
     bool GetCurrentSensorDisconnectedFault() const;
     bool GetKillSwitchPressedFault() const;
     uint8_t GetStatusFlags() const;
-    bool GetContactorStatus(uint8_t contactor) const;
-    bool GetContactorSource() const;
-    bool GetBalancingActive() const;
     uint16_t GetPackSoC() const;
 
     static constexpr uint8_t Size = 5;
