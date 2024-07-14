@@ -12,7 +12,7 @@ namespace SolarGators::DataModules {
 
 // BMSFrame0 Implementation
 CustomBMSRx0::CustomBMSRx0(uint32_t can_id) : DataModule(can_id, 0, this->Size, 0, false) {}
-
+/*
 void CustomBMSRx0::ToByteArray(uint8_t* buff) const {
     buff[0] = pack_voltage_ >> 8;
     buff[1] = pack_voltage_ & 0xFF;
@@ -23,14 +23,14 @@ void CustomBMSRx0::ToByteArray(uint8_t* buff) const {
     buff[6] = low_cell_voltage_ >> 8;
     buff[7] = low_cell_voltage_ & 0xFF;
 }
-
+*/
 void CustomBMSRx0::FromByteArray(uint8_t* buff) {
     // Voltage is in V * 1e-1
-    pack_voltage_ = (static_cast<uint16_t>(buff[1]) << 8) | buff[0];
+    pack_voltage_ = (float) ((buff[1]) << 8 | buff[0]) / 10;
     // Voltage in mV for remaining values
-    avg_cell_voltage_ = (static_cast<uint16_t>(buff[3]) << 8) | buff[2];
-    high_cell_voltage_ = (static_cast<uint16_t>(buff[5]) << 8) | buff[4];
-    low_cell_voltage_ = (static_cast<uint16_t>(buff[7]) << 8) | buff[6];
+    avg_cell_voltage_ = (float) ((buff[3]) << 8 | buff[2]) / 1000;
+    high_cell_voltage_ = (float) ((buff[5]) << 8 | buff[4]) / 1000;
+    low_cell_voltage_ = (float) ((buff[7]) << 8 | buff[6]) / 1000;
 }
 
 uint16_t CustomBMSRx0::GetPackVoltage() const {

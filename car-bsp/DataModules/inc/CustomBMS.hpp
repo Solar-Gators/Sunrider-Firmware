@@ -30,10 +30,10 @@ public:
 
     static constexpr uint8_t Size = 8;
 protected:
-    uint16_t pack_voltage_;
-    uint16_t avg_cell_voltage_;
-    uint16_t high_cell_voltage_;
-    uint16_t low_cell_voltage_;
+    float pack_voltage_;
+    float avg_cell_voltage_;
+    float high_cell_voltage_;
+    float low_cell_voltage_;
 };
 
 class CustomBMSRx1 final: public DataModule {
