@@ -12,8 +12,9 @@ namespace SolarGators::DataModules {
 
 // BMSFrame0 Implementation
 CustomBMSRx0::CustomBMSRx0(uint32_t can_id) : DataModule(can_id, 0, this->Size, 0, false) {}
-/*
+
 void CustomBMSRx0::ToByteArray(uint8_t* buff) const {
+    /*
     buff[0] = pack_voltage_ >> 8;
     buff[1] = pack_voltage_ & 0xFF;
     buff[2] = avg_cell_voltage_ >> 8;
@@ -22,8 +23,9 @@ void CustomBMSRx0::ToByteArray(uint8_t* buff) const {
     buff[5] = high_cell_voltage_ & 0xFF;
     buff[6] = low_cell_voltage_ >> 8;
     buff[7] = low_cell_voltage_ & 0xFF;
+    */
 }
-*/
+
 void CustomBMSRx0::FromByteArray(uint8_t* buff) {
     // Voltage is in V * 1e-1
     pack_voltage_ = (float) ((buff[1]) << 8 | buff[0]) / 10;
@@ -179,11 +181,21 @@ uint16_t CustomBMSRx2::GetInternalTemp() const {
 
 //BMSFrame3: Implementation
 CustomBMSRx3::CustomBMSRx3(uint32_t can_id) : DataModule(can_id, 0, this->Size, 0, false) {}
-
+void CustomBMSRx3::ToByteArray(uint8_t* buff) const{
+    //do something
+}
 void CustomBMSRx3::FromByteArray(uint8_t* buff){
     fault_flags_ = buff[0];
     status_flags_ = buff[1];
     pack_soc_ = (static_cast<uint16_t>(buff[3]) << 8) | buff[4];
+}
+
+uint8_t CustomBMSRx3::GetFaultFlags() const{
+    return fault_flags_;
+}
+
+uint8_t CustomBMSRx3::GetStatusFlags() const{
+    return status_flags_;
 }
 
 bool CustomBMSRx3::GetLowCellVoltageFault() const {
@@ -217,5 +229,16 @@ bool CustomBMSRx3::GetCurrentSensorDisconnectedFault() const {
 bool CustomBMSRx3::GetKillSwitchPressedFault() const {
     return (fault_flags_ && 0b10000000);
 }
+
+uint16_t CustomBMSRx3::GetPackSoC() const{
+    return pack_soc_;
+}
+
+#ifdef IS_TELEMETRY
+    void CustomBMSRx3::PostTelemetry(PythonScript* scripts){
+        PythonHttp http;
+        http.init();
+    }
+#endif
 
 }
