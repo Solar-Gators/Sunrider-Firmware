@@ -17,7 +17,7 @@ public:
     CustomBMSRx0(uint32_t can_id);
     ~CustomBMSRx0() {};
 
-    void ToByteArray(uint8_t* buff) const;
+    //void ToByteArray(uint8_t* buff) const;
     void FromByteArray(uint8_t* buff);
     #ifdef IS_TELEMETRY
     void PostTelemetry(PythonScripts* scripts);
