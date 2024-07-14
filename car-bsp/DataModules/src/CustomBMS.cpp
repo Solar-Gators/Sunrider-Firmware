@@ -235,7 +235,7 @@ uint16_t CustomBMSRx3::GetPackSoC() const{
 }
 
 #ifdef IS_TELEMETRY
-    void CustomBMSRx3::PostTelemetry(PythonScript* scripts){
+    void CustomBMSRx3::PostTelemetry(PythonScripts* scripts){
         PythonHttp http;
         http.init();
     }
