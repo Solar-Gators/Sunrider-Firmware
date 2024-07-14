@@ -20,6 +20,10 @@ module.exports = {
             "EXTERNAL_UDP_HOST": "ufsolargators.org",
             "UART_PORT": "/tmp/uart",
           }
+        },
+        {
+          name: "pi_health",
+          script: "python src/python/is_alive.py"
         }
     ]
 }
