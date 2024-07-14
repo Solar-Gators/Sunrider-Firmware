@@ -218,3 +218,4 @@ bool CustomBMSRx3::GetKillSwitchPressedFault() const {
     return (fault_flags_ && 0b10000000);
 }
 
+}
