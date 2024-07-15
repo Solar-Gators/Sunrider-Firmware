@@ -26,7 +26,7 @@ SolarGators::DataModules::MitsubaRx2 MitsubaRx2(SolarGators::DataModuleInfo::MOT
 SolarGators::DataModules::CustomBMSRx0 CustomBMSRx0(SolarGators::DataModuleInfo::CBMS_RX0_MSG_ID);
 SolarGators::DataModules::CustomBMSRx1 CustomBMSRx1(SolarGators::DataModuleInfo::CBMS_RX1_MSG_ID);
 SolarGators::DataModules::CustomBMSRx2 CustomBMSRx2(SolarGators::DataModuleInfo::CBMS_RX2_MSG_ID);
-
+SolarGators::DataModules::CustomBMSRx3 CustomBMSRx3(SolarGators::DataModuleInfo::CBMS_RX3_MSG_ID);
 SolarGators::DataModules::OrionBMSRx0 OrionBMSRx0(SolarGators::DataModuleInfo::BMS_RX0_MSG_ID, 0);
 SolarGators::DataModules::OrionBMSRx1 OrionBMSRx1(SolarGators::DataModuleInfo::BMS_RX1_MSG_ID, 0);
 SolarGators::DataModules::OrionBMSRx2 OrionBMSRx2(SolarGators::DataModuleInfo::BMS_RX2_MSG_ID, 0);
