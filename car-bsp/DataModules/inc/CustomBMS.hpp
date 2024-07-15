@@ -47,9 +47,9 @@ public:
     void PostTelemetry(PythonScripts* scripts);
     #endif
 
-    int16_t GetPackCurrent() const;
-    int16_t GetIntegralCurrent() const;
-    int16_t GetAveragePower() const;
+    float GetPackCurrent() const;
+    float GetIntegralCurrent() const;
+    float GetAveragePower() const;
     uint8_t GetHighCellVoltageID() const;
     uint8_t GetLowCellVoltageID() const;
 
@@ -73,8 +73,8 @@ public:
     void PostTelemetry(PythonScripts* scripts);
     #endif
 
-    uint16_t GetHighTemp() const;
-    uint16_t GetLowTemp() const;
+    float GetHighTemp() const;
+    float GetLowTemp() const;
     uint8_t GetHighTempCellID() const;
     uint8_t GetLowTempCellID() const;
     uint16_t GetInternalTemp() const;
