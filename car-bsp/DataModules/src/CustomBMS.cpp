@@ -36,19 +36,19 @@ void CustomBMSRx0::FromByteArray(uint8_t* buff) {
 }
 
 float CustomBMSRx0::GetPackVoltage() const {
-    return pack_voltage_ * 1e-3;
+    return pack_voltage_ * 1e-2;
 }
 
 float CustomBMSRx0::GetAvgCellVoltage() const {
-    return avg_cell_voltage_ * 1e-4;
+    return avg_cell_voltage_ * 1e-3;
 }
 
 float CustomBMSRx0::GetHighCellVoltage() const {
-    return high_cell_voltage_ * 1e-4;
+    return high_cell_voltage_ * 1e-3;
 }
 
 float CustomBMSRx0::GetLowCellVoltage() const {
-    return low_cell_voltage_ * 1e-4;
+    return low_cell_voltage_ * 1e-3;
 }
 
 #ifdef IS_TELEMETRY
