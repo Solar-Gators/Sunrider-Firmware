@@ -23,17 +23,17 @@ public:
     void PostTelemetry(PythonScripts* scripts);
     #endif
 
-    uint16_t GetPackVoltage() const;
-    uint16_t GetAvgCellVoltage() const;
-    uint16_t GetHighCellVoltage() const;
-    uint16_t GetLowCellVoltage() const;
+    float GetPackVoltage() const;
+    float GetAvgCellVoltage() const;
+    float GetHighCellVoltage() const;
+    float GetLowCellVoltage() const;
 
     static constexpr uint8_t Size = 8;
 protected:
-    float pack_voltage_;
-    float avg_cell_voltage_;
-    float high_cell_voltage_;
-    float low_cell_voltage_;
+    uint16_t pack_voltage_;
+    uint16_t avg_cell_voltage_;
+    uint16_t high_cell_voltage_;
+    uint16_t low_cell_voltage_;
 };
 
 class CustomBMSRx1 final: public DataModule {

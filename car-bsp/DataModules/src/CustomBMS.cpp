@@ -28,27 +28,27 @@ void CustomBMSRx0::ToByteArray(uint8_t* buff) const {
 
 void CustomBMSRx0::FromByteArray(uint8_t* buff) {
     // Voltage is in V * 1e-1
-    pack_voltage_ = (float) ((buff[1]) << 8 | buff[0]) / 10;
+    pack_voltage_ = static_cast<uint16_t>((buff[1]) << 8 | buff[0]);
     // Voltage in mV for remaining values
-    avg_cell_voltage_ = (float) ((buff[3]) << 8 | buff[2]) / 1000;
-    high_cell_voltage_ = (float) ((buff[5]) << 8 | buff[4]) / 1000;
-    low_cell_voltage_ = (float) ((buff[7]) << 8 | buff[6]) / 1000;
+    avg_cell_voltage_ = static_cast<uint16_t>((buff[3]) << 8 | buff[2]);
+    high_cell_voltage_ = static_cast<uint16_t>((buff[5]) << 8 | buff[4]);
+    low_cell_voltage_ = static_cast<uint16_t>((buff[7]) << 8 | buff[6]);
 }
 
-uint16_t CustomBMSRx0::GetPackVoltage() const {
-    return pack_voltage_;
+float CustomBMSRx0::GetPackVoltage() const {
+    return pack_voltage_ * 1e-3;
 }
 
-uint16_t CustomBMSRx0::GetAvgCellVoltage() const {
-    return avg_cell_voltage_;
+float CustomBMSRx0::GetAvgCellVoltage() const {
+    return avg_cell_voltage_ * 1e-4;
 }
 
-uint16_t CustomBMSRx0::GetHighCellVoltage() const {
-    return high_cell_voltage_;
+float CustomBMSRx0::GetHighCellVoltage() const {
+    return high_cell_voltage_ * 1e-4;
 }
 
-uint16_t CustomBMSRx0::GetLowCellVoltage() const {
-    return low_cell_voltage_;
+float CustomBMSRx0::GetLowCellVoltage() const {
+    return low_cell_voltage_ * 1e-4;
 }
 
 #ifdef IS_TELEMETRY
@@ -85,17 +85,17 @@ void CustomBMSRx1::FromByteArray(uint8_t* buff) {
     low_cell_voltage_id_ = buff[7];
 }
 
-int16_t CustomBMSRx1::GetPackCurrent() const {
+float CustomBMSRx1::GetPackCurrent() const {
     //Current is in A * 1e-2
-    return pack_current_;
+    return pack_current_ * 1e-2;
 }
 
-int16_t CustomBMSRx1::GetIntegralCurrent() const {
+float CustomBMSRx1::GetIntegralCurrent() const {
     //Charge is in uAh
-    return integral_current_;
+    return integral_current_ * 1e-6;
 }
 
-int16_t CustomBMSRx1::GetAveragePower() const {
+float CustomBMSRx1::GetAveragePower() const {
     //Power in W
     return average_power_;
 }
@@ -138,19 +138,19 @@ void CustomBMSRx2::ToByteArray(uint8_t* buff) const {
 }
 
 void CustomBMSRx2::FromByteArray(uint8_t* buff) {
-    high_temp_ = (static_cast<uint16_t>(buff[0]) << 8) | buff[1];
-    low_temp_ = (static_cast<uint16_t>(buff[2]) << 8) | buff[3];
+    high_temp_ = static_cast<uint16_t>((buff[1] << 8) | buff[0]);
+    low_temp_ =  static_cast<uint16_t>((buff[3] << 8) | buff[2]);
     high_temp_cell_id_ = buff[4];
     low_temp_cell_id_ = buff[5];
-    internal_temp_ = (static_cast<uint16_t>(buff[6]) << 8) | buff[7];
+    internal_temp_ = static_cast<uint16_t>((buff[7] << 8) | buff[6]);
 }
 //temp in C/100
-uint16_t CustomBMSRx2::GetHighTemp() const{
-	return high_temp_;
+float CustomBMSRx2::GetHighTemp() const{
+	return high_temp_ * 1e-2;
 }
 //temp in C/100
-uint16_t CustomBMSRx2::GetLowTemp() const {
-	return low_temp_;
+float CustomBMSRx2::GetLowTemp() const {
+	return low_temp_ * 1e-2;
 }
 
 uint8_t CustomBMSRx2::GetHighTempCellID() const {
