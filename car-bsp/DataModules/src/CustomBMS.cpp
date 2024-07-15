@@ -117,7 +117,7 @@ uint8_t CustomBMSRx1::GetLowCellVoltageID() const {
 	http.addData("avg_power_", GetAveragePower());
 	http.addData("high_cell_voltage_id_", GetHighCellVoltageID());
 	http.addData("low_cell_voltage_id_", GetLowCellVoltageID());
-	scripts->send("bms/rx1", http.getParameters());
+	scripts->send("bms/rx2", http.getParameters());
 	http.flush();
     }
 
@@ -174,7 +174,7 @@ uint16_t CustomBMSRx2::GetInternalTemp() const {
 	http.addData("low_temp_", GetLowTemp());
 	http.addData("low_temp_id_", GetLowTempCellID());
 	http.addData("internal_temp_", GetInternalTemp());
-	scripts->send("bms/rx2", http.getParameters());
+	scripts->send("bms/rx1", http.getParameters());
 }
 #endif
 
