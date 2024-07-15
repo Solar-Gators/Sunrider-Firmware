@@ -10,4 +10,4 @@ while 1:
     send_tlm({
         "model": "pi/alive"
     })
-    time.sleep(5)
+    time.sleep(1)

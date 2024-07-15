@@ -36,19 +36,19 @@ void CustomBMSRx0::FromByteArray(uint8_t* buff) {
 }
 
 float CustomBMSRx0::GetPackVoltage() const {
-    return pack_voltage_ * 1e-2;
+    return pack_voltage_ * 1e-3;
 }
 
 float CustomBMSRx0::GetAvgCellVoltage() const {
-    return avg_cell_voltage_ * 1e-3;
+    return avg_cell_voltage_ * 1e-4;
 }
 
 float CustomBMSRx0::GetHighCellVoltage() const {
-    return high_cell_voltage_ * 1e-3;
+    return high_cell_voltage_ * 1e-4;
 }
 
 float CustomBMSRx0::GetLowCellVoltage() const {
-    return low_cell_voltage_ * 1e-3;
+    return low_cell_voltage_ * 1e-4;
 }
 
 #ifdef IS_TELEMETRY
@@ -216,7 +216,7 @@ bool CustomBMSRx3::GetHighChargeCurrentFault() const {
 
 bool CustomBMSRx3::GetHighTempFault() const {
     return (fault_flags_ && 0b10000);
-} 
+}
 
 bool CustomBMSRx3::GetThermistorDisconnectedFault() const {
     return (fault_flags_ && 0b100000);
@@ -238,6 +238,16 @@ uint16_t CustomBMSRx3::GetPackSoC() const{
     void CustomBMSRx3::PostTelemetry(PythonScripts* scripts){
         PythonHttp http;
         http.init();
+        http.addData("low_cell_voltage_fault", GetLowCellVoltageFault());
+        http.addData("high_cell_voltage_fault", GetHighDischargeCurrentFault());
+        http.addData("high_charge_current_fault", GetHighChargeCurrentFault());
+        http.addData("high_discharge_current_fault", GetHighChargeCurrentFault());
+        http.addData("high_temp_fault", GetHighTempFault());
+        http.addData("thermistor_disconnected_fault", GetThermistorDisconnectedFault());
+        http.addData("current_sensor_disconnect_fault", GetCurrentSensorDisconnectedFault());
+        http.addData("kill_switch_pressed_fault", GetKillSwitchPressedFault());
+        scripts->send("bms/rx3", http.getParameters());
+        http.flush();
     }
 #endif
 
