@@ -44,3 +44,16 @@ def test_multiple_start_conditions():
     assert collector.stdout.readline() == "Error: There was multiple start conditions\n"
 
     collector.terminate()
+
+
+@pytest.mark.timeout(4)
+def test_escape_then_start():
+    # Start collector
+    collector, master = lib.default_collector()
+
+    os.write(master, b'\xFF')
+    os.write(master, b'\x2F')
+
+    assert collector.stdout.readline() == "Error: There must be a start condition before a transmission can occur\n"
+
+    collector.terminate()
